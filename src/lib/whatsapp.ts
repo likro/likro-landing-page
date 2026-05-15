@@ -58,7 +58,6 @@ export function buildWhatsAppUrl(message: string, location: WhatsAppLocation): s
 
   if (!phone) {
     if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
       console.warn(
         "[buildWhatsAppUrl] NEXT_PUBLIC_WA_NUMBER missing — using placeholder 0000000000",
       );
