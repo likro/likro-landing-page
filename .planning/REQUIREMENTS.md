@@ -213,13 +213,125 @@ Explicitamente excluídos. Documentados pra prevenir scope creep e reaparição 
 
 ## Traceability
 
-Mapping requirement → phase será preenchido pelo gsd-roadmapper durante a criação do ROADMAP.md.
+Mapping requirement → phase. Preenchido pelo gsd-roadmapper em 2026-05-15.
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| FOUND-05 | Phase 1 | Pending |
+| FOUND-06 | Phase 1 | Pending |
+| FOUND-07 | Phase 1 | Pending |
+| FOUND-08 | Phase 1 | Pending |
+| FOUND-09 | Phase 1 | Pending |
+| FOUND-10 | Phase 1 | Pending |
+| FOUND-11 | Phase 1 | Pending |
+| FOUND-12 | Phase 1 | Pending |
+| MOTION-01 | Phase 2 | Pending |
+| MOTION-02 | Phase 2 | Pending |
+| MOTION-03 | Phase 2 | Pending |
+| MOTION-04 | Phase 2 | Pending |
+| MOTION-05 | Phase 2 | Pending |
+| MOTION-06 | Phase 2 | Pending |
+| MOTION-07 | Phase 2 | Pending |
+| MOTION-08 | Phase 2 | Pending |
+| HERO-01 | Phase 3 | Pending |
+| HERO-02 | Phase 3 | Pending |
+| HERO-03 | Phase 3 | Pending |
+| HERO-04 | Phase 3 | Pending |
+| HERO-05 | Phase 3 | Pending |
+| HERO-06 | Phase 3 | Pending |
+| HERO-07 | Phase 3 | Pending |
+| NARR-01 | Phase 4 | Pending |
+| NARR-02 | Phase 4 | Pending |
+| NARR-03 | Phase 4 | Pending |
+| NARR-04 | Phase 4 | Pending |
+| NARR-05 | Phase 4 | Pending |
+| NARR-06 | Phase 4 | Pending |
+| NARR-07 | Phase 4 | Pending |
+| NARR-08 | Phase 4 | Pending |
+| COPY-01 | Phase 3 | Pending |
+| COPY-02 | Phase 4 | Pending |
+| COPY-03 | Phase 4 | Pending |
+| COPY-04 | Phase 3 | Pending |
+| COPY-05 | Phase 4 | Pending |
+| COPY-06 | Phase 4 | Pending |
+| CTA-01 | Phase 1 | Pending |
+| CTA-02 | Phase 1 | Pending |
+| CTA-03 | Phase 5 | Pending |
+| CTA-04 | Phase 3 | Pending |
+| CTA-05 | Phase 5 | Pending |
+| CTA-06 | Phase 5 | Pending |
+| CTA-07 | Phase 5 | Pending |
+| CTA-08 | Phase 5 | Pending |
+| CTA-09 | Phase 5 | Pending |
+| CTA-10 | Phase 5 | Pending |
+| CTA-11 | Phase 5 | Pending |
+| CTA-12 | Phase 5 | Pending |
+| TRACK-01 | Phase 1 | Pending |
+| TRACK-02 | Phase 1 | Pending |
+| TRACK-03 | Phase 1 | Pending |
+| TRACK-04 | Phase 6 | Pending |
+| TRACK-05 | Phase 6 | Pending |
+| TRACK-06 | Phase 6 | Pending |
+| TRACK-07 | Phase 6 | Pending |
+| PERF-01 | Phase 7 | Pending |
+| PERF-02 | Phase 7 | Pending |
+| PERF-03 | Phase 7 | Pending |
+| PERF-04 | Phase 7 | Pending |
+| PERF-05 | Phase 7 | Pending |
+| PERF-06 | Phase 7 | Pending |
+| PERF-07 | Phase 7 | Pending |
+| PERF-08 | Phase 7 | Pending |
+| PERF-09 | Phase 7 | Pending |
+| SEO-01 | Phase 7 | Pending |
+| SEO-02 | Phase 7 | Pending |
+| SEO-03 | Phase 7 | Pending |
+| SEO-04 | Phase 7 | Pending |
+| SEO-05 | Phase 7 | Pending |
+| SEO-06 | Phase 7 | Pending |
+| SEO-07 | Phase 7 | Pending |
+| SEO-08 | Phase 7 | Pending |
+| SEO-09 | Phase 7 | Pending |
+| SEO-10 | Phase 7 | Pending |
+| SEO-11 | Phase 7 | Pending |
+| A11Y-01 | Phase 7 | Pending |
+| A11Y-02 | Phase 7 | Pending |
+| A11Y-03 | Phase 7 | Pending |
+| A11Y-04 | Phase 7 | Pending |
+| A11Y-05 | Phase 7 | Pending |
+| A11Y-06 | Phase 7 | Pending |
+| A11Y-07 | Phase 7 | Pending |
+| MOBILE-01 | Phase 7 | Pending |
+| MOBILE-02 | Phase 5 | Pending |
+| MOBILE-03 | Phase 7 | Pending |
+| MOBILE-04 | Phase 7 | Pending |
+| MOBILE-05 | Phase 7 | Pending |
+| MOBILE-06 | Phase 5 | Pending |
+| MOBILE-07 | Phase 7 | Pending |
+| DEPLOY-01 | Phase 7 | Pending |
+| DEPLOY-02 | Phase 7 | Pending |
+| DEPLOY-03 | Phase 7 | Pending |
+| DEPLOY-04 | Phase 7 | Pending |
+| DEPLOY-05 | Phase 7 | Pending |
 
 **Coverage:**
-- v1 requirements: 84 total (preliminar — será reconfirmado pelo roadmapper)
-- Mapped to phases: 0 (pré-roadmap)
-- Unmapped: 84 ⚠️ (esperado nesse momento — roadmapper resolve)
+- v1 requirements: 99 total (preâmbulo da v1 mencionava 84 como preliminar; reconfirmado em 99 pelo roadmapper — 12 FOUND + 8 MOTION + 7 HERO + 8 NARR + 6 COPY + 12 CTA + 7 TRACK + 9 PERF + 11 SEO + 7 A11Y + 7 MOBILE + 5 DEPLOY)
+- Mapped to phases: 99 ✓
+- Unmapped: 0 ✓
+- Duplicates: 0 ✓
+
+**Per-phase distribution:**
+- Phase 1 (Foundations & Design System): 17 reqs
+- Phase 2 (Motion Primitives): 8 reqs
+- Phase 3 (Hero): 10 reqs
+- Phase 4 (Narrative Sections): 12 reqs
+- Phase 5 (Conversion): 11 reqs
+- Phase 6 (Analytics Instrumentation Pass): 4 reqs
+- Phase 7 (SEO + A11y + Performance + Deploy Hardening): 37 reqs
 
 ---
 *Requirements defined: 2026-05-15*
-*Last updated: 2026-05-15 after initial definition*
+*Last updated: 2026-05-15 — Traceability preenchida pelo gsd-roadmapper*
