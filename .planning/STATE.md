@@ -21,8 +21,8 @@
 
 **Milestone:** v1 (initial launch — clínicas vertical)
 **Phase:** 1 of 7 — Foundations & Design System
-**Plan:** Not yet planned (next: `/gsd-plan-phase 1`)
-**Status:** Roadmap approved, awaiting Phase 1 planning
+**Plan:** Not yet planned — CONTEXT captured (next: `/gsd-plan-phase 1`)
+**Status:** Discussão de Phase 1 concluída; 21 decisões em CONTEXT.md cobrindo atoms UI, CTA WhatsApp, enforcement do roxo, estrutura de pastas. Pronto pra planejamento.
 
 **Progress:** [░░░░░░░] 0/7 phases complete
 
