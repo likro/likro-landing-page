@@ -124,7 +124,7 @@ Uma clínica entra na landing e sente em segundos: *"isso foi feito exatamente p
 
 | Decisão | Racional | Outcome |
 |---------|----------|---------|
-| Stack Next.js + Tailwind + Framer Motion + Lenis | Combinação madura para landing cinematográfica com SEO/SSR e deploy Vercel, sem o overhead de licença e curva de aprendizado do GSAP na v1 | — Pending |
+| Stack Next.js + Tailwind + Framer Motion (Motion v12) + Lenis | Combinação madura pra landing cinematográfica com SEO/SSR e deploy Vercel. Cobre o necessário sem adicionar uma segunda biblioteca de animação na v1. | — Pending |
 | Arquitetura preparada para GSAP futuro | Framer Motion cobre o necessário hoje, mas seções específicas (scroll storytelling complexo, pin-and-scrub) podem precisar de GSAP/ScrollTrigger depois. Componentes de animação isolados permitem swap sem refactor. | — Pending |
 | Foco vertical 100% clínicas/estéticas na v1 | Toda a cadeia de aquisição atual aponta pra esse nicho. Diluir mensagem em "B2B genérico" mataria o efeito "feito pra minha operação". Outras verticais viram páginas dedicadas em milestones futuros. | — Pending |
 | WhatsApp como CTA primário + form consultivo secundário | Estratégia comercial atual é conversa rápida no WhatsApp; o form atende quem ainda não quer falar mas é refinamento, não default. Fricção mínima como princípio. | — Pending |
@@ -133,7 +133,7 @@ Uma clínica entra na landing e sente em segundos: *"isso foi feito exatamente p
 | Sem social proof fabricado | Risco reputacional alto e claims falsos contradizem o posicionamento "real, em uso". Credibilidade vem do refinamento + operação ativa mencionada com elegância. | — Pending |
 | Meta Pixel + GA4 + Microsoft Clarity desde a v1 | Tráfego pago e orgânico desde dia 1; sem instrumentação completa, qualquer aprendizado é anedótico. Clarity especialmente útil pra ver onde o storytelling perde atenção. | — Pending |
 | Mobile-first com paridade premium no desktop | 80%+ tráfego mobile (Instagram/Meta), mas decisor (dono da clínica) pode ver no desktop. Tratar mobile como cidadão de segunda classe quebraria a primeira impressão. | — Pending |
-| Sem GSAP, sem CMS, sem A/B testing nativo na v1 | Cada uma dessas decisões adiciona complexidade real (licença, esquema de dados, infraestrutura) com retorno marginal antes da landing existir e gerar dados. Adicionar quando justificado. | — Pending |
+| Sem GSAP, sem CMS, sem A/B testing nativo na v1 | GSAP é gratuito desde abr/2024 (Webflow) — o trade-off real **não é mais licença/custo**, e sim complexidade/curva de aprendizado e manutenção (segunda lib de animação, modelo mental de timeline imperativa sobreposto a Motion). CMS e A/B testing adicionam infra/dados sem retorno antes da landing existir. Adicionar quando justificado. | — Pending |
 | Copy em português, escrita por Claude com revisão humana | Voz da marca é exigente (humana, sofisticada, premium, sem cara de IA); rascunhos iniciais aceleram, mas revisão final do Lenny é o filtro de marca. | — Pending |
 
 ## Evolution

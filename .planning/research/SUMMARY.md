@@ -33,7 +33,7 @@ Stack travado em versões 2026, alinhado com o que o usuário pediu no PROJECT.m
 
 **Explicitamente fora da v1:** `gsap`, `@gsap/react`, qualquer CMS, A/B testing framework.
 
-**Nota crítica:** o racional "GSAP cobra licença comercial" no PROJECT.md Key Decisions está desatualizado — GSAP foi tornado 100% free pela Webflow em abril/2024. A deferral pra v1.5+ ainda é correta por complexidade/curva, mas o motivo registrado precisa ser atualizado na próxima `/gsd-transition`.
+**Nota crítica:** o racional "GSAP cobra licença comercial" no PROJECT.md Key Decisions está desatualizado — GSAP foi tornado 100% free pela Webflow em abril/2024. A deferral pra v1.5+ continua correta, mas o motivo real é **complexidade/curva de aprendizado e custo de manutenção** (mais uma lib pra atualizar, mais um modelo mental de timeline imperativa, sobreposição com Motion). Atualizar no PROJECT.md Key Decisions.
 
 ### Expected Features
 
@@ -193,12 +193,17 @@ Estrutura de 7 fases, otimizada pra resolver os 6 críticos estruturalmente ante
 
 Itens operacionais que precisam de input do Lenny antes ou durante as fases respectivas.
 
-- **Número WhatsApp da Likro** + DDD: necessário pra `buildWhatsAppUrl()` em Phase 1 e testes mobile reais em Phase 3. *Handling:* perguntar antes de Phase 3 começar.
-- **Mensagem WhatsApp pré-preenchida por seção** (`?text=`): Claude rascunha por seção, Lenny aprova no PR. *Handling:* incluir como item da checklist de copy review por seção em Phase 4.
-- **Autorização Dolce Home pra menção/logo na seção Prova:** se não houver, ajusta copy pra "operação ativa em uso" sem nome. *Handling:* perguntar antes de Phase 4 (seção Proof).
+**🟡 PENDENTES bloqueantes (precisam de resposta antes da fase indicada):**
+
+- **🟡 PENDENTE — Número oficial do WhatsApp da Likro** (DDD + número). Bloqueia `buildWhatsAppUrl()` em Phase 1 e validação real mobile em Phase 3. Sem isso, todo CTA da landing fica usando placeholder. *Handling:* perguntar ao Lenny antes do início da Phase 3.
+- **🟡 PENDENTE — Autorização explícita pra citar Dolce Home na seção Proof.** Bloqueia copy final dessa seção. Se não houver autorização, ajusta pra "operação ativa em uso" sem nome. *Handling:* perguntar antes de a seção Proof entrar em desenvolvimento na Phase 4.
+
+**Outros itens operacionais:**
+
+- **Mensagem WhatsApp pré-preenchida por seção** (`?text=`): Claude rascunha por seção, Lenny aprova no PR. *Handling:* checklist de copy review por seção em Phase 4.
 - **Webhook target pro form de lead:** email direto? Slack channel? n8n/Make? Função Vercel + Resend? *Handling:* decisão antes de Phase 5.
-- **Cadência de copy review do Lenny:** síncrono por seção, async via PR, ou pass final? Afeta pacing do Phase 4. *Handling:* combinar antes de Phase 3 (primeiro copy review).
-- **PROJECT.md Key Decisions update — GSAP cost rationale outdated:** GSAP é free desde abr/2024; o motivo registrado precisa ser atualizado pra "complexidade/curva, não custo". *Handling:* atualizar na próxima `/gsd-transition`.
+- **Cadência de copy review do Lenny:** síncrono por seção, async via PR, ou pass final? *Handling:* combinar antes de Phase 3.
+- **GSAP rationale no PROJECT.md:** ✅ atualizado em 2026-05-15 — agora reflete complexidade/curva e manutenção, não licença/custo.
 
 ## Sources
 
