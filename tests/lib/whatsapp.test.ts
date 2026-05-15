@@ -1,15 +1,24 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+
+// Mock @/lib/env — controlamos NEXT_PUBLIC_WA_NUMBER via mockEnv mutável.
+// Pattern getter garante que o módulo whatsapp.ts veja o valor atualizado
+// a cada acesso (evita capture do valor inicial em closure).
+const mockEnv = { NEXT_PUBLIC_WA_NUMBER: "5511999999999" as string | undefined };
+vi.mock("@/lib/env", () => ({
+  get env() {
+    return mockEnv;
+  },
+}));
+
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 describe("buildWhatsAppUrl", () => {
-  const ORIGINAL_ENV = process.env.NEXT_PUBLIC_WA_NUMBER;
-
   beforeEach(() => {
-    process.env.NEXT_PUBLIC_WA_NUMBER = "5511999999999";
+    mockEnv.NEXT_PUBLIC_WA_NUMBER = "5511999999999";
   });
 
   afterEach(() => {
-    process.env.NEXT_PUBLIC_WA_NUMBER = ORIGINAL_ENV;
+    mockEnv.NEXT_PUBLIC_WA_NUMBER = "5511999999999";
   });
 
   it("builds canonical wa.me URL with encoded message", () => {
@@ -36,23 +45,23 @@ describe("buildWhatsAppUrl", () => {
   });
 
   it("throws on invalid phone format (+ or spaces)", () => {
-    process.env.NEXT_PUBLIC_WA_NUMBER = "+55 11 99999-9999";
+    mockEnv.NEXT_PUBLIC_WA_NUMBER = "+55 11 99999-9999";
     expect(() => buildWhatsAppUrl("oi", "hero")).toThrow(/Invalid phone format/);
   });
 
   it("throws on phone too short (< 12 digits)", () => {
-    process.env.NEXT_PUBLIC_WA_NUMBER = "55119999";
+    mockEnv.NEXT_PUBLIC_WA_NUMBER = "55119999";
     expect(() => buildWhatsAppUrl("oi", "hero")).toThrow(/Invalid phone format/);
   });
 
   it("accepts 12-digit phone (DDD without 9 prefix)", () => {
-    process.env.NEXT_PUBLIC_WA_NUMBER = "551299999999";
+    mockEnv.NEXT_PUBLIC_WA_NUMBER = "551299999999";
     const url = buildWhatsAppUrl("oi", "hero");
     expect(url).toMatch(/^https:\/\/wa\.me\/551299999999/);
   });
 
   it("uses placeholder when NEXT_PUBLIC_WA_NUMBER missing in dev", () => {
-    delete process.env.NEXT_PUBLIC_WA_NUMBER;
+    mockEnv.NEXT_PUBLIC_WA_NUMBER = undefined;
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     const url = buildWhatsAppUrl("oi", "hero");
     expect(url).toMatch(/^https:\/\/wa\.me\/0000000000\?text=/);

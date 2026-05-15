@@ -7,6 +7,8 @@
  * bloquear web.whatsapp.com / api.whatsapp.com em qualquer input.
  */
 
+import { env } from "@/lib/env";
+
 const FORBIDDEN_HOSTS = ["web.whatsapp.com", "api.whatsapp.com"];
 
 /**
@@ -52,7 +54,7 @@ export function buildWhatsAppUrl(message: string, location: WhatsAppLocation): s
     }
   }
 
-  const phone = process.env.NEXT_PUBLIC_WA_NUMBER;
+  const phone = env.NEXT_PUBLIC_WA_NUMBER;
 
   if (!phone) {
     if (process.env.NODE_ENV !== "production") {
