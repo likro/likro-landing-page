@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────────────────────────
+   Likro Brand Tokens (Phase 1 — não modificar sem aprovação)
+
+   REGRA: roxo é destaque, nunca protagonista. Permitido em:
+     CTAs, badges, ícones ativos, focus rings, dots/indicators,
+     texto de destaque pontual.
+   PROIBIDO em: fundos de seção, cards inteiros, gradients de viewport.
+
+   4 EXTREMOS A EVITAR (cromático):
+     branco demais (sem personalidade) / preto demais (pesado)
+     glow demais (AI SaaS) / minimalismo frio (clínico)
+
+   Tokens de roxo são EXCLUSIVAMENTE accent-primary/hover/glow.
+   Tentar usar bg-accent-50/100/.../900 vira no-op silencioso
+   (Tailwind v4 não emite CSS para tokens não declarados).
+   Defesa adicional: tests/brand-lock.test.ts (Plan 03) faz grep
+   e falha CI se encontrar bg-accent-NN no src/.
+   ────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* ── Accent (roxo Likro) — ÚNICOS tokens roxo do sistema ── */
+  --color-accent-primary: #7c3aed;
+  --color-accent-hover: #6d28d9;
+  --color-accent-glow: oklch(0.62 0.21 295 / 0.18);
+
+  /* ── Surface (alternation escuro→claro→escuro por section) ── */
+  --color-surface-dark: #0a0a0b;
+  --color-surface-darker: #050506;
+  --color-surface-light: #fafaf9;
+  --color-surface-lighter: #ffffff;
+
+  /* ── Text (variantes pra contexto dark e light) ── */
+  --color-text-primary: #0a0a0b;
+  --color-text-secondary: #3f3f46;
+  --color-text-muted: #71717a;
+  --color-text-on-dark-primary: #fafafa;
+  --color-text-on-dark-secondary: #d4d4d8;
+  --color-text-on-dark-muted: #a1a1aa;
+
+  /* ── Border ── */
+  --color-border-subtle: oklch(0.92 0 0);
+  --color-border-default: oklch(0.86 0 0);
+  --color-border-on-dark-subtle: oklch(0.22 0 0);
+  --color-border-on-dark-default: oklch(0.30 0 0);
+
+  /* ── Neutrals (Stone calibrado, NÃO Zinc — evita "frio") ── */
+  --color-neutral-50: #fafaf9;
+  --color-neutral-100: #f5f5f4;
+  --color-neutral-200: #e7e5e4;
+  --color-neutral-300: #d6d3d1;
+  --color-neutral-400: #a8a29e;
+  --color-neutral-500: #78716c;
+  --color-neutral-600: #57534e;
+  --color-neutral-700: #44403c;
+  --color-neutral-800: #292524;
+  --color-neutral-900: #1c1917;
+
+  /* ── Typography (Inter via next/font CSS variable) ── */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+
+  /* ── Radii (brand book: 10px / 12px) ── */
+  --radius-md: 0.625rem;
+  --radius-lg: 0.75rem;
+
+  /* ── Easing premium (Pitfall #11) ── */
+  --ease-premium-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-premium-in: cubic-bezier(0.7, 0, 0.84, 0);
+}
+
+/* Body defaults — superfície clara como baseline; sections override */
+body {
+  font-family: var(--font-sans);
+  background: var(--color-surface-light);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* prefers-reduced-motion — desliga transitions globais (D-04) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
