@@ -13,10 +13,10 @@
      glow demais (AI SaaS) / minimalismo frio (clínico)
 
    Tokens de roxo são EXCLUSIVAMENTE accent-primary/hover/glow.
-   Tentar usar bg-accent-50/100/.../900 vira no-op silencioso
-   (Tailwind v4 não emite CSS para tokens não declarados).
-   Defesa adicional: tests/brand-lock.test.ts (Plan 03) faz grep
-   e falha CI se encontrar bg-accent-NN no src/.
+   Tentar usar utilities accent-shade (escala 50..900) vira no-op
+   silencioso (Tailwind v4 não emite CSS para tokens não declarados).
+   Defesa adicional: tests/brand-lock.test.ts (Plan 03) é grep test
+   Node-puro que falha CI se encontrar tais shades no src/.
    ────────────────────────────────────────────────────────────────── */
 
 @theme {
