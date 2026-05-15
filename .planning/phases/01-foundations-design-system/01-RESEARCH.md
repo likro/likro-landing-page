@@ -1254,27 +1254,22 @@ describe("brand lock — roxo só como accent.primary/hover/glow", () => {
 | A5 | `crypto.randomUUID()` está disponível em todos browsers Brazilian-clinic-owner usariam (iOS Safari 15.4+, Chrome 92+). | Pattern 7 / Analytics | Fallback `Date.now() + Math.random()` cobre browsers ultra-velhos. Não cryptographically secure mas evento_id ainda único o suficiente para dedup. `[VERIFIED: MDN Crypto.randomUUID — universal support modern browsers]` |
 | A6 | Phone WhatsApp da Likro (a definir antes da Phase 3, per STATE.md) caberá no formato `5511XXXXXXXXX` (DDD SP/RJ-style com 9). | Pattern 6 | Se número for de outro estado com 12 dígitos, regex já permite. Sem risco. `[ASSUMED]` |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Lucide-react versão a fixar — 0.460+ ou 1.16+?**
-   - **What we know:** STACK.md fixou `^0.460+` em maio 2026. npm show major bump pra 1.0+ desde então; latest 1.16.0.
-   - **What's unclear:** Se 1.x tem breaking changes em ícones específicos que atoms shadcn usam (Loader2, Check, X, etc.).
-   - **Recommendation:** Planner pergunta ao Lenny no início da Phase 1. Default seguro: fixar `^0.460` (alinhado STACK.md), avaliar upgrade depois. Custo de upgrade futuro: baixo (renomes raros).
+   - **RESOLVED (2026-05-15):** Fixar `^0.460` por orchestrator directive #3 (alinhado com STACK.md, decisão da Phase 0 de Lenny). Major bump pra 1.x adia para milestone futuro — risco extra sem ganho funcional na v1.
 
 2. **Webhook target para form de lead (Phase 5, não bloqueia Phase 1).**
-   - STATE.md marca como pendência antes da Phase 5. Phase 1 só precisa de `LEAD_WEBHOOK_URL=` no `.env.local.example`.
+   - **DEFERRED:** Não bloqueia Phase 1. Tracked em STATE.md como pendência antes da Phase 5. Phase 1 só precisa de `LEAD_WEBHOOK_URL=` no `.env.local.example` (placeholder).
 
 3. **Cadência de copy review (não bloqueia Phase 1).**
-   - STATE.md marca como pendência antes da Phase 3. Phase 1 só estabelece `src/content/whatsapp.ts` com mensagens placeholder rascunhadas (Lenny aprova ao final da Phase 1 ou início da Phase 3).
+   - **DEFERRED:** Não bloqueia Phase 1. Tracked em STATE.md como pendência antes da Phase 3. Phase 1 estabelece `src/content/whatsapp.ts` com mensagens placeholder rascunhadas; Lenny aprova ao final da Phase 1 ou início da Phase 3.
 
 4. **`@theme` `inline` vs default — qual usar para tokens Likro?**
-   - **What we know:** Tailwind v4 oferece `@theme {}` (CSS variable global, override-able runtime) e `@theme inline {}` (valor inlined no CSS gerado, não overridable runtime).
-   - **What's unclear:** Se Phase 1 deve usar `inline` (ganha alguns bytes) ou default (mais flexível pra futuros theme switches).
-   - **Recommendation:** Usar `@theme {}` (sem inline). Não há theme switch planejado (D-06 é explícito), mas a flexibilidade não custa nada. Snippet acima usa default.
+   - **RESOLVED (2026-05-15):** Usar `@theme {}` (sem `inline`) per Plan 01. Não há theme switch planejado (D-06 explícito), mas a flexibilidade default não custa nada e mantém override-ability runtime. Snippet acima já usa o formato correto.
 
 5. **`<MotionConfig reducedMotion="user">` desabilita também animações de `transition` CSS, ou só `motion.*`?**
-   - **What we know:** Doc fala que afeta apenas componentes `motion.*` (transform/layout). CSS `transition: ... ease-out 200ms` em atoms shadcn (D-04) é independente.
-   - **Recommendation:** D-04 é claro que atoms respeitam `prefers-reduced-motion` — implementar via `@media (prefers-reduced-motion: reduce) { transition: none; }` em CSS dos atoms quando relevante. Validar visualmente em macOS Reduce Motion durante review.
+   - **RESOLVED (2026-05-15):** Apenas `motion.*` (transform/layout). CSS `transition` em atoms shadcn aplica `@media (prefers-reduced-motion: reduce) { transition: none; }` localmente em cada atom (per D-04 e Plan 04 Task 1). Validar visualmente em macOS Reduce Motion durante review da Phase 2+.
 
 ## Environment Availability
 
