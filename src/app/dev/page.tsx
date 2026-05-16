@@ -117,7 +117,56 @@ export default function DevPage() {
           <Headline as="h2" size="section">
             Motion Primitives (Phase 2)
           </Headline>
-          <p className="text-text-muted">Será populado na Phase 2.</p>
+          <p className="text-text-muted">
+            Showcase isolado por primitiva — abra cada link no device-alvo
+            (use Vercel preview pra iPhone/Android reais — D-14).
+          </p>
+          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                href: "/dev/reveal",
+                title: "RevealOnView",
+                desc: "Fade + slide on viewport entry",
+              },
+              {
+                href: "/dev/parallax",
+                title: "ParallaxLayer",
+                desc: "Translate sutil por scroll",
+              },
+              {
+                href: "/dev/sticky",
+                title: "StickyStage",
+                desc: "Pin via sticky CSS + svh · RISCO #3",
+              },
+              {
+                href: "/dev/textsplit",
+                title: "TextSplit",
+                desc: "Word desktop / line mobile",
+              },
+              {
+                href: "/dev/scene",
+                title: "ScrollScene",
+                desc: "Render-prop · MotionValue 0→1",
+              },
+              {
+                href: "/dev/all",
+                title: "all",
+                desc: "Combinação — interação real",
+              },
+            ].map((item) => (
+              <li key={item.href}>
+                <a
+                  href={item.href}
+                  className="block rounded-xl border border-border-subtle bg-surface-lighter p-4 hover:bg-neutral-100 transition-colors"
+                >
+                  <div className="font-medium">{item.title}</div>
+                  <div className="text-xs text-text-muted mt-1">
+                    {item.desc}
+                  </div>
+                </a>
+              </li>
+            ))}
+          </ul>
         </section>
 
         <section className="mt-12 space-y-6">
