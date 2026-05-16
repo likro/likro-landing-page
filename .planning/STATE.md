@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-last_updated: "2026-05-16T20:57:35.280Z"
+last_updated: "2026-05-16T21:10:27.770Z"
 progress:
   total_phases: 7
   completed_phases: 2
   total_plans: 13
-  completed_plans: 10
-  percent: 77
+  completed_plans: 11
+  percent: 85
 ---
 
 # Project State: Likro Landing Page
@@ -22,7 +22,7 @@ progress:
 
 **Core value:** Uma clínica entra na landing e sente em segundos: *"isso foi feito exatamente pra minha operação — e essa empresa é absurda"*.
 
-**Current focus:** Phase 3 (Hero) context gathered — pronto para `/gsd-ui-phase 3` ou `/gsd-plan-phase 3`
+**Current focus:** Phase 03 — hero-benchmarked-isolado
 
 **Key documents:**
 
@@ -34,10 +34,12 @@ progress:
 
 ## Current Position
 
+Phase: 03 (hero-benchmarked-isolado) — EXECUTING
+Plan: 1 of 3
 **Milestone:** v1 (initial launch — clínicas vertical)
 **Phase:** 3 of 7 (hero (benchmarked isolado))
 **Plan:** Not started
-**Status:** Ready to execute
+**Status:** Executing Phase 03
 
 **Progress:** [██████████] 100%
 
@@ -69,9 +71,9 @@ progress:
 
 ### Open Todos / Pendências Bloqueantes
 
-**✅ RESOLVIDO em discuss-phase 3 + Phase 3 Plan 01 (2026-05-16):**
+**✅ RESOLVIDO em discuss-phase 3 (2026-05-16):**
 
-- Número oficial do WhatsApp da Likro = `5511922324329` (D-16 do 03-CONTEXT.md) — configurado em `.env.local` local; pendência humana residual: replicar em Vercel Dashboard (Production + Preview + Development) antes do real-device test do Plan 03
+- Número oficial do WhatsApp da Likro = `5511922324329` (D-16 do 03-CONTEXT.md) — configurar em `.env.local` + Vercel env vars (Production + Preview + Development) durante a execução da Phase 3
 - Cadência de copy review do Lenny = async via PR seção-a-seção (D-17 do 03-CONTEXT.md) — Claude abre PR com 3 variantes em `src/content/<sec>.ts`, Lenny aprova no GitHub, Phase 3 estabelece o ritmo
 
 **🟡 PENDENTE — Antes da seção Proof entrar em dev na Phase 4:**
@@ -88,17 +90,13 @@ None.
 
 ## Session Continuity
 
-**Last session work:** Phase 3 context gathered (`/gsd-discuss-phase 3`). 4 áreas discutidas: composição visual + mockup (LCP), direção da copy, header + trust + animações secundárias, operacionais + deploy isolado. Decisões D-01..D-19 capturadas em `.planning/phases/03-hero-benchmarked-isolado/03-CONTEXT.md`. Pendências do STATE resolvidas: número WhatsApp Likro = `5511922324329`; cadência copy review = async via PR seção-a-seção.
-
-**Phase 3 Plan 01 (executado 2026-05-16):** `NEXT_PUBLIC_WA_NUMBER=5511922324329` configurado em `.env.local` (gitignored); pendência humana residual: replicar em Vercel Dashboard (Production+Preview+Development) antes do real-device test no Plan 03. `WhatsAppLocation` estendida com `"header"`; `WHATSAPP_MESSAGES.header` adicionado (PT-BR provisional, Lenny aprova no Plan 03 PR). Mockup `public/mockups/atendimentos.png` commitado (frame `Screenshot 2026-03-04 092222.png`, 232.8KB, lista de leads + thread Maria Conceição aberta). Wave 0 grep gates `tests/sections/hero-invariants.test.ts` verdes (5 invariantes + 1 sanity skip, 9ms) — começarão a falhar se Plan 02 violar HERO-02/04/05 ou COPY-01/02.
-
-**UI-SPEC.md divergência sinalizada (Sub-task 3e):** `03-UI-SPEC.md` linha 217 referencia `public/likro-logo.svg` mas filesystem real é `public/logos/likro-logo.svg`. Plan 02 está correto (`src="/logos/likro-logo.svg"`). Decisão default = (a) atualizar UI-SPEC pra refletir realidade. NÃO aplicada neste plan — fica como nota pro Lenny no PR para evitar mexer em planning doc fora do escopo dos files_modified declarados.
+**Last session work:** Phase 3 context gathered (`/gsd-discuss-phase 3`). 4 áreas discutidas: composição visual + mockup (LCP), direção da copy, header + trust + animações secundárias, operacionais + deploy isolado. Decisões D-01..D-19 capturadas em `.planning/phases/03-hero-benchmarked-isolado/03-CONTEXT.md`. Pendências do STATE resolvidas: número WhatsApp Likro = `5511922324329` (configurar em `.env.local` + Vercel env vars antes de fechar Phase 3); cadência copy review = async via PR seção-a-seção.
 
 **Next session:**
 
-1. Run Plan 02 (Hero scaffold + componentes) — Wave 0 gates já gated
-2. Configurar `NEXT_PUBLIC_WA_NUMBER=5511922324329` em Vercel Dashboard (manual, fora do escopo de scripts)
-3. Pendências ainda abertas: autorização Dolce Home (Phase 4), webhook target form (Phase 5), UI-SPEC linha 217 path do logo
+1. Run `/gsd-ui-phase 3` (UI hint=yes no roadmap) **ou** `/gsd-plan-phase 3` direto pra decompor Phase 3 (Hero) em plans executáveis
+2. Configurar `NEXT_PUBLIC_WA_NUMBER=5511922324329` em Vercel (Production + Preview + Development) e `.env.local` antes do PR final da Phase 3
+3. Pendências ainda abertas: autorização Dolce Home (Phase 4), webhook target form (Phase 5)
 
 **State invariants (do not violate):**
 

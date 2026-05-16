@@ -61,7 +61,7 @@ Plans:
   5. Copy do hero (em `content/hero.ts`, zero strings hard-coded em JSX) aprovada por Lenny via PR; cadência de copy review estabelecida e documentada para as seções seguintes.
 **Plans:** 3 plans (3 waves)
 Plans:
-- [ ] 03-01-PLAN.md — env vars + WhatsAppLocation extension + Wave 0 grep tests + mockup asset
+- [x] 03-01-PLAN.md — env vars + WhatsAppLocation extension + Wave 0 grep tests + mockup asset
 - [ ] 03-02-PLAN.md — Hero + Header components + content/hero.ts (3 variantes) + page.tsx wiring
 - [ ] 03-03-PLAN.md — copy-review docs + PR template + Vercel benchmark + real-device + 5-second test
 **UI hint**: yes
