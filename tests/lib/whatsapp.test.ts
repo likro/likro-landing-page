@@ -68,4 +68,10 @@ describe("buildWhatsAppUrl", () => {
     expect(warnSpy).toHaveBeenCalled();
     warnSpy.mockRestore();
   });
+
+  it("builds url with location='header' (CTA-04 — Phase 3 D-12)", () => {
+    const url = buildWhatsAppUrl("Oi do header", "header");
+    expect(url).toMatch(/^https:\/\/wa\.me\/5511999999999\?text=/);
+    expect(url).toContain("Oi%20do%20header");
+  });
 });

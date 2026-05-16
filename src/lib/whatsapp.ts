@@ -26,6 +26,7 @@ function encodeMessage(message: string): string {
 /** CTA-04: location é a chave do mapa em src/content/whatsapp.ts */
 export type WhatsAppLocation =
   | "hero"
+  | "header"
   | "pain"
   | "product"
   | "how"

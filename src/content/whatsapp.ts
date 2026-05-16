@@ -8,6 +8,7 @@ import type { WhatsAppLocation } from "@/lib/whatsapp";
  */
 export const WHATSAPP_MESSAGES: Record<WhatsAppLocation, string> = {
   hero: "Oi! Vi a Likro no Instagram e quero entender como funciona pra minha clínica.",
+  header: "Oi! Vim do site da Likro e quero entender como funciona pra clínica.",
   pain: "Oi! Tô com dificuldade pra organizar o atendimento da clínica — pode me explicar como a Likro ajuda?",
   product:
     "Oi! Vi os recursos da Likro e quero conversar sobre como aplicar na minha clínica.",
