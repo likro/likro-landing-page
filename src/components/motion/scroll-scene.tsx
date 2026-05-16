@@ -64,9 +64,12 @@ export function ScrollScene({
   // Pass ref via cast — Tag union garante elemento HTML, mas TS não consegue
   // inferir o tipo correto de ref para uma tag dinâmica restrita ao union.
   // Cast pragmático aceito (também usado em projetos como Radix).
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (
-    <Tag ref={ref as any} className={className}>
+    <Tag
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ref={ref as any}
+      className={className}
+    >
       {children(progress)}
     </Tag>
   );
