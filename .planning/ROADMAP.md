@@ -59,7 +59,11 @@ Plans:
   3. Hero passa no "5-second test": três pessoas sem contexto descrevem em 5 segundos olhando apenas a primeira viewport que é Likro, que é para clínicas, e que o CTA é WhatsApp.
   4. CTA WhatsApp do hero abre o app WhatsApp (não browser) em iPhone real e Android real; mensagem pré-preenchida correta com `location='hero'`.
   5. Copy do hero (em `content/hero.ts`, zero strings hard-coded em JSX) aprovada por Lenny via PR; cadência de copy review estabelecida e documentada para as seções seguintes.
-**Plans**: TBD
+**Plans:** 3 plans (3 waves)
+Plans:
+- [ ] 03-01-PLAN.md — env vars + WhatsAppLocation extension + Wave 0 grep tests + mockup asset
+- [ ] 03-02-PLAN.md — Hero + Header components + content/hero.ts (3 variantes) + page.tsx wiring
+- [ ] 03-03-PLAN.md — copy-review docs + PR template + Vercel benchmark + real-device + 5-second test
 **UI hint**: yes
 
 ### Phase 4: Narrative Sections (Pain → Bridge → Product → HowItWorks → Proof)
@@ -128,7 +132,7 @@ Plans:
 |-------|----------------|--------|-----------|
 | 1. Foundations & Design System | 4/4 | Complete | 2026-05-16 |
 | 2. Motion Primitives | 0/6 | Planned | - |
-| 3. Hero (benchmarked isolado) | 0/0 | Not started | - |
+| 3. Hero (benchmarked isolado) | 0/3 | Planned | - |
 | 4. Narrative Sections | 0/0 | Not started | - |
 | 5. Conversion | 0/0 | Not started | - |
 | 6. Analytics Instrumentation Pass | 0/0 | Not started | - |
