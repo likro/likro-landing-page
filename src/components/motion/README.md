@@ -224,11 +224,25 @@ Demo: `/dev/sticky`.
 
 ## Validated Devices
 
-Lista preenchida pelo Task 3 (checkpoint humano — real-device validation).
+Real-device validation executada via Vercel preview da branch `phase-02-validation` em 2026-05-16. Critério `StickyStage OK?` = pin segura ao rolar, sem release prematuro, sem jump horizontal, sem chacoalhar quando address bar do iOS recolhe/expande.
 
 | Device | OS / Version | Browser | StickyStage OK? | All primitives OK? |
 |---|---|---|---|---|
-| _(a preencher)_ | | | | |
+| iPhone 15 | iOS 26 (latest) | Safari | ✓ | ✓ |
+| Desktop (Windows 11) | Windows 11 | Chrome | ✓ | ✓ |
+
+### Cobertura pendente
+
+| Device / Surface | Justificativa | Trigger pra fechar |
+|---|---|---|
+| Android real (mid-tier, Chrome) | Sem device disponível no momento da validação | Validar antes de Phase 3 começar a usar `<StickyStage>` em seção real |
+| macOS Safari | Sem máquina Mac disponível | Validar antes do lançamento público |
+| Firefox / Edge desktop | Não testado | Validar antes do lançamento público |
+| `prefers-reduced-motion: reduce` | Não testado em device real | Validar quando rodar Lighthouse a11y na Phase 3+ |
+
+### Notas de polish diferido
+
+- **`/dev/sticky` Stage B (showcase do composto `StickyStage + ScrollScene`):** o exemplo atual (4 facets cross-fade — Captura / Atendimento / Conversão / Operação) prova o **padrão técnico** mas não é o visual final. Refinamento real (typography, hierarquia, atmosfera, ritmo das transições) é responsabilidade da Phase 3+ quando seções reais precisarem desse composto com copy e design system aplicados. Status: técnico ✓, visual de showcase **aceito como demonstrativo, não final**.
 
 ## Internals (não exportado)
 
