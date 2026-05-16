@@ -22,7 +22,7 @@ progress:
 
 **Core value:** Uma clínica entra na landing e sente em segundos: *"isso foi feito exatamente pra minha operação — e essa empresa é absurda"*.
 
-**Current focus:** Phase 1 COMPLETA — pronto para Phase 2 (motion primitives)
+**Current focus:** Phase 3 (Hero) context gathered — pronto para `/gsd-ui-phase 3` ou `/gsd-plan-phase 3`
 
 **Key documents:**
 
@@ -69,10 +69,10 @@ progress:
 
 ### Open Todos / Pendências Bloqueantes
 
-**🟡 PENDENTE — Antes da Phase 3:**
+**✅ RESOLVIDO em discuss-phase 3 (2026-05-16):**
 
-- Número oficial do WhatsApp da Likro (DDD + número) — bloqueia `NEXT_PUBLIC_WA_NUMBER` e validação real-device do helper
-- Cadência de copy review do Lenny (síncrono por seção, async via PR, ou pass final)
+- Número oficial do WhatsApp da Likro = `5511922324329` (D-16 do 03-CONTEXT.md) — configurar em `.env.local` + Vercel env vars (Production + Preview + Development) durante a execução da Phase 3
+- Cadência de copy review do Lenny = async via PR seção-a-seção (D-17 do 03-CONTEXT.md) — Claude abre PR com 3 variantes em `src/content/<sec>.ts`, Lenny aprova no GitHub, Phase 3 estabelece o ritmo
 
 **🟡 PENDENTE — Antes da seção Proof entrar em dev na Phase 4:**
 
@@ -88,13 +88,13 @@ None.
 
 ## Session Continuity
 
-**Last session work:** Phase 1 (Foundations & Design System) executada e fechada. 4/4 plans verdes. Provider tree, atoms, metadata, /dev guard, OG/icon, BRAND.md tudo wired. W3 fix aplicado (whatsapp.ts agora usa @/lib/env). Commits: e7faae6 (Task 1) + b2ce76f (Task 2) + final docs commit.
+**Last session work:** Phase 3 context gathered (`/gsd-discuss-phase 3`). 4 áreas discutidas: composição visual + mockup (LCP), direção da copy, header + trust + animações secundárias, operacionais + deploy isolado. Decisões D-01..D-19 capturadas em `.planning/phases/03-hero-benchmarked-isolado/03-CONTEXT.md`. Pendências do STATE resolvidas: número WhatsApp Likro = `5511922324329` (configurar em `.env.local` + Vercel env vars antes de fechar Phase 3); cadência copy review = async via PR seção-a-seção.
 
 **Next session:**
 
-1. Run `/gsd-plan-phase 2` to decompose Phase 2 (motion primitives) into executable plans
-2. Address pendência do número WhatsApp se for entrar em Phase 3 logo
-3. Confirmar manual checks da Plan 04 (npm run dev / build && start; React DevTools; mobile real)
+1. Run `/gsd-ui-phase 3` (UI hint=yes no roadmap) **ou** `/gsd-plan-phase 3` direto pra decompor Phase 3 (Hero) em plans executáveis
+2. Configurar `NEXT_PUBLIC_WA_NUMBER=5511922324329` em Vercel (Production + Preview + Development) e `.env.local` antes do PR final da Phase 3
+3. Pendências ainda abertas: autorização Dolce Home (Phase 4), webhook target form (Phase 5)
 
 **State invariants (do not violate):**
 
