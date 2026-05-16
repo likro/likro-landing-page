@@ -1,3 +1,17 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: Phase 1 (Foundations & Design System) COMPLETA. 4/4 plans entregues (scaffold + brand tokens, WhatsApp helper, tracking + device tier + brand-lock, providers + atoms + metadata). 45/45 tests verdes. Próximo: /gsd-plan-phase 2 (motion primitives).
+last_updated: "2026-05-15T18:40:20.435Z"
+progress:
+  total_phases: 7
+  completed_phases: 1
+  total_plans: 4
+  completed_plans: 4
+  percent: 100
+---
+
 # Project State: Likro Landing Page
 
 **Project:** Likro Landing Page (Clínicas e Estéticas)
@@ -8,9 +22,10 @@
 
 **Core value:** Uma clínica entra na landing e sente em segundos: *"isso foi feito exatamente pra minha operação — e essa empresa é absurda"*.
 
-**Current focus:** Phase 1 — Foundations & Design System
+**Current focus:** Phase 1 COMPLETA — pronto para Phase 2 (motion primitives)
 
 **Key documents:**
+
 - `.planning/PROJECT.md` — vision, constraints, key decisions
 - `.planning/REQUIREMENTS.md` — 99 v1 requirements with traceability
 - `.planning/ROADMAP.md` — 7-phase plan
@@ -20,18 +35,18 @@
 ## Current Position
 
 **Milestone:** v1 (initial launch — clínicas vertical)
-**Phase:** 1 of 7 — Foundations & Design System
-**Plan:** Not yet planned — CONTEXT captured (next: `/gsd-plan-phase 1`)
-**Status:** Discussão de Phase 1 concluída; 21 decisões em CONTEXT.md cobrindo atoms UI, CTA WhatsApp, enforcement do roxo, estrutura de pastas. Pronto pra planejamento.
+**Phase:** 1 of 7 COMPLETA — Foundations & Design System
+**Plan:** 4/4 entregues (01-01 scaffold, 01-02 WhatsApp helper, 01-03 tracking + brand-lock, 01-04 providers + atoms + metadata)
+**Status:** Phase 1 fechada. 45/45 tests verdes. Build de prod limpo. Provider tree wired (Analytics > SmoothScroll > MotionConfig > children > Toaster). 12 atoms shipped (8 shadcn customizados + 4 próprios). Brand-lock 3-camadas ativa. Próximo: `/gsd-plan-phase 2`.
 
-**Progress:** [░░░░░░░] 0/7 phases complete
+**Progress:** [██████████] 100%
 
 ## Performance Metrics
 
 | Metric | Target | Current |
 |--------|--------|---------|
-| Phases complete | 7 | 0 |
-| Requirements shipped | 99 | 0 |
+| Phases complete | 7 | 1 |
+| Requirements shipped | 99 | 19 (Phase 1 reqs FOUND-01..12 + CTA-01..02 + TRACK-01..03) |
 | Lighthouse Performance (desktop) | ≥ 90 | — |
 | Lighthouse Performance (mobile) | ≥ 85 | — |
 | LCP mobile | < 2.5s | — |
@@ -39,11 +54,14 @@
 | INP | < 200ms | — |
 | Bundle JS gzipped (first load) | ≤ 150KB | — |
 | Page weight mobile | ≤ 1.5MB | — |
+| Phase 01 P04 | 12min | 2 tasks | 26 files |
 
 ## Accumulated Context
 
 ### Decisions Logged
+
 (See PROJECT.md "Key Decisions" for canonical list. Highlights):
+
 - Stack: Next.js 15.5 + Tailwind v4 + Motion v12 + Lenis 1.3.x
 - Architecture: GSAP-future-ready via `<ScrollScene>` boundary
 - 7 fases derivadas dos 99 requisitos v1; granularidade standard
@@ -52,27 +70,34 @@
 ### Open Todos / Pendências Bloqueantes
 
 **🟡 PENDENTE — Antes da Phase 3:**
+
 - Número oficial do WhatsApp da Likro (DDD + número) — bloqueia `NEXT_PUBLIC_WA_NUMBER` e validação real-device do helper
 - Cadência de copy review do Lenny (síncrono por seção, async via PR, ou pass final)
 
 **🟡 PENDENTE — Antes da seção Proof entrar em dev na Phase 4:**
+
 - Autorização explícita do Lenny pra citar Dolce Home na seção Proof (caso negativo: copy ajusta pra "operação ativa em uso" sem nome)
 
 **🟡 PENDENTE — Antes da Phase 5:**
+
 - Webhook target pro form de lead (email direto? Slack channel? n8n/Make? Função Vercel + Resend?)
 
 ### Blockers
+
 None.
 
 ## Session Continuity
 
-**Last session work:** Initialization completed (PROJECT.md, REQUIREMENTS.md, research/, ROADMAP.md, STATE.md).
+**Last session work:** Phase 1 (Foundations & Design System) executada e fechada. 4/4 plans verdes. Provider tree, atoms, metadata, /dev guard, OG/icon, BRAND.md tudo wired. W3 fix aplicado (whatsapp.ts agora usa @/lib/env). Commits: e7faae6 (Task 1) + b2ce76f (Task 2) + final docs commit.
 
 **Next session:**
-1. Run `/gsd-plan-phase 1` to decompose Phase 1 into executable plans
+
+1. Run `/gsd-plan-phase 2` to decompose Phase 2 (motion primitives) into executable plans
 2. Address pendência do número WhatsApp se for entrar em Phase 3 logo
+3. Confirmar manual checks da Plan 04 (npm run dev / build && start; React DevTools; mobile real)
 
 **State invariants (do not violate):**
+
 - Roxo `#7C3AED` é destaque, nunca fundo grande
 - WhatsApp deep link sempre via `wa.me/`, nunca `web.whatsapp.com`
 - Único `priority` em `<Image>` da página: o mockup do hero
