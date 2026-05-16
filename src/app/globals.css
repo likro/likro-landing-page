@@ -100,3 +100,20 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* ──────────────────────────────────────────────────────────────────
+   Phase 3 D-15: glow ambiente do hero — única animação on-load.
+   Anima APENAS transform + opacity (MOTION-08 GPU-friendly).
+   Ciclo 10s (D-15: 8-12s aceitável). Reduced motion já trata globalmente acima.
+   ────────────────────────────────────────────────────────────────── */
+@keyframes hero-glow-pulse {
+  0%,
+  100% {
+    transform: translateY(-50%) scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(-50%) scale(1.05);
+    opacity: 0.85;
+  }
+}
