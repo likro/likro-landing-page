@@ -42,12 +42,12 @@
   5. Audit DevTools confirma: zero animações usam `width`/`height`/`top`/`left`; só `transform` e `opacity`.
 **Plans:** 6 plans (4 waves)
 Plans:
-- [ ] 02-01-foundation-PLAN.md — Scaffold src/components/motion/, barrel @frozen, easing canônico, gate /dev → VERCEL_ENV (D-15)
-- [ ] 02-02-reveal-parallax-PLAN.md — Implementar <RevealOnView> (D-10) e <ParallaxLayer> (D-11) + exportar no barrel
-- [ ] 02-03-scrollscene-textsplit-PLAN.md — Implementar <ScrollScene> (D-01..D-04) e <TextSplit> (D-12) + helper useLineGrouping
-- [ ] 02-04-stickystage-PLAN.md — Implementar <StickyStage> (D-05..D-09, RISCO CRÍTICO #3) via position:sticky + svh; barrel completo
-- [ ] 02-05-showcase-dev-routes-PLAN.md — Showcase /dev/{reveal,parallax,sticky,textsplit,scene,all} + nav + helpers compartilhados
-- [ ] 02-06-readme-freeze-PLAN.md — README.md final (D-17), audit @frozen em 5 primitivas, checkpoint real-device com Lenny
+- [x] 02-01-foundation-PLAN.md — Scaffold src/components/motion/, barrel @frozen, easing canônico, gate /dev → VERCEL_ENV (D-15)
+- [x] 02-02-reveal-parallax-PLAN.md — Implementar <RevealOnView> (D-10) e <ParallaxLayer> (D-11) + exportar no barrel
+- [x] 02-03-scrollscene-textsplit-PLAN.md — Implementar <ScrollScene> (D-01..D-04) e <TextSplit> (D-12) + helper useLineGrouping
+- [x] 02-04-stickystage-PLAN.md — Implementar <StickyStage> (D-05..D-09, RISCO CRÍTICO #3) via position:sticky + svh; barrel completo
+- [x] 02-05-showcase-dev-routes-PLAN.md — Showcase /dev/{reveal,parallax,sticky,textsplit,scene,all} + nav + helpers compartilhados
+- [x] 02-06-readme-freeze-PLAN.md — README.md final (D-17), audit @frozen em 5 primitivas, checkpoint real-device com Lenny
 
 ### Phase 3: Hero (benchmarked isolado)
 **Goal**: Hero deployado sozinho na Vercel passando LCP < 2.5s em Lighthouse mobile, com copy aprovada por Lenny e WhatsApp deep link funcionando em iOS e Android reais — antes de adicionar qualquer seção abaixo.
