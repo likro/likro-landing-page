@@ -126,7 +126,7 @@ export default function DevAllPage() {
       {/* Seção 4: StickyStage + ScrollScene compostos — payoff visual contínuo */}
       <ScrollScene offset={STICKY_SCROLL_OFFSET}>
         {(progress) => (
-          <StickyStage length="400svh">
+          <StickyStage length="500svh">
             <StickyFacets progress={progress} />
           </StickyStage>
         )}
@@ -144,19 +144,19 @@ export default function DevAllPage() {
 function StickyFacets({ progress }: { progress: MotionValue<number> }) {
   const reduced = useReducedMotion();
 
-  const op1 = useTransform(progress, [0,    0.03, 0.21, 0.27], [0.5, 1, 1, 0]);
-  const op2 = useTransform(progress, [0.25, 0.31, 0.46, 0.52], [0, 1, 1, 0]);
-  const op3 = useTransform(progress, [0.50, 0.56, 0.71, 0.77], [0, 1, 1, 0]);
-  const op4 = useTransform(progress, [0.75, 0.81, 0.97, 1   ], [0, 1, 1, 1]);
+  const op1 = useTransform(progress, [0,    0.06, 0.19, 0.25], [0, 1, 1, 0]);
+  const op2 = useTransform(progress, [0.24, 0.30, 0.44, 0.50], [0, 1, 1, 0]);
+  const op3 = useTransform(progress, [0.49, 0.55, 0.69, 0.75], [0, 1, 1, 0]);
+  const op4 = useTransform(progress, [0.74, 0.80, 0.97, 1   ], [0, 1, 1, 1]);
 
-  const y1 = useTransform(progress, [0,    0.03, 0.21, 0.27], [16, 0, 0, -16]);
-  const y2 = useTransform(progress, [0.25, 0.31, 0.46, 0.52], [16, 0, 0, -16]);
-  const y3 = useTransform(progress, [0.50, 0.56, 0.71, 0.77], [16, 0, 0, -16]);
-  const y4 = useTransform(progress, [0.75, 0.81, 1   , 1   ], [16, 0, 0,  0]);
+  const y1 = useTransform(progress, [0,    0.06, 0.19, 0.25], [18, 0, 0, -18]);
+  const y2 = useTransform(progress, [0.24, 0.30, 0.44, 0.50], [18, 0, 0, -18]);
+  const y3 = useTransform(progress, [0.49, 0.55, 0.69, 0.75], [18, 0, 0, -18]);
+  const y4 = useTransform(progress, [0.74, 0.80, 1   , 1   ], [18, 0, 0,  0]);
 
-  const ambX = useTransform(progress, [0, 1], ["-15%", "20%"]);
-  const ambY = useTransform(progress, [0, 1], ["10%", "-10%"]);
-  const ambScale = useTransform(progress, [0, 1], [1, 1.25]);
+  const ambX = useTransform(progress, [0, 1], ["-8%", "8%"]);
+  const ambY = useTransform(progress, [0, 1], ["6%", "-6%"]);
+  const ambScale = useTransform(progress, [0, 1], [1, 1.12]);
 
   if (reduced) {
     return (
@@ -200,23 +200,13 @@ function StickyFacets({ progress }: { progress: MotionValue<number> }) {
             <motion.div
               key={f.n}
               style={{ opacity: f.op, y: f.y }}
-              className="absolute inset-0 flex flex-col items-center justify-center px-6"
+              className="absolute inset-0 flex flex-col items-center justify-center gap-5 sm:gap-6 px-6"
             >
               <div className="text-xs uppercase tracking-[0.30em] text-text-on-dark-secondary tabular-nums">
                 {f.n} <span className="opacity-50">/ 04</span>
               </div>
-              <div className="mt-6 flex items-center gap-4 sm:gap-6">
-                <span
-                  aria-hidden
-                  className="h-px w-8 sm:w-14 md:w-20 bg-accent-primary"
-                />
-                <span className="text-4xl sm:text-6xl md:text-7xl font-medium tracking-tight whitespace-nowrap leading-none">
-                  {f.label}
-                </span>
-                <span
-                  aria-hidden
-                  className="h-px w-8 sm:w-14 md:w-20 bg-accent-primary"
-                />
+              <div className="text-5xl sm:text-7xl md:text-8xl font-medium tracking-tight whitespace-nowrap leading-none">
+                {f.label}
               </div>
             </motion.div>
           ))}
