@@ -8,8 +8,18 @@
  *   diretamente — apenas deste barrel.
  * - Imports de paths internos (`./internal/*`) também não são permitidos
  *   fora desta pasta. Convenção, não enforced via ESLint (Phase 1 D-15).
- *
- * Re-exports são adicionados pelas waves 2 e 3 — este barrel propositalmente
- * fica vazio até as primitivas existirem.
  */
-export {};
+
+export { RevealOnView } from "./reveal-on-view";
+export type { RevealOnViewProps } from "./reveal-on-view";
+
+export { ParallaxLayer } from "./parallax-layer";
+export type { ParallaxLayerProps } from "./parallax-layer";
+
+// Próximos exports (Wave 2 plans 03, 04):
+// export { ScrollScene } from "./scroll-scene";
+// export type { ScrollSceneProps } from "./scroll-scene";
+// export { TextSplit } from "./text-split";
+// export type { TextSplitProps } from "./text-split";
+// export { StickyStage } from "./sticky-stage";
+// export type { StickyStageProps } from "./sticky-stage";
