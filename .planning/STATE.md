@@ -2,8 +2,8 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: Phase 1 (Foundations & Design System) COMPLETA. 4/4 plans entregues (scaffold + brand tokens, WhatsApp helper, tracking + device tier + brand-lock, providers + atoms + metadata). 45/45 tests verdes. Próximo: /gsd-plan-phase 2 (motion primitives).
-last_updated: "2026-05-15T18:40:20.435Z"
+status: planning
+last_updated: "2026-05-16T15:24:48.651Z"
 progress:
   total_phases: 7
   completed_phases: 1
@@ -35,9 +35,9 @@ progress:
 ## Current Position
 
 **Milestone:** v1 (initial launch — clínicas vertical)
-**Phase:** 1 of 7 COMPLETA — Foundations & Design System
-**Plan:** 4/4 entregues (01-01 scaffold, 01-02 WhatsApp helper, 01-03 tracking + brand-lock, 01-04 providers + atoms + metadata)
-**Status:** Phase 1 fechada. 45/45 tests verdes. Build de prod limpo. Provider tree wired (Analytics > SmoothScroll > MotionConfig > children > Toaster). 12 atoms shipped (8 shadcn customizados + 4 próprios). Brand-lock 3-camadas ativa. Próximo: `/gsd-plan-phase 2`.
+**Phase:** 2 of 7 (motion primitives)
+**Plan:** Not started
+**Status:** Ready to plan
 
 **Progress:** [██████████] 100%
 
