@@ -139,45 +139,45 @@ export default function DevAllPage() {
   );
 }
 
-// StickyFacets — surface dark com 4 facets em fade sobreposto contínuo.
-// Mesma técnica do /dev/sticky Stage B, adaptada pra surface escura.
+// StickyFacets — versão refinada (mesma técnica de /dev/sticky Stage B,
+// adaptada pra surface dark). Atmosfera única, accent vertical ligado à
+// facet ativa, counter mono "0X / 04" no topo.
 function StickyFacets({ progress }: { progress: MotionValue<number> }) {
   const reduced = useReducedMotion();
 
-  const op1 = useTransform(progress, [0, 0.04, 0.20, 0.32], [0.6, 1, 1, 0]);
-  const op2 = useTransform(progress, [0.18, 0.32, 0.45, 0.55], [0, 1, 1, 0]);
-  const op3 = useTransform(progress, [0.43, 0.55, 0.68, 0.80], [0, 1, 1, 0]);
-  const op4 = useTransform(progress, [0.66, 0.80, 0.97, 1], [0, 1, 1, 1]);
+  const op1 = useTransform(progress, [0, 0.05, 0.22, 0.34], [0.6, 1, 1, 0]);
+  const op2 = useTransform(progress, [0.20, 0.34, 0.47, 0.58], [0, 1, 1, 0]);
+  const op3 = useTransform(progress, [0.45, 0.58, 0.70, 0.82], [0, 1, 1, 0]);
+  const op4 = useTransform(progress, [0.68, 0.82, 0.97, 1], [0, 1, 1, 1]);
 
-  const y1 = useTransform(progress, [0, 0.04, 0.20, 0.32], [25, 0, 0, -25]);
-  const y2 = useTransform(progress, [0.18, 0.32, 0.45, 0.55], [25, 0, 0, -25]);
-  const y3 = useTransform(progress, [0.43, 0.55, 0.68, 0.80], [25, 0, 0, -25]);
-  const y4 = useTransform(progress, [0.66, 0.80, 1, 1], [25, 0, 0, 0]);
+  const y1 = useTransform(progress, [0, 0.05, 0.22, 0.34], [20, 0, 0, -20]);
+  const y2 = useTransform(progress, [0.20, 0.34, 0.47, 0.58], [20, 0, 0, -20]);
+  const y3 = useTransform(progress, [0.45, 0.58, 0.70, 0.82], [20, 0, 0, -20]);
+  const y4 = useTransform(progress, [0.68, 0.82, 1, 1], [20, 0, 0, 0]);
 
-  const sc1 = useTransform(progress, [0, 0.20, 0.32], [0.94, 1, 1.05]);
-  const sc2 = useTransform(progress, [0.18, 0.45, 0.55], [0.94, 1, 1.05]);
-  const sc3 = useTransform(progress, [0.43, 0.68, 0.80], [0.94, 1, 1.05]);
-  const sc4 = useTransform(progress, [0.66, 0.97, 1], [0.94, 1, 1.05]);
+  const ambX = useTransform(progress, [0, 1], ["-15%", "20%"]);
+  const ambY = useTransform(progress, [0, 1], ["10%", "-10%"]);
+  const ambScale = useTransform(progress, [0, 1], [1, 1.25]);
 
-  const lineWidth = useTransform(progress, [0, 1], ["0%", "80%"]);
+  const accentScaleY = useTransform(progress, [0.05, 0.18], [0, 1]);
+  const accentOpacity = useTransform(progress, [0.05, 0.18, 0.97, 1], [0, 1, 1, 0]);
+  const counterOpacity = useTransform(progress, [0.05, 0.18, 0.97, 1], [0, 1, 1, 0]);
 
-  const ambX1 = useTransform(progress, [0, 1], ["-20%", "25%"]);
-  const ambY1 = useTransform(progress, [0, 1], ["15%", "-15%"]);
-  const ambSc1 = useTransform(progress, [0, 1], [1, 1.35]);
-  const ambX2 = useTransform(progress, [0, 1], ["25%", "-15%"]);
-  const ambY2 = useTransform(progress, [0, 1], ["-25%", "20%"]);
-  const ambSc2 = useTransform(progress, [0, 0.5, 1], [0.85, 1.1, 0.9]);
+  const cOp1 = useTransform(progress, [0, 0.05, 0.22, 0.32], [0.6, 1, 1, 0]);
+  const cOp2 = useTransform(progress, [0.20, 0.34, 0.47, 0.56], [0, 1, 1, 0]);
+  const cOp3 = useTransform(progress, [0.45, 0.58, 0.70, 0.80], [0, 1, 1, 0]);
+  const cOp4 = useTransform(progress, [0.68, 0.82, 1, 1], [0, 1, 1, 1]);
 
   if (reduced) {
     return (
       <div className="h-full w-full bg-surface-dark text-text-on-dark-primary grid place-items-center">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 max-w-3xl px-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 max-w-3xl px-6">
           {STICKY_FACETS.map((f) => (
             <div key={f.n} className="text-center space-y-2">
               <div className="text-5xl font-medium tracking-tight tabular-nums">
                 {f.n}
               </div>
-              <div className="text-xs uppercase tracking-[0.18em] text-text-on-dark-secondary">
+              <div className="text-xs uppercase tracking-[0.22em] text-text-on-dark-secondary">
                 {f.label}
               </div>
             </div>
@@ -188,51 +188,74 @@ function StickyFacets({ progress }: { progress: MotionValue<number> }) {
   }
 
   const animated = [
-    { ...STICKY_FACETS[0], op: op1, y: y1, sc: sc1 },
-    { ...STICKY_FACETS[1], op: op2, y: y2, sc: sc2 },
-    { ...STICKY_FACETS[2], op: op3, y: y3, sc: sc3 },
-    { ...STICKY_FACETS[3], op: op4, y: y4, sc: sc4 },
+    { ...STICKY_FACETS[0], op: op1, y: y1 },
+    { ...STICKY_FACETS[1], op: op2, y: y2 },
+    { ...STICKY_FACETS[2], op: op3, y: y3 },
+    { ...STICKY_FACETS[3], op: op4, y: y4 },
+  ];
+
+  const counters = [
+    { n: "01", op: cOp1 },
+    { n: "02", op: cOp2 },
+    { n: "03", op: cOp3 },
+    { n: "04", op: cOp4 },
   ];
 
   return (
-    <div className="relative h-full w-full bg-surface-dark text-text-on-dark-primary overflow-hidden grid place-items-center">
+    <div className="relative h-full w-full bg-surface-dark text-text-on-dark-primary overflow-hidden">
       <motion.div
         aria-hidden
-        style={{ x: ambX1, y: ambY1, scale: ambSc1 }}
+        style={{ x: ambX, y: ambY, scale: ambScale }}
         className="absolute inset-0 grid place-items-center pointer-events-none"
       >
         <div className="w-[110svh] h-[110svh] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.08)_0%,transparent_55%)] blur-3xl" />
       </motion.div>
+
       <motion.div
         aria-hidden
-        style={{ x: ambX2, y: ambY2, scale: ambSc2 }}
-        className="absolute inset-0 grid place-items-center pointer-events-none"
+        style={{ opacity: counterOpacity }}
+        className="absolute top-12 left-1/2 -translate-x-1/2 flex items-baseline gap-3 text-text-on-dark-secondary z-20"
       >
-        <div className="w-[80svh] h-[80svh] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.04)_0%,transparent_60%)] blur-3xl" />
+        <span className="relative inline-block w-[2ch] text-xs uppercase tracking-[0.22em] tabular-nums">
+          {counters.map((c) => (
+            <motion.span
+              key={c.n}
+              style={{ opacity: c.op }}
+              className="absolute inset-0"
+            >
+              {c.n}
+            </motion.span>
+          ))}
+          <span aria-hidden className="opacity-0">01</span>
+        </span>
+        <span className="text-xs uppercase tracking-[0.22em]">/ 04</span>
       </motion.div>
 
-      <div className="relative z-10 grid place-items-center">
-        {animated.map((f) => (
+      <div className="absolute inset-0 grid place-items-center">
+        <div className="relative flex items-center gap-8 sm:gap-12 px-6">
           <motion.div
-            key={f.n}
-            style={{ opacity: f.op, y: f.y, scale: f.sc }}
-            className="absolute text-center px-6"
-          >
-            <div className="text-7xl sm:text-8xl md:text-9xl font-medium tracking-tight tabular-nums leading-none">
-              {f.n}
-            </div>
-            <div className="mt-4 text-sm uppercase tracking-[0.22em] text-text-on-dark-secondary">
-              {f.label}
-            </div>
-          </motion.div>
-        ))}
+            aria-hidden
+            style={{ scaleY: accentScaleY, opacity: accentOpacity }}
+            className="origin-center h-28 sm:h-36 w-px bg-accent-primary shrink-0"
+          />
+          <div className="relative w-[16ch] h-[14rem] sm:h-[16rem]">
+            {animated.map((f) => (
+              <motion.div
+                key={f.n}
+                style={{ opacity: f.op, y: f.y }}
+                className="absolute inset-0 flex flex-col justify-center text-left"
+              >
+                <div className="text-8xl sm:text-9xl font-medium tracking-tight tabular-nums leading-[0.9]">
+                  {f.n}
+                </div>
+                <div className="mt-5 text-xs sm:text-sm uppercase tracking-[0.28em] text-text-on-dark-secondary">
+                  {f.label}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
-
-      <motion.div
-        aria-hidden
-        style={{ width: lineWidth }}
-        className="absolute bottom-12 left-[10%] h-px bg-accent-primary"
-      />
     </div>
   );
 }
