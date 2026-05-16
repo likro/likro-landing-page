@@ -1,6 +1,13 @@
 /**
  * @frozen — API congelada das primitivas de motion (MOTION-06).
  *
+ * 5 primitivas exportadas:
+ *   - <RevealOnView>   — fade+slide stagger on viewport entry
+ *   - <ParallaxLayer>  — translateY sutil por scroll progress
+ *   - <ScrollScene>    — render-prop boundary GSAP-future-ready (MotionValue<number> 0→1)
+ *   - <TextSplit>      — reveal por palavra (desktop) ou linha (mobile/tablet)
+ *   - <StickyStage>    — pin estrutural via position:sticky + svh
+ *
  * Política de mudanças (D-16):
  * - Mudanças nesta API exigem PR com label `motion-api-change`
  *   e aprovação explícita do Lenny.
@@ -25,6 +32,5 @@ export type { ScrollSceneProps } from "./scroll-scene";
 export { TextSplit } from "./text-split";
 export type { TextSplitProps } from "./text-split";
 
-// Próximo export (Plan 04):
-// export { StickyStage } from "./sticky-stage";
-// export type { StickyStageProps } from "./sticky-stage";
+export { StickyStage } from "./sticky-stage";
+export type { StickyStageProps } from "./sticky-stage";
