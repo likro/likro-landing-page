@@ -67,6 +67,17 @@
   /* ── Easing premium (Pitfall #11) ── */
   --ease-premium-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-premium-in: cubic-bezier(0.7, 0, 0.84, 0);
+
+  /* ── shadcn compat aliases (WR-02: dialog.tsx / sheet.tsx) ──
+     dialog e sheet usam tokens shadcn que o @theme Likro não declara.
+     Estes aliases mapeiam os nomes shadcn para os tokens Likro existentes,
+     evitando no-ops silenciosos no Tailwind v4. ── */
+  --color-background: var(--color-surface-lighter);
+  --color-foreground: var(--color-text-primary);
+  --color-muted-foreground: var(--color-text-muted);
+  --color-ring: var(--color-accent-primary);
+  --color-secondary: var(--color-neutral-100);
+  --color-accent: var(--color-accent-primary);
 }
 
 /* Body defaults — superfície clara como baseline; sections override */
