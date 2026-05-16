@@ -40,7 +40,14 @@
   3. `<ScrollScene>` expõe `MotionValue<number>` 0→1; consumidores nunca importam Motion direto; API documentada em `components/motion/README.md` e congelada (mudanças exigem aprovação explícita).
   4. Toggle `prefers-reduced-motion` no OS faz todas as primitivas pularem para estado final imediatamente (verificado manualmente em macOS Reduce Motion e Windows Animations off).
   5. Audit DevTools confirma: zero animações usam `width`/`height`/`top`/`left`; só `transform` e `opacity`.
-**Plans**: TBD
+**Plans:** 6 plans (4 waves)
+Plans:
+- [ ] 02-01-foundation-PLAN.md — Scaffold src/components/motion/, barrel @frozen, easing canônico, gate /dev → VERCEL_ENV (D-15)
+- [ ] 02-02-reveal-parallax-PLAN.md — Implementar <RevealOnView> (D-10) e <ParallaxLayer> (D-11) + exportar no barrel
+- [ ] 02-03-scrollscene-textsplit-PLAN.md — Implementar <ScrollScene> (D-01..D-04) e <TextSplit> (D-12) + helper useLineGrouping
+- [ ] 02-04-stickystage-PLAN.md — Implementar <StickyStage> (D-05..D-09, RISCO CRÍTICO #3) via position:sticky + svh; barrel completo
+- [ ] 02-05-showcase-dev-routes-PLAN.md — Showcase /dev/{reveal,parallax,sticky,textsplit,scene,all} + nav + helpers compartilhados
+- [ ] 02-06-readme-freeze-PLAN.md — README.md final (D-17), audit @frozen em 5 primitivas, checkpoint real-device com Lenny
 
 ### Phase 3: Hero (benchmarked isolado)
 **Goal**: Hero deployado sozinho na Vercel passando LCP < 2.5s em Lighthouse mobile, com copy aprovada por Lenny e WhatsApp deep link funcionando em iOS e Android reais — antes de adicionar qualquer seção abaixo.
@@ -120,7 +127,7 @@
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundations & Design System | 4/4 | Complete | 2026-05-16 |
-| 2. Motion Primitives | 0/0 | Not started | - |
+| 2. Motion Primitives | 0/6 | Planned | - |
 | 3. Hero (benchmarked isolado) | 0/0 | Not started | - |
 | 4. Narrative Sections | 0/0 | Not started | - |
 | 5. Conversion | 0/0 | Not started | - |
