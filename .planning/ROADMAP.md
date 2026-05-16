@@ -8,7 +8,7 @@
 
 ## Phases
 
-- [ ] **Phase 1: Foundations & Design System** — Scaffold Next.js, brand book mecanicamente travado no Tailwind, helpers críticos (`buildWhatsAppUrl`, `track()`, `useDeviceTier`), providers, metadata, atoms UI.
+- [x] **Phase 1: Foundations & Design System** — Scaffold Next.js, brand book mecanicamente travado no Tailwind, helpers críticos (`buildWhatsAppUrl`, `track()`, `useDeviceTier`), providers, metadata, atoms UI. (completed 2026-05-16)
 - [ ] **Phase 2: Motion Primitives** — Biblioteca isolada de primitivas de animação (`<ScrollScene>`, `<RevealOnView>`, `<ParallaxLayer>`, `<StickyStage>`, `<TextSplit>`) com API congelada e validada em `/dev` em iOS Safari + Android Chrome real.
 - [ ] **Phase 3: Hero (benchmarked isolado)** — Hero deployado sozinho na Vercel com LCP < 2.5s mobile verificado, copy aprovada por Lenny, helper WhatsApp validado em devices reais.
 - [ ] **Phase 4: Narrative Sections (Pain → Bridge → Product → HowItWorks → Proof)** — Cinco seções narrativas com copy aprovado seção a seção, primeira `<ScrollScene>` em produção (Bridge) como template do resto.
@@ -119,7 +119,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundations & Design System | 0/0 | Not started | - |
+| 1. Foundations & Design System | 4/4 | Complete | 2026-05-16 |
 | 2. Motion Primitives | 0/0 | Not started | - |
 | 3. Hero (benchmarked isolado) | 0/0 | Not started | - |
 | 4. Narrative Sections | 0/0 | Not started | - |
