@@ -48,9 +48,21 @@ export function WhatsAppCta({
     // D-10: track ANTES do open garante envio antes de unload
     track("whatsapp_click", { location });
     await new Promise((r) => setTimeout(r, 250));
-    const url = buildWhatsAppUrl(WHATSAPP_MESSAGES[location], location);
-    window.open(url, "_blank", "noopener,noreferrer");
-    setLoading(false);
+    try {
+      // WR-04: buildWhatsAppUrl pode lançar em produção se NEXT_PUBLIC_WA_NUMBER
+      // estiver ausente. Sem try/catch, o erro não capturado em async handler
+      // propaga para o Error Boundary mais próximo (inexistente) e desmonta o app.
+      const url = buildWhatsAppUrl(WHATSAPP_MESSAGES[location], location);
+      window.open(url, "_blank", "noopener,noreferrer");
+    } catch (err) {
+      track("whatsapp_cta_error", { location, reason: String(err) });
+      if (process.env.NODE_ENV !== "production") {
+        console.error("[WhatsAppCta]", err);
+      }
+      // Em produção: falha silenciosa — botão reabilita no finally.
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Variant → Button variant + className extras
