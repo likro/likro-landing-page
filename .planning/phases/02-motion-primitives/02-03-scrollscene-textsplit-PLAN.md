@@ -2,8 +2,8 @@
 phase: 02-motion-primitives
 plan: 03
 type: execute
-wave: 2
-depends_on: [01]
+wave: 3
+depends_on: [01, 02]
 files_modified:
   - src/components/motion/scroll-scene.tsx
   - src/components/motion/text-split.tsx
@@ -431,16 +431,12 @@ export function useLineGrouping(
             const staggerMs = splitByLine ? LINE_STAGGER_MS : WORD_STAGGER_MS;
             const delaySeconds = (delayMs + staggerIndex * staggerMs) / 1000;
 
-            // Antes da medição em line mode, lineMap é vazio → todas palavras
-            // ficam invisíveis. Render in-place após o measurement do useEffect.
-            const initialOpacity = splitByLine && lineMap.length === 0 ? 0 : 0;
-
             return (
               <motion.span
                 key={`${word}-${i}`}
                 data-word
                 aria-hidden="true"
-                initial={{ opacity: initialOpacity, y: 12 }}
+                initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount }}
                 transition={{

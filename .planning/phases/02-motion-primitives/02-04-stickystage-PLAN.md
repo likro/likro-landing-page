@@ -2,8 +2,8 @@
 phase: 02-motion-primitives
 plan: 04
 type: execute
-wave: 2
-depends_on: [01]
+wave: 4
+depends_on: [01, 02, 03]
 files_modified:
   - src/components/motion/sticky-stage.tsx
   - src/components/motion/index.ts

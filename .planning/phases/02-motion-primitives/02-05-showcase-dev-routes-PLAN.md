@@ -2,7 +2,7 @@
 phase: 02-motion-primitives
 plan: 05
 type: execute
-wave: 3
+wave: 5
 depends_on: [02, 03, 04]
 files_modified:
   - src/app/dev/_components/dev-gate.tsx
@@ -557,7 +557,7 @@ export function PlaceholderBlock(props: PlaceholderBlockProps): JSX.Element;
 
     export default function DevStickyPage() {
       return (
-        <main className="min-h-dvh bg-surface-light">
+        <main className="min-h-svh bg-surface-light">
           <Container className="py-12">
             <Headline as="h1" size="hero">/dev/sticky</Headline>
             <p className="mt-2 text-text-muted max-w-2xl">
@@ -686,7 +686,7 @@ export function PlaceholderBlock(props: PlaceholderBlockProps): JSX.Element;
 
     export default function DevAllPage() {
       return (
-        <main className="min-h-dvh bg-surface-light">
+        <main className="min-h-svh bg-surface-light">
           <Container className="py-12">
             <Headline as="h1" size="hero">/dev/all</Headline>
             <p className="mt-2 text-text-muted max-w-2xl">

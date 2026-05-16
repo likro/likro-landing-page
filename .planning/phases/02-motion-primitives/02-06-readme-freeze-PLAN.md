@@ -2,7 +2,7 @@
 phase: 02-motion-primitives
 plan: 06
 type: execute
-wave: 4
+wave: 6
 depends_on: [05]
 files_modified:
   - src/components/motion/README.md
