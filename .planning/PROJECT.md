@@ -154,4 +154,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-16 after Phase 1 (Foundations & Design System) completion*
+*Last updated: 2026-05-16 after Phase 2 (Motion Primitives) completion — 5 primitivas (RevealOnView, ParallaxLayer, ScrollScene, TextSplit, StickyStage) com API @frozen no barrel `src/components/motion`. Risco Crítico #3 (smooth-scroll + sticky iOS) mitigado e validado em iPhone 15 real. 4 itens de cobertura real-device deferidos (Android, macOS Safari, Firefox/Edge, prefers-reduced-motion real) — rastreados em 02-HUMAN-UAT.md com triggers explícitos.*
