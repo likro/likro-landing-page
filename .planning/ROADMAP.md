@@ -62,7 +62,7 @@ Plans:
 **Plans:** 3 plans (3 waves)
 Plans:
 - [x] 03-01-PLAN.md — env vars + WhatsAppLocation extension + Wave 0 grep tests + mockup asset
-- [ ] 03-02-PLAN.md — Hero + Header components + content/hero.ts (3 variantes) + page.tsx wiring
+- [x] 03-02-PLAN.md — Hero + Header components + content/hero.ts (3 variantes) + page.tsx wiring
 - [ ] 03-03-PLAN.md — copy-review docs + PR template + Vercel benchmark + real-device + 5-second test
 **UI hint**: yes
 
