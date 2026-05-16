@@ -3,17 +3,15 @@
 /**
  * /dev/sticky — showcase isolado de <StickyStage> composto com <ScrollScene>.
  *
- * Iteração v2 (pós-validação real-device + feedback "mais clean e atraente"):
- * - Atmosfera reduzida a UMA camada (dropou a 2a blob que competia com conteúdo).
- * - Scale "respirando" removido (parecia mecânico).
- * - Progress bar genérica trocada por accent vertical ligado à facet ativa
- *   (acent vive com o conteúdo, não em chrome separado).
- * - Indicador "01 / 04" em monospace pra sensação de operação/dashboard.
- * - Typography mais confiante: numbers maiores, label com tracking expandido.
+ * Iteração v3 (pós-feedback "achei feia, 02 não aparece"):
+ * - Composição editorial: label vira o protagonista (palavra grande centralizada
+ *   entre duas linhas accent finas). Index "0X / 04" pequeno em mono no topo.
+ * - Curvas com peaks distintos e menos overlap apertado (cada facet tem janela
+ *   clara de ~16% só dela). Resolve "02 some na crossfade".
+ * - Drop: counter no topo do stage (redundante com index dentro de cada facet),
+ *   linha vertical lateral, coluna 16ch fixa que estava cortando "ATENDIMENTO".
  *
- * Brand: roxo Likro só como accent fino (linha vertical ao lado da facet).
- * Atmosfera por gradientes neutros — gradients de viewport em roxo proibidos.
- *
+ * Brand: roxo Likro só nas duas linhas accent finas. Atmosfera neutra única.
  * Gate D-15 via layout.tsx. Imports diretos de motion/react: exceção /dev-only.
  */
 
@@ -30,10 +28,10 @@ import { Headline } from "@/components/ui/headline";
 const SCROLL_OFFSET = ["start start", "end end"] as [string, string];
 
 const FACETS = [
-  { n: "01", label: "Captura" },
-  { n: "02", label: "Atendimento" },
-  { n: "03", label: "Conversão" },
-  { n: "04", label: "Operação" },
+  { idx: "01", label: "Captura" },
+  { idx: "02", label: "Atendimento" },
+  { idx: "03", label: "Conversão" },
+  { idx: "04", label: "Operação" },
 ] as const;
 
 export default function DevStickyPage() {
@@ -94,6 +92,7 @@ export default function DevStickyPage() {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Stage A — headline única, transformação contínua, fundo limpo
+// (mantido — feedback "resto top")
 // ─────────────────────────────────────────────────────────────────────────────
 
 function StageA({ progress }: { progress: MotionValue<number> }) {
@@ -101,11 +100,8 @@ function StageA({ progress }: { progress: MotionValue<number> }) {
 
   const headlineOpacity = useTransform(progress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
   const headlineY = useTransform(progress, [0, 0.5, 1], [60, 0, -40]);
-
   const subOpacity = useTransform(progress, [0.10, 0.28, 0.78, 1], [0, 1, 1, 0]);
   const subY = useTransform(progress, [0, 0.5, 1], [70, 6, -25]);
-
-  // Pequeno traço accent que cresce VERTICALMENTE ao lado da headline
   const accentScaleY = useTransform(progress, [0.15, 0.55], [0, 1]);
 
   if (reduced) {
@@ -151,46 +147,40 @@ function StageA({ progress }: { progress: MotionValue<number> }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Stage B — 4 facets com fade SOBREPOSTO. Atmosfera única, accent vertical
-// ligado à facet ativa, indicador "01 / 04" em mono.
+// Stage B — facets editorial: label centralizado entre 2 linhas accent finas.
+// Peaks distintos e claros pra cada facet ter "tempo de tela" sozinha.
 // ─────────────────────────────────────────────────────────────────────────────
 
 function StageB({ progress }: { progress: MotionValue<number> }) {
   const reduced = useReducedMotion();
 
-  // Janelas sobrepostas — adjacentes cruzam sem switch discreto
-  const op1 = useTransform(progress, [0, 0.05, 0.22, 0.34], [0.6, 1, 1, 0]);
-  const op2 = useTransform(progress, [0.20, 0.34, 0.47, 0.58], [0, 1, 1, 0]);
-  const op3 = useTransform(progress, [0.45, 0.58, 0.70, 0.82], [0, 1, 1, 0]);
-  const op4 = useTransform(progress, [0.68, 0.82, 0.97, 1], [0, 1, 1, 1]);
+  // Peaks distintos (16% cada) com crossfade curto (~6%) entre adjacentes.
+  // Cada facet tem janela clara onde só ela está visível.
+  const op1 = useTransform(progress, [0,    0.03, 0.21, 0.27], [0.5, 1, 1, 0]);
+  const op2 = useTransform(progress, [0.25, 0.31, 0.46, 0.52], [0, 1, 1, 0]);
+  const op3 = useTransform(progress, [0.50, 0.56, 0.71, 0.77], [0, 1, 1, 0]);
+  const op4 = useTransform(progress, [0.75, 0.81, 0.97, 1   ], [0, 1, 1, 1]);
 
-  const y1 = useTransform(progress, [0, 0.05, 0.22, 0.34], [20, 0, 0, -20]);
-  const y2 = useTransform(progress, [0.20, 0.34, 0.47, 0.58], [20, 0, 0, -20]);
-  const y3 = useTransform(progress, [0.45, 0.58, 0.70, 0.82], [20, 0, 0, -20]);
-  const y4 = useTransform(progress, [0.68, 0.82, 1, 1], [20, 0, 0, 0]);
+  const y1 = useTransform(progress, [0,    0.03, 0.21, 0.27], [16, 0, 0, -16]);
+  const y2 = useTransform(progress, [0.25, 0.31, 0.46, 0.52], [16, 0, 0, -16]);
+  const y3 = useTransform(progress, [0.50, 0.56, 0.71, 0.77], [16, 0, 0, -16]);
+  const y4 = useTransform(progress, [0.75, 0.81, 1   , 1   ], [16, 0, 0,  0]);
 
-  // Atmosfera ÚNICA — uma camada só, drift lento
+  // Atmosfera única (drift lento)
   const ambX = useTransform(progress, [0, 1], ["-15%", "20%"]);
   const ambY = useTransform(progress, [0, 1], ["10%", "-10%"]);
   const ambScale = useTransform(progress, [0, 1], [1, 1.25]);
-
-  // Accent vertical único (vive ao lado da facet ativa, anima junto)
-  const accentScaleY = useTransform(progress, [0.05, 0.18], [0, 1]);
-  const accentOpacity = useTransform(progress, [0.05, 0.18, 0.97, 1], [0, 1, 1, 0]);
-
-  // Counter mono "01 / 04" — interpola entre os números conforme progress
-  const counterOpacity = useTransform(progress, [0.05, 0.18, 0.97, 1], [0, 1, 1, 0]);
 
   if (reduced) {
     return (
       <div className="h-full w-full bg-neutral-100 grid place-items-center">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-10 max-w-3xl px-6">
           {FACETS.map((f) => (
-            <div key={f.n} className="text-center space-y-2">
-              <div className="text-5xl font-medium tracking-tight tabular-nums">
-                {f.n}
+            <div key={f.idx} className="text-center space-y-2">
+              <div className="text-xs uppercase tracking-[0.28em] text-text-muted tabular-nums">
+                {f.idx} / 04
               </div>
-              <div className="text-xs uppercase tracking-[0.22em] text-text-muted">
+              <div className="text-3xl sm:text-4xl font-medium tracking-tight text-text-primary">
                 {f.label}
               </div>
             </div>
@@ -209,7 +199,6 @@ function StageB({ progress }: { progress: MotionValue<number> }) {
 
   return (
     <div className="relative h-full w-full bg-neutral-100 overflow-hidden">
-      {/* Atmosfera única — clareia o centro com drift lento */}
       <motion.div
         aria-hidden
         style={{ x: ambX, y: ambY, scale: ambScale }}
@@ -218,72 +207,34 @@ function StageB({ progress }: { progress: MotionValue<number> }) {
         <div className="w-[110svh] h-[110svh] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.75)_0%,transparent_55%)] blur-3xl" />
       </motion.div>
 
-      {/* Counter "0X / 04" no topo (mono, tabular) */}
-      <motion.div
-        aria-hidden
-        style={{ opacity: counterOpacity }}
-        className="absolute top-12 left-1/2 -translate-x-1/2 flex items-baseline gap-3 text-text-muted z-20"
-      >
-        <CurrentFacetIndex progress={progress} />
-        <span className="text-xs uppercase tracking-[0.22em]">/ 04</span>
-      </motion.div>
-
-      {/* Stack central — accent vertical à esquerda, facets centralizadas */}
       <div className="absolute inset-0 grid place-items-center">
-        <div className="relative flex items-center gap-8 sm:gap-12 px-6">
-          <motion.div
-            aria-hidden
-            style={{ scaleY: accentScaleY, opacity: accentOpacity }}
-            className="origin-center h-28 sm:h-36 w-px bg-accent-primary shrink-0"
-          />
-          <div className="relative w-[16ch] h-[14rem] sm:h-[16rem]">
-            {animated.map((f) => (
-              <motion.div
-                key={f.n}
-                style={{ opacity: f.op, y: f.y }}
-                className="absolute inset-0 flex flex-col justify-center text-left"
-              >
-                <div className="text-8xl sm:text-9xl font-medium tracking-tight tabular-nums text-text-primary leading-[0.9]">
-                  {f.n}
-                </div>
-                <div className="mt-5 text-xs sm:text-sm uppercase tracking-[0.28em] text-text-secondary">
+        <div className="relative w-full h-[12rem] sm:h-[14rem]">
+          {animated.map((f) => (
+            <motion.div
+              key={f.idx}
+              style={{ opacity: f.op, y: f.y }}
+              className="absolute inset-0 flex flex-col items-center justify-center px-6"
+            >
+              <div className="text-xs uppercase tracking-[0.30em] text-text-muted tabular-nums">
+                {f.idx} <span className="opacity-50">/ 04</span>
+              </div>
+              <div className="mt-6 flex items-center gap-4 sm:gap-6">
+                <span
+                  aria-hidden
+                  className="h-px w-8 sm:w-14 md:w-20 bg-accent-primary"
+                />
+                <span className="text-4xl sm:text-6xl md:text-7xl font-medium tracking-tight text-text-primary whitespace-nowrap leading-none">
                   {f.label}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                </span>
+                <span
+                  aria-hidden
+                  className="h-px w-8 sm:w-14 md:w-20 bg-accent-primary"
+                />
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>
-  );
-}
-
-// Counter "01" → "02" → "03" → "04" sincronizado com a facet visível.
-// Usa o mesmo progress; em vez de animar valor, swap visual com fade.
-function CurrentFacetIndex({ progress }: { progress: MotionValue<number> }) {
-  const op1 = useTransform(progress, [0, 0.05, 0.22, 0.32], [0.6, 1, 1, 0]);
-  const op2 = useTransform(progress, [0.20, 0.34, 0.47, 0.56], [0, 1, 1, 0]);
-  const op3 = useTransform(progress, [0.45, 0.58, 0.70, 0.80], [0, 1, 1, 0]);
-  const op4 = useTransform(progress, [0.68, 0.82, 1, 1], [0, 1, 1, 1]);
-
-  return (
-    <span className="relative inline-block w-[2ch] text-xs uppercase tracking-[0.22em] tabular-nums">
-      {[
-        { n: "01", op: op1 },
-        { n: "02", op: op2 },
-        { n: "03", op: op3 },
-        { n: "04", op: op4 },
-      ].map((f) => (
-        <motion.span
-          key={f.n}
-          style={{ opacity: f.op }}
-          className="absolute inset-0"
-        >
-          {f.n}
-        </motion.span>
-      ))}
-      {/* Reserva espaço sem ocupar visualmente */}
-      <span aria-hidden className="opacity-0">01</span>
-    </span>
   );
 }
