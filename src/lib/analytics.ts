@@ -9,6 +9,7 @@
 
 export type AnalyticsEvent =
   | "whatsapp_click"
+  | "whatsapp_cta_error"
   | "cta_click"
   | "form_focus"
   | "form_submit_attempt"

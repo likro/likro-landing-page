@@ -14,16 +14,36 @@ import { Label } from "@/components/ui/label";
 import { WhatsAppCta } from "@/components/ui/whatsapp-cta";
 
 /**
- * FOUND-12: rota interna de showcase. Em produção, retorna 404.
+ * FOUND-12 + D-15: rota interna de showcase.
  *
- * `process.env.NODE_ENV` é estaticamente substituído por Webpack/SWC em
- * build (orchestrator directive #7), permitindo dead-code-elim do
+ * Gate (D-15):
+ * - VERCEL_ENV === "production" → 404 (produção real, ex: likro.com.br).
+ * - VERCEL_ENV === "preview" → acessível (Vercel preview .vercel.app)
+ *   — habilita real-device validation de primitivas via PR.
+ * - Local dev (sem VERCEL_ENV): NODE_ENV controla.
+ *
+ * Previews ficam noindex via FOUND-11 (robots.txt + X-Robots-Tag),
+ * então /dev em preview não corre risco de indexação.
+ *
+ * `process.env.VERCEL_ENV` e `process.env.NODE_ENV` são estaticamente
+ * substituídos por Next/SWC em build, permitindo dead-code-elim do
  * conteúdo em prod — o JSX abaixo do if é removido do bundle.
  *
  * Esta é Server Component — sem "use client".
  */
 export default function DevPage() {
-  if (process.env.NODE_ENV === "production") {
+  // D-15: bloqueia apenas produção real (VERCEL_ENV === "production" → likro.com.br
+  // ou domínio final). Previews .vercel.app têm VERCEL_ENV === "preview" → liberados
+  // para validação real-device de primitivas via PR. Em local sem VERCEL_ENV definido,
+  // NODE_ENV !== "production" também libera. Combinação cobre:
+  //   - localhost dev:        VERCEL_ENV=undefined, NODE_ENV=development → libera
+  //   - localhost prod build: VERCEL_ENV=undefined, NODE_ENV=production  → bloqueia
+  //   - Vercel preview:       VERCEL_ENV=preview                          → libera
+  //   - Vercel production:    VERCEL_ENV=production                       → bloqueia
+  if (
+    process.env.VERCEL_ENV === "production" ||
+    (process.env.VERCEL_ENV === undefined && process.env.NODE_ENV === "production")
+  ) {
     notFound();
   }
 
