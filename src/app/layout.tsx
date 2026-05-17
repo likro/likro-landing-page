@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { AnalyticsProvider } from "@/components/providers/analytics-provider";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
-import { MotionConfigProvider } from "@/components/providers/motion-config-provider";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -51,12 +50,15 @@ export const viewport: Viewport = {
 };
 
 /**
- * FOUND-07: Provider tree em ORDEM EXATA — não trocar.
- *   AnalyticsProvider (fora — não re-renderiza no scroll)
- *     > SmoothScrollProvider (Lenis singleton, RAF único)
- *       > MotionConfigProvider (reducedMotion="user" global)
- *         > children
- *         > Toaster (overlay sonner, mesmo nível dos children)
+ * Provider tree (otimizada pra TBT — Phase 3 redesign):
+ *   AnalyticsProvider (gated por env vars, scripts afterInteractive)
+ *     > SmoothScrollProvider (Lenis LAZY via dynamic import pós-idle)
+ *       > children
+ *       > Toaster
+ *
+ * MotionConfigProvider foi removido daqui — motion/react bundle não vai pro
+ * root chunk. Quando Phase 4 introduzir motion.* em seções, re-adiciona
+ * localmente onde for usado (ou via wrapper de seção).
  *
  * Root layout permanece Server Component (sem "use client") — providers
  * têm "use client" próprio, RSC boundary é resolvida automaticamente.
@@ -67,10 +69,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <AnalyticsProvider>
           <SmoothScrollProvider>
-            <MotionConfigProvider>
-              {children}
-              <Toaster richColors position="bottom-right" />
-            </MotionConfigProvider>
+            {children}
+            <Toaster richColors position="bottom-right" />
           </SmoothScrollProvider>
         </AnalyticsProvider>
       </body>

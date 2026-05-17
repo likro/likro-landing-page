@@ -3,40 +3,39 @@ import fs from "node:fs";
 import path from "node:path";
 
 /**
- * Structure assertions sobre src/app/layout.tsx (FOUND-07).
- * Lê o source file e verifica invariantes de:
- *  - imports dos 3 providers + Toaster
- *  - ordem do provider tree (Analytics > SmoothScroll > MotionConfig > children > Toaster)
- *  - html lang=pt-BR + inter.variable
- *  - root NÃO é "use client"
- *  - metadata FOUND-10 completa
- *  - viewport.themeColor=#0a0a0b (NÃO o roxo)
+ * Structure assertions sobre src/app/layout.tsx (otimizado pós-Phase-3 redesign).
+ *
+ * Mudança: MotionConfigProvider foi REMOVIDO do root pra evitar carregar
+ * motion/react no bundle inicial (Phase 3 redesign não usa motion.* em nenhum
+ * componente do `/`; Phase 4 re-adiciona localmente onde precisar).
  */
 describe("app/layout.tsx — provider tree order", () => {
   const layoutPath = path.resolve(__dirname, "../../src/app/layout.tsx");
   const source = fs.readFileSync(layoutPath, "utf-8");
 
-  it("imports all 3 providers + Toaster", () => {
+  it("imports AnalyticsProvider + SmoothScrollProvider + Toaster", () => {
     expect(source).toMatch(/import\s*\{\s*AnalyticsProvider\s*\}/);
     expect(source).toMatch(/import\s*\{\s*SmoothScrollProvider\s*\}/);
-    expect(source).toMatch(/import\s*\{\s*MotionConfigProvider\s*\}/);
     expect(source).toMatch(/import\s*\{\s*Toaster\s*\}/);
   });
 
-  it("nests providers in EXACT order: Analytics > SmoothScroll > MotionConfig > children > Toaster", () => {
+  it("does NOT import MotionConfigProvider (removed pra otimizar TBT)", () => {
+    expect(source).not.toMatch(/import\s*\{[^}]*MotionConfigProvider[^}]*\}/);
+    expect(source).not.toMatch(/<MotionConfigProvider\b/);
+  });
+
+  it("nests providers in EXACT order: Analytics > SmoothScroll > children > Toaster", () => {
     const bodyMatch = source.match(/<body>([\s\S]+?)<\/body>/);
     expect(bodyMatch).not.toBeNull();
     const body = bodyMatch![1]!;
     const idxAnalytics = body.indexOf("<AnalyticsProvider>");
     const idxSmoothScroll = body.indexOf("<SmoothScrollProvider>");
-    const idxMotionConfig = body.indexOf("<MotionConfigProvider>");
     const idxToaster = body.indexOf("<Toaster");
-    const idxClosingMotion = body.indexOf("</MotionConfigProvider>");
+    const idxClosingScroll = body.indexOf("</SmoothScrollProvider>");
     expect(idxAnalytics).toBeGreaterThanOrEqual(0);
     expect(idxSmoothScroll).toBeGreaterThan(idxAnalytics);
-    expect(idxMotionConfig).toBeGreaterThan(idxSmoothScroll);
-    expect(idxToaster).toBeGreaterThan(idxMotionConfig);
-    expect(idxToaster).toBeLessThan(idxClosingMotion);
+    expect(idxToaster).toBeGreaterThan(idxSmoothScroll);
+    expect(idxToaster).toBeLessThan(idxClosingScroll);
   });
 
   it("html has lang='pt-BR' and inter.variable className", () => {
