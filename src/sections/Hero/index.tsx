@@ -1,23 +1,18 @@
 /**
- * Hero — Phase 3 orchestrator.
+ * Hero — Phase 3 orchestrator (redesign B: sistema operacional + card stack).
  *
- * D-01/D-02: split assimétrico cinema editorial.
- * D-15: HeroBackground é a ÚNICA fonte de animação no hero (glow pulse).
- * HERO-02/03: este componente e seus filhos NÃO importam motion/* — invariantes
+ * Layout: centered editorial (estilo Linear / Attio / Vercel) — headline gigante,
+ * sub, CTAs, trust signal, e abaixo composição de 3 cards flutuantes.
+ *
+ * HERO-02/03: este componente e filhos NÃO importam motion/* — invariantes
  * grep-validados em tests/sections/hero-invariants.test.ts.
- * HERO-05: usa min-h-svh (NUNCA viewport-screen height utilities).
- *
- * NOTA: <section> E <Container> ambos têm min-h-svh DELIBERADAMENTE.
- *   - <section> precisa min-h-svh pra sustentar o full-bleed background (gradient + glow)
- *     em toda a altura da viewport, mesmo quando o conteúdo for menor.
- *   - <Container> precisa min-h-svh pra que items-center (Grid) vertical-centre
- *     o conteúdo dentro da viewport (não dentro de caixa colapsada).
- *   Remover qualquer um quebra a composição cinematográfica. Não "consolidar".
+ * HERO-04: zero next/image marcada como prioritária aqui — LCP element é o H1 (texto SSR).
+ * HERO-05: usa min-h-svh (iOS-safe).
  */
 import { Container } from "@/components/ui/container";
 import { HeroBackground } from "./HeroBackground";
+import { HeroCardStack } from "./HeroCardStack";
 import { HeroCopy } from "./HeroCopy";
-import { HeroMockup } from "./HeroMockup";
 
 export function Hero() {
   return (
@@ -26,11 +21,9 @@ export function Hero() {
       aria-labelledby="hero-headline"
     >
       <HeroBackground />
-      {/* min-h-svh no Container é INTENCIONAL: section sustenta bg full-bleed;
-          Container vertical-centra conteúdo via items-center. Ver doc block acima. */}
-      <Container className="relative z-10 grid min-h-svh items-center gap-12 py-16 lg:grid-cols-[1fr_1.3fr] lg:gap-16 lg:py-24">
+      <Container className="relative z-10 flex min-h-svh flex-col justify-start pb-20 pt-16 sm:pt-20 lg:pb-24 lg:pt-24">
         <HeroCopy />
-        <HeroMockup />
+        <HeroCardStack />
       </Container>
     </section>
   );

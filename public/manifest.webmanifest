@@ -1,0 +1,10 @@
+{
+  "name": "Likro",
+  "short_name": "Likro",
+  "description": "O sistema operacional da sua clínica.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050506",
+  "theme_color": "#7c3aed",
+  "icons": []
+}

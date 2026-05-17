@@ -44,3 +44,8 @@ next-env.d.ts
 
 # vitest
 /coverage/
+
+# playwright mcp scratch + ad-hoc screenshots no root
+.playwright-mcp/
+/hero-*.png
+/screenshot-*.png

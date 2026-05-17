@@ -25,25 +25,28 @@
   --color-accent-hover: #6d28d9;
   --color-accent-glow: oklch(0.62 0.21 295 / 0.18);
 
-  /* ── Surface (alternation escuro→claro→escuro por section) ── */
-  --color-surface-dark: #0a0a0b;
-  --color-surface-darker: #050506;
+  /* ── Surface ── Premium "blue-black" — fuga deliberada de preto puro (#000)
+     pra warmth azulada cinematográfica (estilo Linear, Attio, Stripe dark). ── */
+  --color-surface-dark: #0E1422;
+  --color-surface-darker: #0A0F1A;
   --color-surface-light: #fafaf9;
   --color-surface-lighter: #ffffff;
+  --color-surface-card: #FBFCFD;
+  --color-surface-card-strong: #ffffff;
 
   /* ── Text (variantes pra contexto dark e light) ── */
   --color-text-primary: #0a0a0b;
   --color-text-secondary: #3f3f46;
   --color-text-muted: #71717a;
-  --color-text-on-dark-primary: #fafafa;
-  --color-text-on-dark-secondary: #d4d4d8;
-  --color-text-on-dark-muted: #a1a1aa;
+  --color-text-on-dark-primary: #F5F7FA;
+  --color-text-on-dark-secondary: #B6BDC9;
+  --color-text-on-dark-muted: #7F8896;
 
   /* ── Border ── */
   --color-border-subtle: oklch(0.92 0 0);
   --color-border-default: oklch(0.86 0 0);
-  --color-border-on-dark-subtle: oklch(0.22 0 0);
-  --color-border-on-dark-default: oklch(0.30 0 0);
+  --color-border-on-dark-subtle: rgba(255, 255, 255, 0.06);
+  --color-border-on-dark-default: rgba(255, 255, 255, 0.10);
 
   /* ── Neutrals (Stone calibrado, NÃO Zinc — evita "frio") ── */
   --color-neutral-50: #fafaf9;
@@ -80,13 +83,16 @@
   --color-accent: var(--color-accent-primary);
 }
 
-/* Body defaults — superfície clara como baseline; sections override */
+/* Body defaults — superfície clara como baseline; sections override.
+   font-feature-settings: ativa ligaduras + alternates Inter premium
+   (cv02 alt 'i', cv11 alt 'g', ss01 alt 'a', ss03 small caps numéricos). */
 body {
   font-family: var(--font-sans);
   background: var(--color-surface-light);
   color: var(--color-text-primary);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  font-feature-settings: "cv02", "cv11", "ss01", "ss03";
 }
 
 /* prefers-reduced-motion — desliga transitions globais (D-04) */
@@ -102,18 +108,88 @@ body {
 }
 
 /* ──────────────────────────────────────────────────────────────────
-   Phase 3 D-15: glow ambiente do hero — única animação on-load.
-   Anima APENAS transform + opacity (MOTION-08 GPU-friendly).
-   Ciclo 10s (D-15: 8-12s aceitável). Reduced motion já trata globalmente acima.
+   Phase 3 redesign B — animações premium CSS-only (sem motion/* JSX).
+
+   MOTION-08: animam APENAS transform + opacity + clip-path (GPU-friendly).
+   Reduced motion já trata globalmente (animation-duration 0.01ms).
+
+   - hero-headline-reveal: máscara da esquerda revela o H1 (cinematográfico,
+     não fade genérico). Duração 800ms, ease-premium-out custom.
+   - hero-card-rise: cards do stack entram com 12px translate-y + fade.
+     Stagger via inline animation-delay (0/80/160ms) em HeroCardStack.
+   - hero-live-pulse: dot verde "ao vivo" no card Lead novo. 2s loop infinito.
    ────────────────────────────────────────────────────────────────── */
-@keyframes hero-glow-pulse {
+
+@keyframes hero-headline-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+}
+
+.hero-headline-reveal {
+  animation: hero-headline-reveal 0.8s var(--ease-premium-out) both;
+}
+
+@keyframes hero-card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-card-rise {
+  animation: hero-card-rise 0.6s var(--ease-premium-out) both;
+}
+
+@keyframes hero-live-pulse {
   0%,
   100% {
-    transform: translateY(-50%) scale(1);
-    opacity: 0.55;
+    transform: scale(1);
+    opacity: 1;
   }
   50% {
-    transform: translateY(-50%) scale(1.05);
-    opacity: 0.85;
+    transform: scale(1.4);
+    opacity: 0.55;
   }
+}
+
+.hero-live-pulse {
+  animation: hero-live-pulse 2s ease-in-out infinite;
+}
+
+/* Floating sutil em cada card — quase imperceptível, sensação de operação viva.
+   Cada card tem delay próprio pra que não pulsem em sincronia (mais natural). */
+@keyframes hero-card-float-a {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes hero-card-float-b {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+@keyframes hero-card-float-c {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+.hero-card-float-a { animation: hero-card-float-a 7s ease-in-out infinite; }
+.hero-card-float-b { animation: hero-card-float-b 9s ease-in-out infinite; animation-delay: 1.5s; }
+.hero-card-float-c { animation: hero-card-float-c 8s ease-in-out infinite; animation-delay: 0.8s; }
+
+/* Ring radial sutil atrás do card central — atmosfera, não glow. */
+@keyframes hero-haze-drift {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.55; }
+  50% { transform: translate(-50%, -50%) scale(1.04); opacity: 0.75; }
+}
+.hero-haze-drift {
+  animation: hero-haze-drift 14s ease-in-out infinite;
 }
