@@ -184,5 +184,16 @@ Phase 7 is intentionally larger — it's a multi-stream hardening pass (audits +
 - CTA-04 (env var) + CTA-07 (real-device test) embedded in Phase 3 (Hero is first consumer)
 - CTA-03, 05, 06, 08, 09, 10, 11, 12 (component, distribution, form, edge route) → Phase 5
 
+## Backlog
+
+### Phase 999.1: visual rhythm / card repetition polish (BACKLOG)
+
+**Goal:** [Captured for future planning] Quebrar simetria, variar escala, alternar ritmo entre seções, áreas editoriais entre grids. Suspeitos: constelação Pain, grid de pilares Product, timeline HowItWorks. Levantado por Lenny após preview Phase 4 (2026-05-18) — adiado pra depois da Phase 5.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd-review-backlog when ready)
+
 ---
 *Roadmap created: 2026-05-15*
