@@ -43,7 +43,7 @@ function HeroCard({ card, className, style, floatClass }: CardProps) {
         aria-hidden="true"
         style={style}
         className={cn(
-          "hero-card-rise relative w-[260px] overflow-hidden rounded-[14px] bg-[#FBFCFD] p-4 sm:w-[300px] sm:p-[18px]",
+          "hero-card-rise relative w-[210px] overflow-hidden rounded-[14px] bg-[#FBFCFD] p-3.5 sm:w-[300px] sm:p-[18px]",
           "border border-neutral-200/70 ring-1 ring-inset ring-white/80",
           "shadow-[0_24px_60px_-20px_rgba(8,12,24,0.65),0_8px_24px_-12px_rgba(8,12,24,0.45)]",
           className,
@@ -113,9 +113,10 @@ export function HeroCardStack() {
       aria-hidden="true"
       className="relative mx-auto mt-14 h-[340px] w-full max-w-4xl sm:mt-16 sm:h-[380px] lg:h-[420px]"
     >
-      {/* Card 1 — Lead novo: top-left, rotation -5°, atrás */}
+      {/* Card 1 — Lead novo: top-left, rotation -5°, atrás
+          Mobile spread reduzido pra caber em iPhone 375-390px sem cortar. */}
       <div
-        className="absolute left-1/2 top-0 z-10 [transform:translateX(calc(-50%-92px))_rotate(-5deg)] sm:[transform:translateX(calc(-50%-130px))_rotate(-5deg)] lg:[transform:translateX(calc(-50%-180px))_rotate(-5deg)]"
+        className="absolute left-1/2 top-0 z-10 [transform:translateX(calc(-50%-40px))_rotate(-5deg)] sm:[transform:translateX(calc(-50%-130px))_rotate(-5deg)] lg:[transform:translateX(calc(-50%-180px))_rotate(-5deg)]"
       >
         <HeroCard
           card={lead}
@@ -135,7 +136,7 @@ export function HeroCardStack() {
 
       {/* Card 3 — Agendamento: bottom-right, rotation +5°, médio */}
       <div
-        className="absolute left-1/2 top-36 z-20 [transform:translateX(calc(-50%+92px))_rotate(5deg)] sm:top-40 sm:[transform:translateX(calc(-50%+130px))_rotate(5deg)] lg:top-44 lg:[transform:translateX(calc(-50%+180px))_rotate(5deg)]"
+        className="absolute left-1/2 top-36 z-20 [transform:translateX(calc(-50%+40px))_rotate(5deg)] sm:top-40 sm:[transform:translateX(calc(-50%+130px))_rotate(5deg)] lg:top-44 lg:[transform:translateX(calc(-50%+180px))_rotate(5deg)]"
       >
         <HeroCard
           card={scheduled}
