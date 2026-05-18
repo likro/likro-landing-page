@@ -25,7 +25,7 @@
  *
  * COPY-02 + D-20.1: zero buzzwords anti-IA, zero cyberpunk vocabulary
  *   (gates em tests/content/product.test.ts).
- * D-16: zero "Relatórios", zero "CRM" como pillar standalone.
+ * D-16: zero pillar de "report" / zero CRM standalone como title (gates em tests/content/product.test.ts).
  * D-17: feature.title contém "multicanal" OU "atendimento".
  * COPY-03: vertical clínica/paciente/atendimento aparece em h2/sub/feature.description ou em secundárias.
  * D-27: zero menção a Dolce Home.
