@@ -76,9 +76,9 @@ Plan: 1 of 3
 - Número oficial do WhatsApp da Likro = `5511922324329` (D-16 do 03-CONTEXT.md) — configurar em `.env.local` + Vercel env vars (Production + Preview + Development) durante a execução da Phase 3
 - Cadência de copy review do Lenny = async via PR seção-a-seção (D-17 do 03-CONTEXT.md) — Claude abre PR com 3 variantes em `src/content/<sec>.ts`, Lenny aprova no GitHub, Phase 3 estabelece o ritmo
 
-**🟡 PENDENTE — Antes da seção Proof entrar em dev na Phase 4:**
+**✅ RESOLVIDO (2026-05-18):**
 
-- Autorização explícita do Lenny pra citar Dolce Home na seção Proof (caso negativo: copy ajusta pra "operação ativa em uso" sem nome)
+- Lenny **NÃO autoriza** citar Dolce Home na seção Proof. Copy da Phase 4 § Proof segue caminho genérico — sem nome específico de cliente. Categorias verticais (estética/derma/harmonização) podem ser mencionadas. Reavaliar em milestone posterior se autorização mudar.
 
 **🟡 PENDENTE — Antes da Phase 5:**
 
