@@ -38,7 +38,7 @@ export function PainCard({ card, className }: PainCardProps) {
     <article
       aria-hidden="true"
       className={cn(
-        "relative w-[180px] overflow-hidden rounded-[14px] bg-[#FBFCFD] p-3.5 sm:w-[240px] sm:p-4",
+        "relative w-[155px] overflow-hidden rounded-[14px] bg-[#FBFCFD] p-3.5 sm:w-[240px] sm:p-4",
         "border border-neutral-200/70 ring-1 ring-inset ring-white/80",
         "shadow-[0_24px_60px_-20px_rgba(8,12,24,0.65),0_8px_24px_-12px_rgba(8,12,24,0.45)]",
         className,
