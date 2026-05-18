@@ -73,3 +73,26 @@ Git serve como histórico canônico — cada merge de PR de copy é a decisão r
 ```bash
 git log --oneline -- src/content/
 ```
+
+## Phase 4 — Cadência sequencial (Pain → Bridge → Product → HowItWorks → Proof)
+
+A cadência D-17 aplica-se **por seção e em ordem**. Razão (RESEARCH §585-599):
+- D-17 explicitamente diz "copy review é gate, não polish de fim".
+- Cada seção aprende da anterior (Pain estabelece tom de fragmentação; Bridge calibra contra Pain; Product calibra contra Bridge; etc).
+
+**Sequência travada:**
+
+1. Plan 04-01 (Pain) → PR com 3 variantes `src/content/pain.ts` → Lenny aprova → merge.
+2. Plan 04-02 (Bridge) → idem após Pain merged.
+3. Plan 04-03 (Product) → idem após Bridge merged.
+4. Plan 04-04 (HowItWorks) → idem após Product merged.
+5. Plan 04-05 (Proof) → idem após HowItWorks merged.
+
+**Convenção por seção (idêntica à Phase 3):**
+- `src/content/<sec>.ts` exporta `<SEC>_COPY_VARIANTS = { v1, v2, v3 } satisfies Record<string, <Sec>Copy>` e `<SEC>_COPY = <SEC>_COPY_VARIANTS.v1` (provisional ativo).
+- 3 variantes contrastantes (não micro-ajustes); cabeçalho do arquivo documenta direção de cada variante.
+- Aprovação Lenny via comment `LGTM v1`/`LGTM v2`/`LGTM v3` ou edit inline; após merge, variante aprovada vira `<SEC>_COPY` definitivo, demais ficam archived no git history.
+
+**Anti-IA gate por seção:** test `tests/content/<sec>.test.ts` reproduz regex banned phrases + checa especificidade vertical (`clínica` presente quando aplicável).
+
+**Glossário canônico:** termos verticais aprovados (paciente, follow-up, harmonização facial, caixa de entrada multicanal, etc.) estão em `src/content/glossary.ts` (COPY-05). Consultar antes de escrever cada variante.
