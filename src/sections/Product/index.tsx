@@ -1,27 +1,34 @@
 /**
- * Product — Phase 4 section scaffold (Plan 04-00). Will be expanded by Plan 04-03.
+ * Product — Phase 4 § Product section (NARR-03 reinterpretado per D-16).
  *
- * D-16: 1 hero feature full-width + 3 secundárias em row.
- * D-20: mais limpa visualmente da landing. Surface off-white.
- * D-20.1: Agentes IA implícitos no mockup do hero feature (NARR-08).
+ * D-16: 1 hero feature "Atendimento multicanal" full-width + 3 secundárias em row.
+ * D-20: surface light off-white, seção mais limpa visualmente da landing.
+ * D-20.1: Agentes IA implícitos no mockup hero (NARR-08), micro-line muted —
+ *   tom Linear/Stripe, não Anthropic/OpenAI marketing.
+ * NARR-06: zero motion lib import; tudo CSS keyframes Phase 3 (hero-card-rise / hero-card-float-*).
+ * NARR-07: hero feature stack vertical mobile; secundárias grid-cols-1 stacked.
+ * D-29: zero CTA WhatsApp na Product.
+ * COPY-01: todo string vem de PRODUCT_COPY.
+ *
+ * Plan 04-03 Task 2: ProductHeader + ProductSecondaryGrid wireados aqui.
+ * Plan 04-03 Task 3: ProductHeroFeature substitui o slot mt-20 entre header e grid.
  */
 import { Container } from "@/components/ui/container";
+import { ProductHeader } from "./ProductHeader";
+import { ProductHeroFeature } from "./ProductHeroFeature";
+import { ProductSecondaryGrid } from "./ProductSecondaryGrid";
 
 export function Product() {
   return (
     <section
       id="produto"
       aria-labelledby="product-headline"
-      className="relative bg-surface-light py-24 lg:py-32"
+      className="relative bg-surface-light py-24 sm:py-28 lg:py-36"
     >
       <Container>
-        <h2
-          id="product-headline"
-          className="text-balance text-3xl font-semibold tracking-tight text-text-primary sm:text-4xl lg:text-5xl"
-        >
-          {/* Plan 04-03 substitui pelo copy real de PRODUCT_COPY.h2 */}
-          Product scaffold
-        </h2>
+        <ProductHeader />
+        <ProductHeroFeature />
+        <ProductSecondaryGrid />
       </Container>
     </section>
   );

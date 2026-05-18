@@ -194,7 +194,7 @@ describe.skipIf(!productCopyExists)("PRODUCT_COPY — Phase 4 / Plan 04-03 contr
     for (const [key, v] of Object.entries(PRODUCT_COPY_VARIANTS)) {
       const title = v.secondaries[0].title;
       expect(
-        /distribui|rotear|atribu|atendente certo/i.test(title),
+        /distribui|rote|atribu|atendente certo/i.test(title),
         `${key}.secondaries[0].title deve mencionar distribuição/roteamento/atribuição. Got: "${title}"`,
       ).toBe(true);
     }
@@ -205,7 +205,7 @@ describe.skipIf(!productCopyExists)("PRODUCT_COPY — Phase 4 / Plan 04-03 contr
     for (const [key, v] of Object.entries(PRODUCT_COPY_VARIANTS)) {
       const title = v.secondaries[1].title;
       expect(
-        /follow|retornar|voltar|relembr|esquec|esque/i.test(title),
+        /follow|retorn|volt|relembr|esquec/i.test(title),
         `${key}.secondaries[1].title deve mencionar follow-up/retorno/voltar/esquecer. Got: "${title}"`,
       ).toBe(true);
     }
