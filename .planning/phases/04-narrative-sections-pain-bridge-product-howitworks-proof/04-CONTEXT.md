@@ -27,6 +27,7 @@ Entregar 5 seções narrativas abaixo do Hero, na ordem **Pain → Bridge → Pr
 
 ### Princípio guia (transversal a toda Phase 4)
 
+- **D-00:** **Tom luxury tech editorial.** Phase 4 inteira tem que parecer **"produto high-end que cobra caro"** — direção de arte de time senior, design-first, altamente polida, premium em cada detalhe. Referências de qualidade: Linear, Stripe, Vercel, Arc, Notion, Apple. "Menos features, mais percepção de valor". "Construída por um time senior, não projeto improvisado crescendo sem estrutura."
 - **D-01:** Tom geral é **"infraestrutura operacional premium"**, não "ferramenta SaaS". Linguagem reforça posicionamento de "sistema operacional da clínica" estabelecido no Hero (Phase 3).
 - **D-02:** Cada seção mantém **identidade visual coesa** (mesma direção de arte) — mudança de atmosfera entre seções é permitida, mudança de identidade não. Tudo precisa parecer "a mesma empresa, o mesmo produto".
 - **D-03:** Convenção `*_COPY_VARIANTS = { v1, v2, v3 }` com `export const X_COPY = X_COPY_VARIANTS.vN` (estabelecida D-17 Phase 3) é **reutilizada em cada seção**. PRs de copy review seção-por-seção via `docs/copy-review.md`.
@@ -58,11 +59,11 @@ Entregar 5 seções narrativas abaixo do Hero, na ordem **Pain → Bridge → Pr
 
 - **D-13:** Formato: **statement editorial silencioso** — 1-2 linhas centradas, frase forte, sem promessa milagrosa. Estilo Linear/Stripe editorial.
 - **D-14:** Conteúdo evita: "transforme sua clínica", "potencialize seu atendimento", "leve sua operação ao próximo nível" (COPY-02 anti-IA). Conteúdo afirmativo, contido, premium.
-- **D-15:** Bridge é a primeira seção LIGHT da landing — transição abrupta proposital pra criar sensação de "alívio" após Pain dark. Composição minimalista: muito espaço em branco, tipografia centrada, sem cards/mockups.
+- **D-15:** Bridge é a primeira seção LIGHT da landing — transição abrupta proposital pra criar sensação de "alívio" após Pain dark. Composição minimalista: muito espaço em branco, tipografia centrada, sem cards/mockups. **NARR-02 ROADMAP original (mockup dashboard surgindo com blur via ScrollScene) está REINTERPRETADO**: a própria transição cromática dark→light entre Pain e Bridge É o efeito cinematográfico — não precisa de mockup expandindo. Visual "luxury tech editorial" puro, contraste/composição/tipografia/atmosfera, não excesso de elementos.
 
 ### Product — hero feature + 3 secundárias
 
-- **D-16:** Layout: **1 feature hero full-width + 3 features secundárias compactas em row** (estilo Stripe). NÃO grid 2x2 de features (mata percepção premium). NÃO scroll sticky Apple-style (overkill, gimmicky).
+- **D-16:** Layout: **1 feature hero full-width + 3 features secundárias compactas em row** (estilo Stripe). NÃO grid 2x2 de features (mata percepção premium). NÃO scroll sticky Apple-style (overkill, gimmicky). **NARR-03 ROADMAP original (4 pilares Atendimentos/CRM/Agentes IA/Relatórios) está REINTERPRETADO em favor desta estrutura** — Relatórios sai do escopo v1 (v1.1 ou phase separada), CRM fica implícito nas secundárias (cobertura via Distribuição + Follow-up).
 - **D-17:** Feature hero: **"Atendimento multicanal"** — a feature que vende a categoria. Mockup operacional vivo full-width, mostra a operação fluindo (não UI inteira; "momento de valor" estilo HeroCardStack ampliado).
 - **D-18:** Features secundárias (3, em row):
   - **Distribuição automática** — roteamento de leads entre atendentes
@@ -70,6 +71,8 @@ Entregar 5 seções narrativas abaixo do Hero, na ordem **Pain → Bridge → Pr
   - **Agenda operacional** — agendamento integrado, não isolado
 - **D-19:** Apresentação das features como **"capacidades operacionais"**, não "lista de funcionalidades". Sem checklist (✓ CRM ✓ Automação ✓ WhatsApp...) — isso mata percepção premium imediato.
 - **D-20:** Section Product é a **mais limpa visualmente da landing inteira**: surface off-white, muito espaço, tipografia editorial, mockup refinado, poucas cores. Define "isso parece software sério".
+
+- **D-20.1:** **Agentes de IA (NARR-08) representados como camada implícita do sistema dentro do Product hero mockup**, NÃO como seção dedicada. Mostrar 1 linha sutil tipo "atribuído automaticamente · sugestão de IA aceita" ou similar dentro do mockup principal — micro-animação discreta. **Sem buzzwords cyberpunk/hype de IA**, sem visual genérico de SaaS AI. IA aumenta percepção de sofisticação ("isso parece tecnologia muito avançada, mas absurdamente simples de usar"), não vira o tema da seção. Referências de tom: Linear, Stripe, Vercel, Arc, Apple — NÃO Anthropic/OpenAI marketing.
 
 ### HowItWorks — fluxo operacional
 
