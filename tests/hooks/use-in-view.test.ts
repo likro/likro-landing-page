@@ -1,5 +1,6 @@
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
-import { renderHook, act } from "@testing-library/react";
+import { renderHook, render, act } from "@testing-library/react";
+import { createElement } from "react";
 import fs from "node:fs";
 import path from "node:path";
 import { useInView } from "@/hooks/use-in-view";
@@ -31,7 +32,7 @@ class IOMock {
   constructor(public cb: IntersectionObserverCallback) {}
   trigger(isIntersecting: boolean) {
     this.cb(
-      [{ isIntersecting, target: document.createElement("div") } as IntersectionObserverEntry],
+      [{ isIntersecting, target: document.createElement("div") } as unknown as IntersectionObserverEntry],
       this as unknown as IntersectionObserver,
     );
   }
@@ -105,47 +106,44 @@ describe("useInView() — Phase 4 motion-free IO hook", () => {
   });
 
   it("with once:true (default), once inView becomes true it stays true (Test 5)", () => {
-    // Attach a real DOM node so the effect actually observes.
-    const node = document.createElement("div");
-    document.body.appendChild(node);
+    // Mount a real component so the ref actually attaches to a DOM node
+    // and the effect observes it via IntersectionObserver.
+    let captured: boolean[] = [];
+    function Probe() {
+      const [ref, inView] = useInView<HTMLDivElement>();
+      captured.push(inView);
+      return createElement("div", { ref });
+    }
+    render(createElement(Probe));
 
-    const { result, rerender } = renderHook(() => useInView<HTMLDivElement>());
-    // Force the ref to point at the node and re-run the effect.
-    (result.current[0] as { current: HTMLDivElement | null }).current = node;
-    rerender();
-
-    // Trigger intersecting on the latest IO instance, then trigger NOT intersecting.
+    // Trigger intersecting on the latest IO instance.
     act(() => {
       const latest = ioInstances[ioInstances.length - 1];
       latest?.trigger(true);
     });
-    expect(result.current[1]).toBe(true);
+    expect(captured[captured.length - 1]).toBe(true);
 
+    // With once:true, observer is disconnected — flipping to not intersecting
+    // is a no-op (observer.cb is detached). State must remain true.
     act(() => {
       const latest = ioInstances[ioInstances.length - 1];
-      // Even if we try to flip off, with once:true the observer should be disconnected
-      // and the state should remain true.
       latest?.trigger(false);
     });
-    expect(result.current[1]).toBe(true);
-
-    document.body.removeChild(node);
+    expect(captured[captured.length - 1]).toBe(true);
   });
 
   it("disconnects observer on unmount (Test 6)", () => {
-    const node = document.createElement("div");
-    document.body.appendChild(node);
-
-    const { result, rerender, unmount } = renderHook(() => useInView<HTMLDivElement>());
-    (result.current[0] as { current: HTMLDivElement | null }).current = node;
-    rerender();
+    function Probe() {
+      const [ref] = useInView<HTMLDivElement>();
+      return createElement("div", { ref });
+    }
+    const { unmount } = render(createElement(Probe));
 
     const latest = ioInstances[ioInstances.length - 1];
     expect(latest).toBeDefined();
+    expect(latest?.observe).toHaveBeenCalled();
 
     unmount();
     expect(latest?.disconnect).toHaveBeenCalled();
-
-    document.body.removeChild(node);
   });
 });
