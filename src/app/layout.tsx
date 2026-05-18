@@ -18,19 +18,19 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL("https://likro.com.br"),
   title: {
-    default: "Likro — Operação comercial moderna para clínicas",
+    default: "Likro · Operação comercial moderna para clínicas",
     template: "%s · Likro",
   },
   description:
-    "CRM, atendimento multicanal e automação com IA — feito para clínicas e estéticas brasileiras.",
+    "CRM, atendimento multicanal e automação com IA, feito para clínicas e estéticas brasileiras.",
   openGraph: {
     type: "website",
     locale: "pt_BR",
     url: "https://likro.com.br",
     siteName: "Likro",
-    title: "Likro — Operação comercial moderna para clínicas",
+    title: "Likro · Operação comercial moderna para clínicas",
     description:
-      "CRM, atendimento multicanal e automação com IA — feito para clínicas e estéticas brasileiras.",
+      "CRM, atendimento multicanal e automação com IA, feito para clínicas e estéticas brasileiras.",
     images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Likro" }],
   },
   twitter: {

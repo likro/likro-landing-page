@@ -73,7 +73,7 @@ const SHARED_INBOX_ROWS: ReadonlyArray<ProductInboxRow> = [
   {
     channel: "instagram",
     from: "@marina_souza",
-    preview: "Vi o vídeo da Dra. Camila — queria saber preço.",
+    preview: "Vi o vídeo da Dra. Camila. Queria saber preço.",
     meta: "há 12s",
     status: "new",
   },
@@ -106,13 +106,13 @@ export const PRODUCT_COPY_VARIANTS = {
   v1: {
     header: {
       h2: "A operação do atendimento, em uma única camada.",
-      sub: "Lead do Instagram, conversa no WhatsApp, agenda da recepção — tudo na mesma tela.",
+      sub: "Lead do Instagram, conversa no WhatsApp, agenda da recepção. Tudo na mesma tela.",
     },
     feature: {
       eyebrow: "OPERAÇÃO MULTICANAL",
       title: "Atendimento multicanal.",
       description:
-        "A equipe responde tudo de um lugar só. WhatsApp, Instagram e Facebook em uma caixa de entrada compartilhada — com contexto do paciente já carregado.",
+        "A equipe responde tudo de um lugar só. WhatsApp, Instagram e Facebook em uma caixa de entrada compartilhada, com contexto do paciente já carregado.",
       mockup: {
         cardTitle: SHARED_CARD_TITLE,
         cardLabel: SHARED_CARD_LABEL,
@@ -128,7 +128,7 @@ export const PRODUCT_COPY_VARIANTS = {
         eyebrow: SHARED_SECONDARY_EYEBROWS[0],
         title: "Cada lead com o atendente certo.",
         description:
-          "Roteamento automático por canal, idioma, especialidade — sem fila travada.",
+          "Roteamento automático por canal, idioma, especialidade. Sem fila travada.",
         mockupKind: "routing-pill",
       },
       {
@@ -150,13 +150,13 @@ export const PRODUCT_COPY_VARIANTS = {
   v2: {
     header: {
       h2: "A camada operacional da clínica de estética.",
-      sub: "O canal, o atendimento e a agenda em sincronia — sem o atendente trocar de aplicativo.",
+      sub: "O canal, o atendimento e a agenda em sincronia. Sem o atendente trocar de aplicativo.",
     },
     feature: {
       eyebrow: "CAIXA DE ENTRADA",
       title: "Caixa de entrada multicanal.",
       description:
-        "Cada lead entra por um canal diferente — Instagram, WhatsApp, Facebook. Aqui ele entra em uma fila só, com histórico do paciente sempre por perto.",
+        "Cada lead entra por um canal diferente: Instagram, WhatsApp, Facebook. Aqui ele entra em uma fila só, com histórico do paciente sempre por perto.",
       mockup: {
         cardTitle: SHARED_CARD_TITLE,
         cardLabel: SHARED_CARD_LABEL,
@@ -172,14 +172,14 @@ export const PRODUCT_COPY_VARIANTS = {
         eyebrow: SHARED_SECONDARY_EYEBROWS[0],
         title: "Distribuição automática entre atendentes.",
         description:
-          "O lead vai pro atendente certo na hora certa — sem fila parada, sem disputa interna.",
+          "O lead vai pro atendente certo na hora certa. Sem fila parada, sem disputa interna.",
         mockupKind: "routing-pill",
       },
       {
         eyebrow: SHARED_SECONDARY_EYEBROWS[1],
         title: "Follow-up sem ninguém precisar lembrar.",
         description:
-          "Conversa parada vira tarefa, retorno do paciente vira agendamento — a operação não esquece.",
+          "Conversa parada vira tarefa, retorno do paciente vira agendamento. A operação não esquece.",
         mockupKind: "timeline-3pts",
       },
       {
@@ -200,7 +200,7 @@ export const PRODUCT_COPY_VARIANTS = {
       eyebrow: "MULTICANAL",
       title: "Atendimento multicanal.",
       description:
-        "Instagram, WhatsApp, Facebook — uma caixa de entrada. Distribuição automática pra equipe certa, histórico do paciente sempre por perto.",
+        "Instagram, WhatsApp, Facebook: uma caixa de entrada. Distribuição automática pra equipe certa, histórico do paciente sempre por perto.",
       mockup: {
         cardTitle: SHARED_CARD_TITLE,
         cardLabel: SHARED_CARD_LABEL,
@@ -222,7 +222,7 @@ export const PRODUCT_COPY_VARIANTS = {
         eyebrow: SHARED_SECONDARY_EYEBROWS[1],
         title: "Retornos que voltam sozinhos pra agenda.",
         description:
-          "O follow-up não depende da memória da equipe — depende da operação.",
+          "O follow-up não depende da memória da equipe. Depende da operação.",
         mockupKind: "timeline-3pts",
       },
       {

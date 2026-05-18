@@ -13,8 +13,8 @@
  *   "A equipe em uma tela só."
  *   "O paciente sem repetir a história."
  *
- * v3 — Single-line editorial:
- *   "Existe outra forma de operar — e ela cabe em uma tela."
+ * v3 — Two-sentence editorial (mirror Pain v3 cadence):
+ *   "Existe outra forma de operar. Ela cabe em uma tela."
  *
  * COPY-02 + D-14: zero buzzwords anti-IA (gates em tests/content/bridge.test.ts).
  * D-27: zero menção ao cliente real (gate em tests/content/bridge.test.ts).
@@ -38,13 +38,12 @@ export const BRIDGE_COPY_VARIANTS = {
     ],
   },
   v3: {
-    statements: ["Existe outra forma de operar — e ela cabe em uma tela."],
+    statements: ["Existe outra forma de operar.", "Ela cabe em uma tela."],
   },
 } as const satisfies Record<"v1" | "v2" | "v3", BridgeCopy>;
 
 /**
- * BRIDGE_COPY = variante ativa. Provisional: aponta para v1 (recusa em tríade,
- * referência direta do Lenny D-15) até aprovação via PR. Após aprovação, manter
- * o ponteiro fixado e arquivar variantes não escolhidas no git history.
+ * BRIDGE_COPY = variante ativa. Lenny aprovou v3 via UAT 2026-05-18
+ * (editorial seco mirror do Pain v3 — duas sentenças curtas, sem travessões).
  */
-export const BRIDGE_COPY: BridgeCopy = BRIDGE_COPY_VARIANTS.v1;
+export const BRIDGE_COPY: BridgeCopy = BRIDGE_COPY_VARIANTS.v3;

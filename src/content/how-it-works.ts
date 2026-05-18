@@ -54,12 +54,12 @@ export const HOW_MOCKUP_STRINGS = {
     to: "Dra. Camila",
   },
   conversation: {
-    patient: "Vi o video da Dra. Camila — queria saber preco.",
+    patient: "Vi o video da Dra. Camila. Queria saber preco.",
     agent: "Oi Marina! Vou te passar agora.",
   },
   calendarSlot: {
     selected: "Ter 14:30",
-    placeholder: "—",
+    placeholder: "·",
   },
 } as const;
 
@@ -77,7 +77,7 @@ export const HOW_COPY_VARIANTS = {
         number: "01",
         headline: "Lead entra por qualquer canal.",
         description:
-          "Instagram, WhatsApp, Facebook — tudo vai pra mesma caixa de entrada multicanal.",
+          "Instagram, WhatsApp, Facebook. Tudo vai pra mesma caixa de entrada multicanal.",
         mockupKind: "notification",
       },
       {
@@ -138,7 +138,7 @@ export const HOW_COPY_VARIANTS = {
         number: "04",
         headline: "Agendamento.",
         description:
-          "Slot confirmado, retorno marcado, follow-up programado — tudo dentro da conversa.",
+          "Slot confirmado, retorno marcado, follow-up programado. Tudo dentro da conversa.",
         mockupKind: "calendar-slot",
       },
     ],
@@ -150,14 +150,14 @@ export const HOW_COPY_VARIANTS = {
   v3: {
     header: {
       h2: "Como o paciente entra na clínica pela tela.",
-      sub: "Quatro passos do canal ao agendamento — sem ninguém trocar de aplicativo.",
+      sub: "Quatro passos do canal ao agendamento, sem ninguém trocar de aplicativo.",
     },
     steps: [
       {
         number: "01",
         headline: "O lead aparece.",
         description:
-          "DM no Instagram, mensagem no WhatsApp, contato no Facebook — tudo cai na mesma fila.",
+          "DM no Instagram, mensagem no WhatsApp, contato no Facebook. Tudo cai na mesma fila.",
         mockupKind: "notification",
       },
       {

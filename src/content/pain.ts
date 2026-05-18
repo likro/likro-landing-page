@@ -56,7 +56,7 @@ const SHARED_CARDS: readonly [PainCard, PainCard, PainCard, PainCard] = [
       {
         type: "text",
         content:
-          "“Oi, vi o vídeo da Dra. Camila — queria saber preço de harmonização.”",
+          "“Oi, vi o vídeo da Dra. Camila. Queria saber preço de harmonização.”",
       },
     ],
     meta: "há 2h sem resposta",
@@ -74,7 +74,7 @@ const SHARED_CARDS: readonly [PainCard, PainCard, PainCard, PainCard] = [
     kind: "spreadsheet",
     label: "Planilha · Recepção",
     title: "Slot 14h não confirmado",
-    rows: [{ type: "text", content: "Marina — falar amanhã" }],
+    rows: [{ type: "text", content: "Marina, falar amanhã" }],
     meta: "atualizado a mão",
   },
   {
@@ -98,14 +98,14 @@ export const PAIN_COPY_VARIANTS = {
   },
   v2: {
     h2: "O paciente espera. A operação demora a responder.",
-    sub: "A mensagem chega no Instagram, vira pendência no WhatsApp da recepção, espera a planilha abrir e o caderno conferir. Cada degrau custa horas — e, às vezes, o agendamento.",
+    sub: "A mensagem chega no Instagram, vira pendência no WhatsApp da recepção, espera a planilha abrir e o caderno conferir. Cada degrau custa horas. Às vezes, o agendamento.",
     statement:
-      "“A clínica trabalha duas vezes para responder uma vez — e o paciente percebe a demora.”",
+      "“A clínica trabalha duas vezes para responder uma vez. O paciente percebe a demora.”",
     cards: SHARED_CARDS,
   },
   v3: {
     h2: "Quatro lugares. Nenhum em sincronia.",
-    sub: "Instagram, WhatsApp, planilha da agenda, caderno de retornos. Quatro ferramentas que não se falam — e uma clínica que perde lead onde a operação não se conecta.",
+    sub: "Instagram, WhatsApp, planilha da agenda, caderno de retornos. Quatro ferramentas que não se falam. Uma clínica que perde lead onde a operação não se conecta.",
     statement:
       "“A clínica perde lead onde a operação não fala consigo mesma.”",
     cards: SHARED_CARDS,

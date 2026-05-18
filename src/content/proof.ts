@@ -48,7 +48,7 @@ export const PROOF_COPY_VARIANTS = {
   },
   v3: {
     eyebrow: "INFRAESTRUTURA",
-    headline: "A camada operacional já roda em clínicas reais — todos os dias.",
+    headline: "A camada operacional já roda em clínicas reais, todos os dias.",
     categories: CATEGORIES,
   },
 } as const satisfies Record<"v1" | "v2" | "v3", ProofCopy>;

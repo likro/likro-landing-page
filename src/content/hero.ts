@@ -50,7 +50,7 @@ export const HERO_COPY: HeroCopy = {
       label: "Instagram DM",
       title: "@marina_souza",
       rows: [
-        { type: "text", content: "“Vi o vídeo da Dra. Camila sobre harmonização — queria saber preço.”" },
+        { type: "text", content: "“Vi o vídeo da Dra. Camila sobre harmonização. Queria saber preço.”" },
       ],
       meta: "há 14s",
     },
