@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/Header";
 import { Hero } from "@/sections/Hero";
+import { Proof } from "@/sections/Proof";
 
 export default function HomePage() {
   return (
@@ -7,6 +8,7 @@ export default function HomePage() {
       <Header />
       <main>
         <Hero />
+        <Proof />
       </main>
     </>
   );
