@@ -76,7 +76,14 @@ Plans:
   3. Toda copy das 5 seções passa no teste anti-IA: zero matches grep para frases banidas ("desbloqueie", "potencialize", "transforme sua X", "jornada do cliente", "próximo nível", "solução inovadora", "feito para você", "do início ao fim", "fricção" abstrato); cada frase aprovada por Lenny via PR seção-a-seção (risco crítico #1 mitigado).
   4. Cada seção tem versão mobile com motion choreography simplificada via `useDeviceTier()`; sem duplicar componentes exceto onde o DOM realmente diverge.
   5. Seção Proof comunica credibilidade pelo refinamento visual + menção à operação real (Dolce Home com autorização explícita do Lenny — pendência resolvida antes da seção entrar em dev); zero números fabricados, zero depoimentos placeholder, zero claims sem fonte.
-**Plans**: TBD
+**Plans:** 6 plans (6 waves — sequential per D-17 copy review gate)
+Plans:
+- [ ] 04-00-PLAN.md — Foundation: useInView hook + glossary + 5 section scaffolds + page.tsx wiring + coherence test + copy-review.md Phase 4 cadence
+- [ ] 04-01-PLAN.md — Pain section (DARK, fragmentação operacional + constelação 4 pseudo-cards + statement-line)
+- [ ] 04-02-PLAN.md — Bridge section (LIGHT, statement editorial silencioso puro — D-15 reinterpretação NARR-02)
+- [ ] 04-03-PLAN.md — Product section (LIGHT off-white, 1 hero feature 'Atendimento multicanal' + 3 secundárias — D-16 reinterpretação NARR-03; NARR-08 implícito via iaLine D-20.1)
+- [ ] 04-04-PLAN.md — HowItWorks section (LIGHT neutral, 4 passos timeline vertical com mini-mockups)
+- [ ] 04-05-PLAN.md — Proof section (DARK editorial, categorias verticais minimal — zero Dolce Home per STATE.md 2026-05-18)
 **UI hint**: yes
 
 ### Phase 5: Conversion (Form + Footer + Floating + CTAs distribuídos)
