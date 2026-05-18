@@ -116,4 +116,4 @@ export const PAIN_COPY_VARIANTS = {
  * PAIN_COPY = variante ativa. Provisional: aponta para v1 até Lenny aprovar UMA via PR.
  * Após aprovação, manter o ponteiro fixado e arquivar variantes não escolhidas no git history.
  */
-export const PAIN_COPY: PainCopy = PAIN_COPY_VARIANTS.v1;
+export const PAIN_COPY: PainCopy = PAIN_COPY_VARIANTS.v3;
