@@ -32,15 +32,15 @@ function mkRequest(body: unknown): Request {
 }
 
 async function callPost(req: Request) {
-  const { __resetDedupForTests } = await import("@/lib/lead-dedup");
-  __resetDedupForTests();
   const mod = await import("@/app/api/lead/route");
   return mod.POST(req as never);
 }
 
-beforeEach(() => {
+beforeEach(async () => {
   sendLeadEmail.mockReset();
   appendLeadRow.mockReset();
+  const { __resetDedupForTests } = await import("@/lib/lead-dedup");
+  __resetDedupForTests();
 });
 afterEach(() => vi.clearAllMocks());
 
