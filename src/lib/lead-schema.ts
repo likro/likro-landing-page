@@ -36,7 +36,7 @@ export const leadSchema = z.object({
     .trim()
     .max(1000, "Mensagem muito longa (máximo 1000 caracteres)")
     .optional()
-    .or(z.literal("").transform(() => undefined)),
+    .transform((v) => (v === "" ? undefined : v)),
   utm: z.string().max(500).optional(),
   // Honeypot — schema aceita mas route handler trata.
   // Nome `website` evita autofill 1Password/LastPass (Pitfall 8 RESEARCH).
