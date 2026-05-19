@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-last_updated: "2026-05-18T14:58:17.784Z"
+status: executing
+last_updated: "2026-05-19T17:28:26.844Z"
 progress:
-  total_phases: 7
+  total_phases: 8
   completed_phases: 3
-  total_plans: 19
+  total_plans: 26
   completed_plans: 18
-  percent: 95
+  percent: 69
 ---
 
 # Project State: Likro Landing Page
@@ -22,7 +22,7 @@ progress:
 
 **Core value:** Uma clínica entra na landing e sente em segundos: *"isso foi feito exatamente pra minha operação — e essa empresa é absurda"*.
 
-**Current focus:** Phase 03 — hero-benchmarked-isolado
+**Current focus:** Phase 5 — Conversion (Form + Footer + Floating + CTAs distribuídos)
 
 **Key documents:**
 
@@ -34,12 +34,12 @@ progress:
 
 ## Current Position
 
-Phase: 03 (hero-benchmarked-isolado) — EXECUTING
-Plan: 1 of 3
+Phase: 5 (Conversion (Form + Footer + Floating + CTAs distribuídos)) — EXECUTING
+Plan: 1 of 7
 **Milestone:** v1 (initial launch — clínicas vertical)
 **Phase:** 5 of 7 (conversion (form + footer + floating + ctas distribuídos))
 **Plan:** Not started
-**Status:** Ready to plan
+**Status:** Executing Phase 5
 
 **Progress:** [██████████] 100%
 
