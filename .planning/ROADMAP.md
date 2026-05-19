@@ -96,7 +96,15 @@ Plans:
   3. Form consultivo (3 campos: nome, WhatsApp, mensagem opcional + honeypot) submete em mobile real; edge route `/api/lead` valida com Zod, entrega ao webhook (target definido antes da Phase 5); sucesso inline sem redirect; double-submit prevenido (botão desabilitado + dedup server-side por número em janela de 60s).
   4. Header "hide-on-scroll-down, show-on-scroll-up" liberando viewport mobile mas sempre disponível em scroll up; não compete visualmente com o hero CTA na primeira viewport.
   5. WhatsApp deep link de TODOS os CTAs testado em iOS Safari real e Android Chrome real — todos abrem o app WhatsApp, não o browser; mensagem pré-preenchida específica por `location` aprovada pelo Lenny no PR.
-**Plans**: TBD
+**Plans:** 7 plans (5 waves)
+Plans:
+- [ ] 05-01-PLAN.md — Foundation: deps (resend/jose/server-only), server-env, lead-schema, lead-dedup, content/form.ts, content/footer.ts
+- [ ] 05-02-PLAN.md — Wave 0 tests (8 test files RED) + AnalyticsEvent type guard
+- [ ] 05-03-PLAN.md — Edge route /api/lead + lead-resend + lead-sheets (JWT via jose, edge runtime)
+- [ ] 05-04-PLAN.md — LeadForm + FormSuccess + FormError + Form section + use-form-in-view hook
+- [ ] 05-05-PLAN.md — Header refactor para client component + hide-on-scroll (data-hidden attribute)
+- [ ] 05-06-PLAN.md — FloatingWhatsApp + Footer + /privacy placeholder + CTAs distribuídos em Pain/Product/Proof
+- [ ] 05-07-PLAN.md — page.tsx wire-up + VALIDATION.md final + 05-HUMAN-UAT.md + checkpoint humano (Vercel preview + real-device + copy review)
 **UI hint**: yes
 
 ### Phase 6: Analytics Instrumentation Pass
