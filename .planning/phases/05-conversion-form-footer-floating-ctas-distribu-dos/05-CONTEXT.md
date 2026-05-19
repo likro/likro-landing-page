@@ -38,7 +38,7 @@ Fora de escopo desta phase:
 
 ### Form — campos e UX
 - Apenas 3 campos visíveis: **nome**, **WhatsApp**, **mensagem opcional**. Mais que isso quebra o "minimalista, sensação high-end" do tom.
-- Honeypot adicional invisível (4º campo escondido com `aria-hidden + tabindex=-1 + display:none` via CSS, não JS).
+- Honeypot adicional invisível (4º campo escondido com `aria-hidden + tabindex=-1 + position:absolute;left:-9999px` via CSS — NÃO `display:none` porque bots modernos detectam computed style; nome do campo NÃO usar `company`/`email`/`name` pra evitar autofill de 1Password/LastPass em contexto B2B — usar `website`).
 - Validação: Zod schema compartilhado client (RHF resolver) ↔ server (edge route). Nome ≥ 2 chars; WhatsApp dígitos+espaços+parênteses, normalizado server-side; mensagem opcional ≤ 1000 chars.
 - Submissão: **sucesso inline sem redirect** (mostrar bloco de confirmação substituindo o form, com CTA secundário "ou fale agora no WhatsApp").
 - Erro: mensagem inline curta + botão "tentar de novo" (uma única retry no client; se falhar de novo, sugere ir pro WhatsApp).
@@ -166,7 +166,7 @@ Mínimo absoluto: 4 pontos persistentes. Recomendado: 6 (lista acima). Se um del
 - **Cor dominante do form:** off-white (mesma família da Product), texto principal `text-text-primary`, accent (botão) `bg-accent-primary` (#7C3AED). Sem gradiente, sem glow.
 
 - **Anti-spam stack mínimo:**
-  - Honeypot field `<input name="company" tabIndex={-1} aria-hidden="true" />` (escondido via CSS, nunca display:none que screen readers ignoram melhor).
+  - Honeypot field `<input name="website" tabIndex={-1} aria-hidden="true" autoComplete="off" />` (escondido com `position:absolute;left:-9999px`, NUNCA `display:none` — bots modernos detectam via computed style; nome `website` evita autofill de 1Password/LastPass que dispara em `company`/`email`/`name`).
   - Server-side dedup por número de WhatsApp normalizado em janela de 60s (in-memory ou Vercel KV se Marketplace já provisionado).
   - Rate limit por IP: 5 requests / minuto (Vercel Edge Middleware se viável; senão, registrar como TODO Phase 7).
 
