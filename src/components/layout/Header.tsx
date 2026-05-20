@@ -10,17 +10,18 @@
  *  - `sticky top-0` (não `fixed`) — sem spacer, sem layout shift (Pitfall 5).
  *  - data-hidden="true|false" exposto para tests + debugging.
  *
+ * HERO-02: o Header é elemento above-the-fold e NÃO pode usar `motion.*` JSX
+ * (risco crítico #2 — LCP). O hide-on-scroll é feito com `<header>` plano +
+ * ref + mutação direta de `style.transform`/`data-hidden` dentro do callback
+ * de scroll. Zero re-render, zero entrance animation, invariante preservado.
+ * Os hooks `useScroll`/`useMotionValueEvent`/`useReducedMotion` não são JSX
+ * `motion.*` — apenas leem o scroll, sem afetar o paint do LCP.
+ *
  * Refinamento Phase 1: h-14 lg:h-16 (slim), logo discreto, CTA secundário ghost.
  */
-import { useState } from "react";
-import { flushSync } from "react-dom";
+import { useRef } from "react";
 import Link from "next/link";
-import {
-  motion,
-  useScroll,
-  useMotionValueEvent,
-  useReducedMotion,
-} from "motion/react";
+import { useScroll, useMotionValueEvent, useReducedMotion } from "motion/react";
 import { Container } from "@/components/ui/container";
 import { WhatsAppCta } from "@/components/ui/whatsapp-cta";
 import { HERO_COPY } from "@/content/hero";
@@ -31,37 +32,45 @@ const SHOW_THRESHOLD_UP = 8;
 export function Header() {
   const reduced = useReducedMotion();
   const { scrollY } = useScroll();
-  const [hidden, setHidden] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
+  const hiddenRef = useRef(false);
+
+  const applyHidden = (next: boolean) => {
+    if (hiddenRef.current === next) return;
+    hiddenRef.current = next;
+    const el = headerRef.current;
+    if (!el) return;
+    el.style.transform = next ? "translateY(-100%)" : "translateY(0%)";
+    el.setAttribute("data-hidden", next ? "true" : "false");
+  };
 
   useMotionValueEvent(scrollY, "change", (current: number) => {
     if (reduced) {
-      if (hidden) flushSync(() => setHidden(false));
+      applyHidden(false);
       return;
     }
     const previous = scrollY.getPrevious() ?? 0;
     const delta = current - previous;
     const innerHeight =
       typeof window !== "undefined" ? window.innerHeight : 800;
-    // flushSync garante que o DOM reflete data-hidden imediatamente após o
-    // callback — necessário para que tests síncronos (e leitores de DOM em
-    // ferramentas a11y) leiam o estado correto sem precisar de act() wrapping.
-    // Motion v12 dispara o callback fora do batch React; o ref atualiza síncrono.
     if (current > innerHeight && delta > HIDE_THRESHOLD_DOWN) {
-      if (!hidden) flushSync(() => setHidden(true));
+      applyHidden(true);
     } else if (delta < -SHOW_THRESHOLD_UP) {
-      if (hidden) flushSync(() => setHidden(false));
+      applyHidden(false);
     }
   });
 
-  const effectiveHidden = !reduced && hidden;
-
   return (
-    <motion.header
-      data-hidden={effectiveHidden ? "true" : "false"}
+    <header
+      ref={headerRef}
+      data-hidden="false"
       className="sticky top-0 z-30 w-full bg-surface-light/85 backdrop-blur-md"
-      initial={false}
-      animate={{ y: effectiveHidden ? "-100%" : "0%" }}
-      transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+      style={{
+        transform: "translateY(0%)",
+        transition: reduced
+          ? undefined
+          : "transform 0.22s cubic-bezier(0.4, 0, 0.2, 1)",
+      }}
     >
       <Container className="flex h-14 items-center justify-between lg:h-16">
         <Link
@@ -84,6 +93,6 @@ export function Header() {
           {HERO_COPY.ctaPrimary.label}
         </WhatsAppCta>
       </Container>
-    </motion.header>
+    </header>
   );
 }
