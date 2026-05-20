@@ -1,10 +1,11 @@
 ---
 phase: 5
 slug: conversion-form-footer-floating-ctas-distribu-dos
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: ready
+nyquist_compliant: true
+wave_0_complete: true
 created: 2026-05-19
+updated: 2026-05-20
 ---
 
 # Phase 5 — Validation Strategy
@@ -37,11 +38,21 @@ created: 2026-05-19
 
 ## Per-Task Verification Map
 
-*Populated by the planner — references will be filled when PLAN.md files are written. Each task in each plan must point to one of the Wave 0 test files below (or be marked manual-only with justification).*
+*Preenchida após execução completa das Waves 1-5. Todas as feature tasks com `<automated>` apontam para test files reais — 8 test files Wave 0 + suite existente.*
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
-| TBD     | TBD  | TBD  | CTA-03..CTA-12, MOBILE-02, MOBILE-06 | TBD | TBD | TBD | TBD | TBD | ⬜ pending |
+| 01.T2 (server-env) | 01 | 1 | CTA-10 | T-05-01 | server-only guard + Zod lazy | unit | `npm run typecheck` | ✅ | ✅ green |
+| 01.T3 (lead-schema) | 01 | 1 | CTA-09, CTA-10 | T-05-04 | Zod shared client/server | unit | `npm test -- --run tests/lib/lead-schema.test.ts` | ✅ | ✅ green |
+| 01.T4 (lead-dedup) | 01 | 1 | CTA-12 | T-05-03 | TTL window 60s | unit | `npm test -- --run tests/lib/lead-dedup.test.ts` | ✅ | ✅ green |
+| 03.T3 (lead-route) | 03 | 2 | CTA-10, CTA-11, CTA-12 | T-05-06, T-05-09, T-05-12 | dual-write allSettled + honeypot + dedup | integration | `npm test -- --run tests/api/lead-route.test.ts` | ✅ | ✅ green |
+| 04.T3 (lead-form) | 04 | 3 | CTA-09, CTA-11 | T-05-16, T-05-19 | data-clarity-mask + state machine | unit | `npm test -- --run tests/sections/lead-form.test.tsx` | ✅ | ✅ green |
+| 05.T1 (header) | 05 | 3 | MOBILE-06 | T-05-20 | hide-on-scroll + reduced-motion + HERO-02 | unit | `npm test -- --run tests/components/header.test.tsx` | ✅ | ✅ green |
+| 06.T1 (floating) | 06 | 4 | CTA-06, MOBILE-02 | T-05-24 | scroll threshold + form-in-view gate | unit | `npm test -- --run tests/sections/floating-whatsapp.test.tsx` | ✅ | ✅ green |
+| 07.T1 (page wire) | 07 | 5 | CTA-03, CTA-05 | T-05-22 | 7 distinct data-location | integration | `npm test -- --run tests/landing/cta-distribution.test.tsx` | ✅ | ✅ green |
+| content guard | 02 | 1 | CTA-08 | — | WHATSAPP_MESSAGES key coverage | unit | `npm test -- --run tests/content/whatsapp-messages.test.ts` | ✅ | ✅ green |
+
+*Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky — full suite: 208/208 green (2026-05-20)*
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -57,7 +68,7 @@ Wave 0 must create these test files (failing) before any feature task runs:
 - [ ] `tests/sections/lead-form.test.tsx` — RTL render, focus, submit, disabled state, error state, success state. Covers CTA-09 + CTA-11.
 - [ ] `tests/sections/floating-whatsapp.test.tsx` — mock `useScroll` + `IntersectionObserver`. Covers CTA-06 + MOBILE-02.
 - [ ] `tests/components/header.test.tsx` — RTL + mock `useScroll`; reduced-motion path. Covers MOBILE-06.
-- [ ] `tests/landing/cta-distribution.test.tsx` — render `<HomePage>`, assert `[data-location]` covers all 6 expected locations. Covers CTA-05.
+- [ ] `tests/landing/cta-distribution.test.tsx` — render `<HomePage>`, assert `[data-location]` covers all 7 expected locations (hero, header, pain, product, proof, footer, floating). Covers CTA-05.
 - [ ] `tests/content/whatsapp-messages.test.ts` — assert every `WhatsAppLocation` has an entry. Covers CTA-08.
 
 **Framework install:** None — vitest + RTL + jsdom already configured. ✓
@@ -68,7 +79,7 @@ Wave 0 must create these test files (failing) before any feature task runs:
 
 | Behavior | Requirement | Why Manual | Test Instructions |
 |----------|-------------|------------|-------------------|
-| WhatsApp deeplink abre app (não browser) em iOS Safari + Android Chrome | CTA-07 | Comportamento depende do OS/app installation — não mockável de forma fidedigna | Lenny abre cada um dos 6 CTAs em iPhone real e Android real; verifica que abre WhatsApp app, não navegador. Documentar em `05-HUMAN-UAT.md` no estilo da Phase 4. |
+| WhatsApp deeplink abre app (não browser) em iOS Safari + Android Chrome | CTA-07 | Comportamento depende do OS/app installation — não mockável de forma fidedigna | Lenny abre cada um dos 7 CTAs em iPhone real e Android real; verifica que abre WhatsApp app, não navegador. Documentar em `05-HUMAN-UAT.md` no estilo da Phase 4. |
 | Floating respeita `safe-area-inset-bottom` em iPhone com home indicator | MOBILE-02 | Visual — depende do dispositivo físico (notch, home indicator dynamic) | Abrir Vercel preview em iPhone real, scrollar > 50vh, verificar que floating não fica colado no home indicator nem cortado |
 | Header hide-on-scroll suave (sem jitter) em scroll real | MOBILE-06 | Smoothness percibida — não cobrível por unit test | Scroll vertical lento + rápido em iPhone e Android; verificar transição translateY suave |
 | Lead chega no Lenny (email Resend + linha em planilha) | CTA-10 | Integração externa real | Submeter form na Vercel preview; checar inbox + Google Sheet 60s depois |
@@ -114,4 +125,4 @@ Wave 0 must create these test files (failing) before any feature task runs:
 - [ ] Feedback latency < 30s
 - [ ] `nyquist_compliant: true` set in frontmatter (after planner fills the verification map and Wave 0 lands green)
 
-**Approval:** pending
+**Approval:** awaiting manual UAT + Lenny copy review
