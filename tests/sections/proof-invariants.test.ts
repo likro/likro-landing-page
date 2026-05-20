@@ -174,13 +174,20 @@ describe("proof invariants — Phase 4 D-24/D-26/D-28 gates", () => {
   );
 
   // -------------------------------------------------------------------------
-  // Test 6 — zero WhatsApp CTA / D-29 final closing
+  // Test 6 — WhatsApp CTA only in Proof/index.tsx (Phase 5 pre-form CTA)
+  //
+  // D-29 era boundary da Phase 4 (Proof não convertia — CTA era job da Phase 5).
+  // Phase 5 CONTEXT.md (§"CTAs distribuídos") atribui à Proof o CTA dominante
+  // pré-form (location="proof"). O CTA vive APENAS no index.tsx — as
+  // sub-seções visuais (ProofCategories/ProofBackground) permanecem sem CTA.
   // -------------------------------------------------------------------------
-  it("zero WhatsApp CTA references in src/sections/Proof/ (D-29 — Proof não converte)", () => {
+  it("WhatsApp CTA only in Proof/index.tsx (Phase 5 pre-form CTA, never in sub-components)", () => {
     const files = proofFiles();
     const ctaRegex = /WhatsAppCta|whatsapp-cta|wa\.me|api\.whatsapp\.com/i;
     const violations: string[] = [];
     for (const file of files) {
+      // index.tsx pode conter o CTA dominante pré-form (Phase 5 decisão).
+      if (path.basename(file) === "index.tsx") continue;
       const lines = readLines(file);
       lines.forEach((line, idx) => {
         if (ctaRegex.test(line)) {
@@ -190,7 +197,7 @@ describe("proof invariants — Phase 4 D-24/D-26/D-28 gates", () => {
     }
     expect(
       violations,
-      `D-29 violation: Proof MUST NOT contain WhatsApp CTA — silent close.\n${violations.join("\n")}`,
+      `Proof sub-components MUST NOT contain WhatsApp CTA — only index.tsx pre-form CTA allowed.\n${violations.join("\n")}`,
     ).toEqual([]);
   });
 
