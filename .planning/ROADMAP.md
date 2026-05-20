@@ -203,5 +203,14 @@ Phase 7 is intentionally larger — it's a multi-stream hardening pass (audits +
 Plans:
 - [ ] TBD (promote with /gsd-review-backlog when ready)
 
+### Phase 999.2: information density / narrative pacing editorial rework (BACKLOG)
+
+**Goal:** [Captured for future planning] Reduzir informação simultânea por viewport, criar progressão narrativa conduzida (passo 1→2→3), e hierarquia visual clara (principal vs secundário). Direção alvo: experiência respirada, conduzida, editorial, cinematográfica — UM foco por viewport, revelação com intenção via scroll. Levantado por Lenny no UAT da Phase 5 (2026-05-20): funcionalidade 100% aprovada, mas "muita informação competindo ao mesmo tempo, pouca sensação de progressão". Relacionado ao 999.1 (repetição de cards) mas mais amplo — abrange redução de conteúdo e ritmo de revelação. Ver memória `feedback-landing-editorial-direction`.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd-review-backlog when ready)
+
 ---
 *Roadmap created: 2026-05-15*
