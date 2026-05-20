@@ -14,6 +14,7 @@
  * Plan 04-03 Task 3: ProductHeroFeature substitui o slot mt-20 entre header e grid.
  */
 import { Container } from "@/components/ui/container";
+import { WhatsAppCta } from "@/components/ui/whatsapp-cta";
 import { ProductHeader } from "./ProductHeader";
 import { ProductHeroFeature } from "./ProductHeroFeature";
 import { ProductSecondaryGrid } from "./ProductSecondaryGrid";
@@ -29,6 +30,11 @@ export function Product() {
         <ProductHeader />
         <ProductHeroFeature />
         <ProductSecondaryGrid />
+        <div className="mt-12 flex justify-center md:mt-16">
+          <WhatsAppCta variant="primary" location="product">
+            Ver tudo isso na minha clínica
+          </WhatsAppCta>
+        </div>
       </Container>
     </section>
   );

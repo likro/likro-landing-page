@@ -8,6 +8,7 @@
  * NARR-06: zero motion lib (animation via hero-card-rise keyframe Phase 3).
  */
 import { Container } from "@/components/ui/container";
+import { WhatsAppCta } from "@/components/ui/whatsapp-cta";
 import { PROOF_COPY } from "@/content/proof";
 import { ProofBackground } from "./ProofBackground";
 import { ProofCategories } from "./ProofCategories";
@@ -31,6 +32,11 @@ export function Proof() {
           {PROOF_COPY.headline}
         </h2>
         <ProofCategories />
+        <div className="mt-12 flex justify-center md:mt-16">
+          <WhatsAppCta variant="primary" location="proof">
+            Falar com a Likro agora
+          </WhatsAppCta>
+        </div>
       </Container>
     </section>
   );

@@ -16,6 +16,7 @@
  * COPY-01: todo string vem de PAIN_COPY.
  */
 import { Container } from "@/components/ui/container";
+import { WhatsAppCta } from "@/components/ui/whatsapp-cta";
 import { PAIN_COPY } from "@/content/pain";
 import { PainBackground } from "./PainBackground";
 import { PainCardConstellation } from "./PainCardConstellation";
@@ -41,6 +42,11 @@ export function Pain() {
         </p>
         <PainCardConstellation />
         <PainStatement />
+        <div className="mt-10 flex justify-center md:mt-12">
+          <WhatsAppCta variant="secondary" location="pain">
+            Quero entender como organizar
+          </WhatsAppCta>
+        </div>
       </Container>
     </section>
   );
