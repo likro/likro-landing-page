@@ -19,15 +19,16 @@ import { Resend } from "resend";
 import { serverEnv } from "@/lib/server-env";
 import type { Lead } from "@/lib/lead-schema";
 
-// TODO Lenny verifica likro.com.br em resend.com/domains; até lá, sandbox.
-const FROM_VERIFIED = "Likro Leads <leads@likro.com.br>";
+// Sandbox do Resend — funciona sempre, mas só entrega para o email da
+// própria conta Resend. Suficiente enquanto o domínio não é verificado.
 const FROM_SANDBOX = "Likro Leads <onboarding@resend.dev>";
 
 function fromAddress(): string {
-  // Heurística simples: production usa verified; preview/dev usa sandbox.
-  // VERCEL_ENV é injetada pela Vercel; em local dev fica undefined.
-  const isProd = process.env.VERCEL_ENV === "production";
-  return isProd ? FROM_VERIFIED : FROM_SANDBOX;
+  // Pitfall 2 (RESEARCH): estar em produção NÃO significa domínio verificado —
+  // são independentes. Usa o remetente custom só quando RESEND_FROM está
+  // explicitamente setado (depois de verificar likro.com.br em resend.com/domains).
+  // Sem isso, cai no sandbox, que sempre funciona.
+  return process.env.RESEND_FROM ?? FROM_SANDBOX;
 }
 
 export async function sendLeadEmail(lead: Lead): Promise<void> {
