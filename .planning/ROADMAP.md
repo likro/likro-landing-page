@@ -12,7 +12,7 @@
 - [ ] **Phase 2: Motion Primitives** — Biblioteca isolada de primitivas de animação (`<ScrollScene>`, `<RevealOnView>`, `<ParallaxLayer>`, `<StickyStage>`, `<TextSplit>`) com API congelada e validada em `/dev` em iOS Safari + Android Chrome real.
 - [ ] **Phase 3: Hero (benchmarked isolado)** — Hero deployado sozinho na Vercel com LCP < 2.5s mobile verificado, copy aprovada por Lenny, helper WhatsApp validado em devices reais.
 - [ ] **Phase 4: Narrative Sections (Pain → Bridge → Product → HowItWorks → Proof)** — Cinco seções narrativas com copy aprovado seção a seção, primeira `<ScrollScene>` em produção (Bridge) como template do resto.
-- [ ] **Phase 5: Conversion (Form + Footer + Floating + CTAs distribuídos)** — Form consultivo discreto + edge route + webhook, floating WhatsApp mobile, CTAs persistentes em 4+ pontos com `location` analytics, footer institucional.
+- [x] **Phase 5: Conversion (Form + Footer + Floating + CTAs distribuídos)** — Form consultivo discreto + edge route + webhook, floating WhatsApp mobile, CTAs persistentes em 4+ pontos com `location` analytics, footer institucional. (completed 2026-05-20)
 - [ ] **Phase 6: Analytics Instrumentation Pass** — Verificação sistêmica de todos os eventos nos três dashboards (Pixel Test Events, GA4 DebugView, Clarity recordings), seção views, scroll-depth, PII masking validado em sessão real.
 - [ ] **Phase 7: SEO + A11y + Performance + Deploy Hardening** — Lighthouse 90+/85+, JSON-LD validado, OG image testada no preview WhatsApp/LinkedIn, WCAG AA audit, mobile QA real-device, Vercel deploy + env vars + preview noindex.
 
@@ -96,7 +96,7 @@ Plans:
   3. Form consultivo (3 campos: nome, WhatsApp, mensagem opcional + honeypot) submete em mobile real; edge route `/api/lead` valida com Zod, entrega ao webhook (target definido antes da Phase 5); sucesso inline sem redirect; double-submit prevenido (botão desabilitado + dedup server-side por número em janela de 60s).
   4. Header "hide-on-scroll-down, show-on-scroll-up" liberando viewport mobile mas sempre disponível em scroll up; não compete visualmente com o hero CTA na primeira viewport.
   5. WhatsApp deep link de TODOS os CTAs testado em iOS Safari real e Android Chrome real — todos abrem o app WhatsApp, não o browser; mensagem pré-preenchida específica por `location` aprovada pelo Lenny no PR.
-**Plans:** 6/7 plans executed
+**Plans:** 7/7 plans complete
 Plans:
 - [x] 05-01-PLAN.md — Foundation: deps (resend/jose/server-only), server-env, lead-schema, lead-dedup, content/form.ts, content/footer.ts
 - [x] 05-02-PLAN.md — Wave 0 tests (8 test files RED) + AnalyticsEvent type guard
@@ -104,7 +104,7 @@ Plans:
 - [x] 05-04-PLAN.md — LeadForm + FormSuccess + FormError + Form section + use-form-in-view hook
 - [x] 05-05-PLAN.md — Header refactor para client component + hide-on-scroll (data-hidden attribute)
 - [x] 05-06-PLAN.md — FloatingWhatsApp + Footer + /privacy placeholder + CTAs distribuídos em Pain/Product/Proof
-- [ ] 05-07-PLAN.md — page.tsx wire-up + VALIDATION.md final + 05-HUMAN-UAT.md + checkpoint humano (Vercel preview + real-device + copy review)
+- [x] 05-07-PLAN.md — page.tsx wire-up + VALIDATION.md final + 05-HUMAN-UAT.md + checkpoint humano (Vercel preview + real-device + copy review)
 **UI hint**: yes
 
 ### Phase 6: Analytics Instrumentation Pass
@@ -149,7 +149,7 @@ Plans:
 | 2. Motion Primitives | 0/6 | Planned | - |
 | 3. Hero (benchmarked isolado) | 0/3 | Planned | - |
 | 4. Narrative Sections | 0/0 | Not started | - |
-| 5. Conversion | 6/7 | In Progress|  |
+| 5. Conversion | 7/7 | Complete   | 2026-05-20 |
 | 6. Analytics Instrumentation Pass | 0/0 | Not started | - |
 | 7. SEO + A11y + Performance + Deploy Hardening | 0/0 | Not started | - |
 
