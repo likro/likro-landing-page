@@ -61,11 +61,9 @@ export async function POST(req: Request): Promise<Response> {
   const sheetOK = sheetResult.status === "fulfilled";
 
   if (!emailOK) {
-    // eslint-disable-next-line no-console
     console.error("[lead] resend failed:", emailResult.reason);
   }
   if (!sheetOK) {
-    // eslint-disable-next-line no-console
     console.error("[lead] sheets failed:", sheetResult.reason);
   }
 
