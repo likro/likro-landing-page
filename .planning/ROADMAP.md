@@ -149,7 +149,7 @@ Plans:
 | 2. Motion Primitives | 0/6 | Planned | - |
 | 3. Hero (benchmarked isolado) | 0/3 | Planned | - |
 | 4. Narrative Sections | 0/0 | Not started | - |
-| 5. Conversion | 7/7 | Complete   | 2026-05-20 |
+| 5. Conversion | 7/7 | Complete    | 2026-05-20 |
 | 6. Analytics Instrumentation Pass | 0/0 | Not started | - |
 | 7. SEO + A11y + Performance + Deploy Hardening | 0/0 | Not started | - |
 
