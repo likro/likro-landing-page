@@ -12,7 +12,8 @@
 - [ ] **Phase 2: Motion Primitives** — Biblioteca isolada de primitivas de animação (`<ScrollScene>`, `<RevealOnView>`, `<ParallaxLayer>`, `<StickyStage>`, `<TextSplit>`) com API congelada e validada em `/dev` em iOS Safari + Android Chrome real.
 - [ ] **Phase 3: Hero (benchmarked isolado)** — Hero deployado sozinho na Vercel com LCP < 2.5s mobile verificado, copy aprovada por Lenny, helper WhatsApp validado em devices reais.
 - [ ] **Phase 4: Narrative Sections (Pain → Bridge → Product → HowItWorks → Proof)** — Cinco seções narrativas com copy aprovado seção a seção, primeira `<ScrollScene>` em produção (Bridge) como template do resto.
-- [x] **Phase 5: Conversion (Form + Footer + Floating + CTAs distribuídos)** — Form consultivo discreto + edge route + webhook, floating WhatsApp mobile, CTAs persistentes em 4+ pontos com `location` analytics, footer institucional. (completed 2026-05-20)
+- [x] **Phase 5: Conversion (Form + Footer + Floating + CTAs distribuídos)** — Form consultivo discreto + edge route + webhook, floating WhatsApp mobile, CTAs persistentes em 4+ pontos com `location` analytics, footer institucional.
+ (completed 2026-05-20)
 - [ ] **Phase 6: Analytics Instrumentation Pass** — Verificação sistêmica de todos os eventos nos três dashboards (Pixel Test Events, GA4 DebugView, Clarity recordings), seção views, scroll-depth, PII masking validado em sessão real.
 - [ ] **Phase 7: SEO + A11y + Performance + Deploy Hardening** — Lighthouse 90+/85+, JSON-LD validado, OG image testada no preview WhatsApp/LinkedIn, WCAG AA audit, mobile QA real-device, Vercel deploy + env vars + preview noindex.
 
@@ -116,7 +117,12 @@ Plans:
   2. Sessão real do Clarity revisada manualmente: form wrapper tem `data-clarity-mask="true"`; ao reproduzir a gravação, nenhum número de WhatsApp, email ou nome aparece visível (risco crítico #6 — PII — mitigado).
   3. Configuração GA4 para SPA correta (via `@next/third-parties/google` ou Script com `send_page_view: false` + envio manual no `usePathname` change); zero double-fire em network tab para o mesmo clique.
   4. Cada evento carrega `event_id` UUID v4 confirmado em payload Pixel Test Events — retrofit futuro para Meta CAPI será zero-cost (sem reescrever instrumentação).
-**Plans**: TBD
+**Plans:** 4 plans (3 waves)
+Plans:
+- [ ] 06-01-PLAN.md — Wave 0 tests RED (use-section-view, scroll-depth-tracker, clarity-mask)
+- [ ] 06-02-PLAN.md — useSectionView hook + TrackSection wrapper + ScrollDepthTracker + data-clarity-mask no form
+- [ ] 06-03-PLAN.md — wiring em page.tsx (TrackSection x7 + ScrollDepthTracker) + TRACK-06 grep + VALIDATION.md final
+- [ ] 06-04-PLAN.md — 06-HUMAN-UAT.md (Parte B bloqueada) + checkpoint humano
 
 ### Phase 7: SEO + A11y + Performance + Deploy Hardening
 **Goal**: Atingir os números de produção (Lighthouse 90+/85+, LCP/CLS/INP dentro de targets, WCAG AA limpo, JSON-LD validado, OG impecável) e deployar em URL `.vercel.app` com variáveis de ambiente configuradas e preview noindex.
@@ -150,7 +156,7 @@ Plans:
 | 3. Hero (benchmarked isolado) | 0/3 | Planned | - |
 | 4. Narrative Sections | 0/0 | Not started | - |
 | 5. Conversion | 7/7 | Complete    | 2026-05-20 |
-| 6. Analytics Instrumentation Pass | 0/0 | Not started | - |
+| 6. Analytics Instrumentation Pass | 0/4 | Planned | - |
 | 7. SEO + A11y + Performance + Deploy Hardening | 0/0 | Not started | - |
 
 ## Coverage Verification
