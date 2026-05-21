@@ -134,14 +134,15 @@ Plans:
   3. WCAG AA audit limpo: todos os pares texto/fundo passam contraste (4.5:1 texto normal, 3:1 texto grande), navegação completa por teclado com foco visível, `prefers-reduced-motion` simplifica todas as animações (validado em macOS Reduce Motion + Windows Animations off), `<h1>` único + hierarquia `<h2>`/`<h3>` correta, skip-link "Pular para conteúdo principal" funcional.
   4. Site validado em iPhone iOS Safari real, Android mid-tier Chrome real, iPad Safari — tap targets ≥ 44x44px, hover effects têm fallback `:active` no touch, animações suspendem/simplificam em conexões 4g/slow via `navigator.connection.effectiveType`.
   5. Deploy ao vivo em URL `.vercel.app`; variáveis de ambiente configuradas (`NEXT_PUBLIC_WA_NUMBER`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_META_PIXEL_ID`, `NEXT_PUBLIC_CLARITY_ID`, `LEAD_WEBHOOK_URL`); previews `.vercel.app` retornam `X-Robots-Tag: noindex` (produção permite indexação); Vercel Speed Insights habilitado para monitoramento contínuo de CWV.
-**Plans:** 6 plans (5 waves)
+**Plans:** 7 plans (6 waves)
 Plans:
 - [ ] 07-01-PLAN.md — Wave 0 tests RED (metadata, json-ld, semantic-html, robots, skip-link, speed-insights, device-tier)
 - [ ] 07-02-PLAN.md — SEO metadata + JSON-LD: instalar schema-dts, Organization + WebPage tipados, Twitter Card completo
 - [ ] 07-03-PLAN.md — A11y: skip-link funcional + main#main-content + auditoria de contraste/teclado/form aria/reduced-motion
 - [ ] 07-04-PLAN.md — SEO hardening: X-Robots-Tag header, helper site-url dinâmico, metadataBase dinâmico, polish da OG image
-- [ ] 07-05-PLAN.md — Performance + deploy: Speed Insights + bundle-analyzer + auditoria tap targets/useDeviceTier/hover/lazy-load
+- [ ] 07-05-PLAN.md — Performance + infra: Speed Insights + bundle-analyzer + auditoria bundle/CLS/lazy-load + PERF-09
 - [ ] 07-06-PLAN.md — HUMAN-UAT consolidado (Lighthouse, Rich Results, OG preview, device matrix, bloqueios externos) + checkpoint
+- [ ] 07-07-PLAN.md — Mobile QA + deploy: auditoria tap targets/useDeviceTier/hover→active/Lenis touch + .env.example
 **UI hint**: yes
 
 ## Phase Ordering Rationale
