@@ -22,7 +22,6 @@
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render } from "@testing-library/react";
-// @ts-expect-error — módulo criado no Plan 06-02; ausência é o RED de Wave 0.
 import { ScrollDepthTracker } from "@/components/analytics/ScrollDepthTracker";
 
 // `track` mockado — o teste verifica os argumentos, não o fan-out real.
