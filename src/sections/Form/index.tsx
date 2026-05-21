@@ -10,10 +10,21 @@
  * Defense in depth: LeadForm já tem data-clarity-mask no root <form>;
  * o atributo aqui na <section> cobre eyebrow/heading/subheading e qualquer
  * markup futuro adjacente ao form.
+ *
+ * PERF-07: o LeadForm é a única ilha client com payload exclusivo pesado
+ * (react-hook-form + zod + @hookform/resolvers, ~80KB parsed) e está
+ * below-fold (última seção). É carregado via next/dynamic com `ssr: true`
+ * — o HTML do form continua no SSR (SEO preservado), mas o chunk JS sai do
+ * First Load JS e hidrata sob demanda. As demais seções são RSC: dynamic
+ * nelas seria net-neutro (Pitfall 1), por isso não foi aplicado.
  */
+import dynamic from "next/dynamic";
 import { Container } from "@/components/ui/container";
 import { FORM_COPY } from "@/content/form";
-import { LeadForm } from "./LeadForm";
+
+const LeadForm = dynamic(() => import("./LeadForm").then((m) => m.LeadForm), {
+  ssr: true,
+});
 
 export function Form() {
   return (
