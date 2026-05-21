@@ -6,6 +6,7 @@ import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provi
 import { OrganizationJsonLd, WebPageJsonLd } from "@/components/seo/json-ld";
 import { Toaster } from "@/components/ui/sonner";
 import { getSiteUrl } from "@/lib/site-url";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 // FOUND-04: Inter, 3 pesos, swap, variable CSS — NUNCA mais que 3 pesos (brand book)
@@ -90,6 +91,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Toaster richColors position="bottom-right" />
           </SmoothScrollProvider>
         </AnalyticsProvider>
+        {/*
+         * DEPLOY-05: Vercel Speed Insights — coleta contínua de Core Web
+         * Vitals (LCP/CLS/INP) em produção. Métricas anônimas, sem PII
+         * (T-07-07 aceito). Montado fora dos providers — não re-renderiza
+         * no scroll do Lenis.
+         */}
+        <SpeedInsights />
       </body>
     </html>
   );

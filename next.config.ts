@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import withBundleAnalyzer from "@next/bundle-analyzer";
 
 /**
  * SEO-11 (T-07-05): defesa em profundidade contra indexação de previews.
@@ -22,4 +23,11 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+/**
+ * PERF-05: bundle-analyzer como instrumento de medição do First Load JS
+ * (gate ≤150KB gzipped). Inativo por padrão — só gera o treemap quando
+ * `ANALYZE=true npm run build`. Não afeta build de produção.
+ */
+const analyze = withBundleAnalyzer({ enabled: process.env.ANALYZE === "true" });
+
+export default analyze(nextConfig);
