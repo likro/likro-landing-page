@@ -15,7 +15,7 @@ export default function HomePage() {
   return (
     <>
       <Header />
-      <main>
+      <main id="main-content">
         <TrackSection section="hero">
           <Hero />
         </TrackSection>

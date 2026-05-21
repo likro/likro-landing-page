@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { SkipLink } from "@/components/a11y/skip-link";
 import { AnalyticsProvider } from "@/components/providers/analytics-provider";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
 import { OrganizationJsonLd, WebPageJsonLd } from "@/components/seo/json-ld";
@@ -71,6 +72,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={inter.variable}>
       <body>
+        {/*
+         * A11Y-05: SkipLink é o primeiro elemento focável do body — alvo do
+         * Tab inicial. Renderiza um <a href="#main-content"> com o texto
+         * "Pular para o conteúdo principal", saltando para o <main> da página.
+         */}
+        <SkipLink />
         <OrganizationJsonLd />
         <WebPageJsonLd />
         <AnalyticsProvider>
