@@ -5,6 +5,7 @@ import { AnalyticsProvider } from "@/components/providers/analytics-provider";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
 import { OrganizationJsonLd, WebPageJsonLd } from "@/components/seo/json-ld";
 import { Toaster } from "@/components/ui/sonner";
+import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 // FOUND-04: Inter, 3 pesos, swap, variable CSS — NUNCA mais que 3 pesos (brand book)
@@ -18,7 +19,10 @@ const inter = Inter({
 
 // FOUND-10: Metadata completa — title.template, OG, Twitter, robots, manifest.
 export const metadata: Metadata = {
-  metadataBase: new URL("https://likro.com.br"),
+  // SEO-03 (Pitfall 5): metadataBase derivada de getSiteUrl() — resolve a OG
+  // image / Twitter image para a URL .vercel.app ativa durante a v1, sem
+  // esperar o DNS do domínio final.
+  metadataBase: new URL(getSiteUrl()),
   title: {
     default: "Likro · Operação comercial moderna para clínicas",
     template: "%s · Likro",
