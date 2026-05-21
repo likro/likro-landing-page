@@ -19,7 +19,6 @@
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { render } from "@testing-library/react";
-// @ts-expect-error — módulo criado no Plan 06-02; ausência é o RED de Wave 0.
 import { useSectionView } from "@/hooks/use-section-view";
 
 // `track` mockado — o teste verifica os argumentos do fan-out, não o fan-out real.
