@@ -46,7 +46,7 @@ export function Footer() {
                   key={link.href}
                   href={link.href}
                   rel={"rel" in link ? link.rel : undefined}
-                  className="text-sm text-text-on-dark-secondary transition-colors hover:text-text-on-dark-primary"
+                  className="rounded-md text-sm text-text-on-dark-secondary transition-colors hover:text-text-on-dark-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface-darker"
                 >
                   {link.label}
                 </Link>

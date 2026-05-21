@@ -76,7 +76,7 @@ export function Header() {
         <Link
           href="/"
           aria-label="Likro - página inicial"
-          className="group inline-flex items-center gap-2 text-text-primary"
+          className="group inline-flex items-center gap-2 rounded-md text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2"
         >
           {/* Logo placeholder em texto — substituir por SVG quando asset final chegar */}
           <span
