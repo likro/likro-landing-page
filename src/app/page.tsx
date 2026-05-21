@@ -8,21 +8,38 @@ import { HowItWorks } from "@/sections/HowItWorks";
 import { Proof } from "@/sections/Proof";
 import { Form } from "@/sections/Form";
 import { FloatingWhatsApp } from "@/sections/Floating/FloatingWhatsApp";
+import { TrackSection } from "@/components/analytics/TrackSection";
+import { ScrollDepthTracker } from "@/components/analytics/ScrollDepthTracker";
 
 export default function HomePage() {
   return (
     <>
       <Header />
       <main>
-        <Hero />
-        <Pain />
-        <Bridge />
-        <Product />
-        <HowItWorks />
-        <Proof />
-        <Form />
+        <TrackSection section="hero">
+          <Hero />
+        </TrackSection>
+        <TrackSection section="pain">
+          <Pain />
+        </TrackSection>
+        <TrackSection section="bridge">
+          <Bridge />
+        </TrackSection>
+        <TrackSection section="product">
+          <Product />
+        </TrackSection>
+        <TrackSection section="how">
+          <HowItWorks />
+        </TrackSection>
+        <TrackSection section="proof">
+          <Proof />
+        </TrackSection>
+        <TrackSection section="form">
+          <Form />
+        </TrackSection>
       </main>
       <Footer />
+      <ScrollDepthTracker />
       <FloatingWhatsApp />
     </>
   );
