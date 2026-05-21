@@ -156,7 +156,7 @@ Plans:
 | 3. Hero (benchmarked isolado) | 0/3 | Planned | - |
 | 4. Narrative Sections | 0/0 | Not started | - |
 | 5. Conversion | 7/7 | Complete    | 2026-05-20 |
-| 6. Analytics Instrumentation Pass | 4/4 | Complete   | 2026-05-21 |
+| 6. Analytics Instrumentation Pass | 4/4 | Complete    | 2026-05-21 |
 | 7. SEO + A11y + Performance + Deploy Hardening | 0/0 | Not started | - |
 
 ## Coverage Verification
