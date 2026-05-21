@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { getSiteUrl } from "@/lib/site-url";
 
 export default function robots(): MetadataRoute.Robots {
   // WR-05: VERCEL_ENV só existe em deploys Vercel. Builds não-Vercel (Docker,
@@ -12,6 +13,6 @@ export default function robots(): MetadataRoute.Robots {
     rules: isProd
       ? [{ userAgent: "*", allow: "/" }]
       : [{ userAgent: "*", disallow: "/" }],
-    sitemap: isProd ? "https://likro.com.br/sitemap.xml" : undefined,
+    sitemap: isProd ? `${getSiteUrl()}/sitemap.xml` : undefined,
   };
 }
