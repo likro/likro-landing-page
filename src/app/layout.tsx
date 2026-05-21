@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { AnalyticsProvider } from "@/components/providers/analytics-provider";
 import { SmoothScrollProvider } from "@/components/providers/smooth-scroll-provider";
+import { OrganizationJsonLd, WebPageJsonLd } from "@/components/seo/json-ld";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
     default: "Likro · Operação comercial moderna para clínicas",
     template: "%s · Likro",
   },
+  // SEO-01/02: title 49c, description 87c — auditado, dentro dos limites.
   description:
     "CRM, atendimento multicanal e automação com IA, feito para clínicas e estéticas brasileiras.",
   openGraph: {
@@ -37,6 +39,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Likro",
     description: "Operação comercial moderna para clínicas e estéticas.",
+    // SEO-04: reusa a OG image 1200×630 para completar o Twitter Card.
+    images: ["/opengraph-image"],
   },
   robots: { index: true, follow: true },
   manifest: "/manifest.webmanifest",
@@ -67,6 +71,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={inter.variable}>
       <body>
+        <OrganizationJsonLd />
+        <WebPageJsonLd />
         <AnalyticsProvider>
           <SmoothScrollProvider>
             {children}
