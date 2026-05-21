@@ -38,7 +38,7 @@ export function HeroCopy() {
         </WhatsAppCta>
         <Link
           href={HERO_COPY.ctaSecondary.href}
-          className="group inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-text-on-dark-secondary transition-colors hover:text-text-on-dark-primary"
+          className="group inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm font-medium text-text-on-dark-secondary transition-colors hover:text-text-on-dark-primary active:text-text-on-dark-primary max-md:min-h-[44px]"
         >
           {HERO_COPY.ctaSecondary.label}
           <ArrowRight

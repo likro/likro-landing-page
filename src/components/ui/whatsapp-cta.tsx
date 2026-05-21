@@ -82,7 +82,9 @@ export function WhatsAppCta({
             }
           : {
               variant: "link" as const,
-              className: "h-auto p-0",
+              // h-auto p-0 mantém o visual de link inline; max-md:min-h-[44px]
+              // garante área tocável ≥44px no mobile (MOBILE-03) sem mexer no desktop.
+              className: "h-auto p-0 max-md:min-h-[44px]",
             };
 
   return (
