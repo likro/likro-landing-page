@@ -327,12 +327,14 @@ export default analyze(nextConfig);
 | A4 | Lenny tem perfis Instagram/LinkedIn para `sameAs` do JSON-LD | Pattern 1 | Médio — se não tiver, omitir `sameAs` (não inventar). Pergunta para discuss/UAT. |
 | A5 | `metadataBase` apontar para `likro.com.br` quebra OG preview em `.vercel.app` | Pitfall 5 | Médio — confirmar comportamento; pode exigir `metadataBase` dinâmica via `VERCEL_URL`. |
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **`sameAs` do JSON-LD Organization** — Lenny tem Instagram e LinkedIn da Likro? Sem links reais, omitir o campo (invariante de credibilidade: zero dados inventados). → Pergunta para o Lenny.
-2. **`metadataBase` durante v1 em `.vercel.app`** — manter `likro.com.br` (OG quebrada até DNS) ou usar `VERCEL_URL` dinâmico (OG funciona já)? Os canais de aquisição são WhatsApp/LinkedIn — recomendação: dinâmico.
-3. **PERF-08 — prints reais existem?** Se sim, é trabalho de swap (`next/image` + manifest). Se não, é "otimizar placeholders + marcar pendência". → Confirmar com Lenny antes de dimensionar o plano.
-4. **PERF-09 escopo** — `navigator.connection` não existe no Safari (browser dominante do tráfego alvo). Implementar mesmo assim (só beneficia Android) ou marcar como coberto-parcialmente via `useDeviceTier`? → Decisão do Lenny.
+Todas resolvidas durante o planejamento (2026-05-21), de forma consistente com os invariantes do projeto:
+
+1. **`sameAs` do JSON-LD Organization** — RESOLVED: omitir o campo `sameAs` (invariante de credibilidade — zero dados inventados; se Lenny confirmar perfis Instagram/LinkedIn reais depois, adicionar). Aplicado no plan 07-02.
+2. **`metadataBase` durante v1 em `.vercel.app`** — RESOLVED: usar URL dinâmico via `VERCEL_URL` (OG funciona já no `.vercel.app`, não espera DNS). Aplicado no plan 07-04.
+3. **PERF-08 — prints reais existem?** — RESOLVED: não existem (site usa mockups CSS puros, zero `next/image`). Escopo nulo — sem manifesto de imagens inventado; swap fica como pendência se assets reais chegarem. Aplicado no plan 07-04.
+4. **PERF-09 escopo** — RESOLVED: `navigator.connection` é progressive enhancement com fallback no-op (Safari, browser dominante do tráfego alvo, não implementa a API — sem erro, só não degrada). Aplicado no plan 07-05.
 
 ## Environment Availability
 
