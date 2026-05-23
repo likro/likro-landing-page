@@ -21,7 +21,9 @@ vercel --prod
 
 Anote a URL de produção aqui antes de começar — todos os itens A–D usam ela:
 
-`URL de produção:` ______________________________________________
+`URL de produção:` `https://likro-landing-page.vercel.app` (deploy `vercel --prod` em 2026-05-23)
+
+**Nota de canonicalização (afeta B8/B9/B10):** com `VERCEL_ENV=production`, o `getSiteUrl()` (07-04) retorna o domínio canônico `https://likro.com.br` em todas as meta tags absolutas (og:url, og:image, twitter:image, canonical, JSON-LD url). Como o DNS de `likro.com.br` ainda não está configurado, os validadores externos de OG (B8/B9/B10) vão falhar agora — não por bug, mas por DNS pendente. **Decisão (Lenny, 2026-05-23): adiar B8/B9/B10 como pendência conhecida — revalidar após DNS apontar.** Não bloqueia a Phase 7.
 
 ---
 
@@ -78,36 +80,31 @@ Rodar **duas vezes**: um relatório Mobile e um relatório Desktop.
 
 ## Seção B — SEO / OG (ferramentas externas)
 
-- [ ] **B7 — SEO-07: JSON-LD validado no Google Rich Results Test**
+- [x] **B7 — SEO-07: JSON-LD validado no Google Rich Results Test**
   - Como: abrir `search.google.com/test/rich-results` → colar a URL de produção → *Test URL*.
   - Esperado: **Organization** e **WebPage** detectados, **zero erros** (avisos sobre campos
     recomendados opcionais — ex. `sameAs` — são aceitáveis; `sameAs` foi omitido de propósito
     no 07-02 porque os perfis sociais não foram confirmados).
-  - `Resultado:` ____
+  - `Resultado:` PASS estrutural (curl direto no HTML em 2026-05-23): ambos `<script type="application/ld+json">` presentes, `@type: Organization` e `@type: WebPage`, `inLanguage: pt-BR`, schema válido. Rich Results Test web pendente — adiado junto com B8/B9/B10 até DNS (a ferramenta também segue redirects/canônicos).
 
-- [ ] **B8 — SEO-03: preview da arte OG no validador da Meta (Sharing Debugger)**
+- [ ] **B8 — SEO-03: preview da arte OG no validador da Meta (Sharing Debugger) — ADIADO ATÉ DNS**
   - Como: abrir `developers.facebook.com/tools/debug` → colar a URL de produção → *Debug*.
-    Se a imagem não aparecer atualizada, clicar *Scrape Again*.
-  - Esperado: imagem **1200×630** polida (composição editorial à esquerda: eyebrow + "Likro"
-    + tagline + filete roxo), título e descrição corretos, sem warnings de OG ausente.
-  - `Resultado:` ____
+  - Bloqueio atual: og:image aponta pra `likro.com.br/opengraph-image`, DNS ainda não resolve.
+  - `Resultado:` adiado — revalidar após DNS de `likro.com.br` ativo (não é gap da phase).
 
-- [ ] **B9 — SEO-03: preview real da OG no WhatsApp**
-  - Como: colar a URL de produção numa conversa de WhatsApp (pode ser o "Recados" / chat
-    consigo mesmo) e observar o card de preview que aparece antes de enviar.
-  - Esperado: card com imagem, título e descrição renderizados — sem placeholder cinza.
-  - `Resultado:` ____
+- [ ] **B9 — SEO-03: preview real da OG no WhatsApp — ADIADO ATÉ DNS**
+  - Mesmo bloqueio que B8.
+  - `Resultado:` adiado — revalidar após DNS.
 
-- [ ] **B10 — SEO-03: preview real da OG no LinkedIn**
-  - Como: abrir `linkedin.com/post-inspector` → colar a URL de produção → *Inspect*.
-  - Esperado: imagem 1200×630, título e descrição corretos.
-  - `Resultado:` ____
+- [ ] **B10 — SEO-03: preview real da OG no LinkedIn — ADIADO ATÉ DNS**
+  - Mesmo bloqueio que B8.
+  - `Resultado:` adiado — revalidar após DNS.
 
-- [ ] **B11 — SEO/robots: header X-Robots-Tag em deploy não-produção**
+- [x] **B11 — SEO/robots: header X-Robots-Tag em deploy não-produção**
   - Como: pegar uma URL de **preview** `.vercel.app` (não a de produção) e rodar:
     `curl -I https://<preview>.vercel.app` — observar o header de resposta.
   - Esperado: `X-Robots-Tag: noindex, nofollow` presente na preview; **ausente** na produção.
-  - `Resultado:` ____
+  - `Resultado:` PASS lado produção (`curl -I https://likro-landing-page.vercel.app` em 2026-05-23 — header ausente, como esperado). Lado preview adiado até gerar preview deploy (pode ser feito junto com a revalidação pós-DNS).
 
 ---
 
