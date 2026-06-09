@@ -226,5 +226,14 @@ Plans:
 Plans:
 - [ ] TBD (promote with /gsd-review-backlog when ready)
 
+### Phase 999.3: brand-lock test gate accent-on-dark to Button + WhatsAppCta only (BACKLOG)
+
+**Goal:** [Captured for future planning] Add a 4th `it()` to `tests/brand-lock.test.ts` that fails CI if any `(bg|text|border|ring|outline|decoration)-accent-on-dark` utility appears outside `src/components/ui/button.tsx` and `src/components/ui/whatsapp-cta.tsx`. Originated from SF-02 of the Phase 7 B12 hotfix code review (2026-06-09). Prevents creep of the `accent-on-dark` purple-400 token into light-surface contexts where it shouldn't appear — preserves the brand invariant "roxo é destaque, nunca protagonista" while honoring the new on-dark exception introduced for WCAG AA.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd-review-backlog when ready)
+
 ---
 *Roadmap created: 2026-05-15*
