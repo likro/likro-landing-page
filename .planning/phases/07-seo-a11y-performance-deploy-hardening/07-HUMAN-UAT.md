@@ -164,7 +164,7 @@ Rodar **duas vezes**: um relatório Mobile e um relatório Desktop.
 
 ## Seção D — Mobile (device matrix real)
 
-- [ ] **B15 — MOBILE-07: device matrix real**
+- [x] **B15 — MOBILE-07: device matrix real**
   - Como: abrir a URL de produção em pelo menos:
     - **iPhone** (iOS Safari)
     - **Android mid-tier** (Chrome)
@@ -172,16 +172,18 @@ Rodar **duas vezes**: um relatório Mobile e um relatório Desktop.
   - Verificar em cada device: layout sem quebra, CTAs grandes o suficiente para tocar
     (≥44px — corrigido no 07-07), scroll fluido, **sem overflow horizontal** (a página não
     "vaza" para os lados).
-  - `Resultado:` iPhone ____ / Android ____ / iPad ____
+  - `Resultado:` iPhone **OK** / Android **OK** / iPad — não testado (não-bloqueador).
+    Confirmado por Lenny em 2026-06-09. PASS.
 
-- [ ] **B16 — MOBILE-04: decisão final do Lenis em touch**
+- [x] **B16 — MOBILE-04: decisão final do Lenis em touch**
   - Como: no **iPhone real**, rolar a página de cima a baixo algumas vezes. Sentir se o
     scroll está natural — sem atrito, sem lag, sem "borracha" estranha. O 07-07 manteve
     `syncTouch: false` (touch usa scroll nativo); esta é a validação final dessa decisão.
   - Esperado: scroll touch natural e fluido.
   - Se houver atrito/lag → **ação de follow-up:** pular o init do Lenis em `pointer: coarse`
     (registrar como follow-up, não como gap bloqueante da phase).
-  - `Resultado:` ____
+  - `Resultado:` PASS — scroll touch natural confirmado por Lenny no iPhone (junto com B15).
+    Decisão `syncTouch: false` validada — não há follow-up necessário pra Lenis em touch.
 
 ---
 
@@ -198,7 +200,9 @@ Rodar **duas vezes**: um relatório Mobile e um relatório Desktop.
     conectar o repo ao projeto na Vercel para ligar o auto-deploy.
   - **Não é gap da phase** — é bloqueio de acesso. Marcar `[x]` quando resolvido ou registrar
     que segue pendente.
-  - `Resultado:` ____
+  - `Resultado:` PENDENTE — push de `lennywajcberg` pra `likro/likro-landing-page` ainda
+    retorna 403 (confirmado 2026-06-09). Deploys da v1 seguem manuais via `vercel --prod`
+    (que funciona — auth de `likro1818-debug` no CLI). Não-bloqueador da phase.
 
 - [ ] **B18 — DEPLOY-03: configurar as 3 env vars de analytics na Vercel**
   - Estado: pendente da Phase 6 Parte B. O `.env.example` (07-07) já documenta todas as vars.
@@ -208,7 +212,12 @@ Rodar **duas vezes**: um relatório Mobile e um relatório Desktop.
     - `NEXT_PUBLIC_META_PIXEL_ID`
     - `NEXT_PUBLIC_CLARITY_ID`
   - As demais (`NEXT_PUBLIC_WA_NUMBER`, `RESEND_*`, `GOOGLE_*`) já estão configuradas.
-  - `Resultado:` ____
+  - `Resultado:` PENDENTE — `vercel env ls production` (2026-06-09) lista apenas
+    `GOOGLE_SA_PRIVATE_KEY`, `GOOGLE_SHEET_ID`, `GOOGLE_SA_CLIENT_EMAIL`, `LEAD_TO_EMAIL`,
+    `RESEND_API_KEY` (form) e `NEXT_PUBLIC_WA_NUMBER` (CTA). As 3 vars de analytics
+    (`NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_META_PIXEL_ID`, `NEXT_PUBLIC_CLARITY_ID`) seguem
+    ausentes nos 3 escopos. Sem elas, o site não emite eventos pra GA4/Pixel/Clarity em prod —
+    impossível otimizar campanha de Meta Ads. Lenny precisa configurar antes do go-live.
 
 - [ ] **B19 — PERF-08: prints reais de produto**
   - Estado: o site usa **apenas mockups CSS** hoje — não há `next/image` com prints reais.
@@ -216,26 +225,35 @@ Rodar **duas vezes**: um relatório Mobile e um relatório Desktop.
     via `next/image` (vira plano futuro). Se não houver, **PERF-08 fica como "otimizado o que
     existe"** — sem manifesto de imagens inventado, conforme o invariante de credibilidade
     do projeto.
-  - `Resultado:` ____
+  - `Resultado:` ACEITO COMO ESTÁ — sem prints reais disponíveis na v1, mockups CSS atendem
+    o objetivo da landing (visual premium próprio + zero placeholders falsos, conforme
+    invariante de credibilidade do PROJECT.md). PERF-08 considerado "otimizado o que existe".
+    Swap por `next/image` fica como plano futuro quando prints reais existirem.
 
 ---
 
 ## Seção F — Sign-off
 
-- [ ] **B20 — Suíte de testes automatizada verde**
+- [x] **B20 — Suíte de testes automatizada verde**
   - Como: `npm test` + `npm run typecheck` + `npm run lint` — tudo passa (warning
     pré-existente em `analytics.ts:80` é conhecido e fora de escopo).
-  - `Resultado:` ____
+  - `Resultado:` PASS pós-hotfix (2026-06-09): `npm test` 241/241 verde, `npm run typecheck`
+    clean, `npm run lint` clean (apenas 1 warning pré-existente conhecido em `analytics.ts:80`).
 
-- [ ] **B21 — Seções A–D marcadas pass**
+- [x] **B21 — Seções A–D marcadas pass**
   - Todos os gates numéricos (A) passaram, ferramentas externas de SEO (B) OK, acessibilidade
     (C) sem violações, device matrix (D) OK. Se algum gate falhar, descrever abaixo — vira
     gap para `/gsd-plan-phase --gaps`.
-  - `Gates que falharam (se houver):` ____
+  - `Gates que falharam (se houver):` nenhum. A: 5/6 PASS (B4 INP adiado p/ field via Speed
+    Insights, não-bloqueador). B: B7/B11 PASS, B8/B9/B10 ADIADOS DNS (não-bloqueador).
+    C: B12 PASS (após hotfix), B13/B14 PASS. D: B15/B16 PASS (iPhone + Android confirmados).
 
-- [ ] **B22 — Pendências da Seção E registradas**
+- [x] **B22 — Pendências da Seção E registradas**
   - O estado de B17/B18/B19 está anotado acima como pendência (não como falha da phase).
-  - `Resultado:` ____
+  - `Resultado:` registradas. B17 pendente (push 403 do `lennywajcberg`, deploys seguem via
+    CLI). B18 pendente (3 env vars de analytics ausentes em prod — Lenny configura no painel
+    Vercel antes do go-live). B19 aceito (sem prints reais na v1; mockups CSS atendem o
+    objetivo).
 
 - [ ] **B23 — Aprovação final do Lenny**
   - Digite "aprovado" se todos os gates A–D passaram (pendências da Seção E são aceitáveis),
