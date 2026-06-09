@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { BRAND } from "@/lib/brand-tokens";
 
 export const runtime = "edge";
 export const alt = "Likro · CRM e atendimento para clínicas e estéticas";
@@ -10,9 +11,9 @@ export const contentType = "image/png";
  *
  * Composição editorial alinhada à esquerda (não centralizada genérica): a
  * marca e a tagline ancoram a vertical esquerda, com respiro à direita —
- * leitura premium, hierarquia clara. Fundo escuro `#0a0a0b` com um brilho
- * radial roxo `#7C3AED` sutil no canto superior direito (destaque pontual,
- * respeitando o brand book — roxo nunca domina o fundo).
+ * leitura premium, hierarquia clara. Fundo escuro `surface-dark` com um
+ * brilho radial roxo brand sutil no canto superior direito (destaque
+ * pontual, respeitando o brand book — roxo nunca domina o fundo).
  *
  * Contraste do texto sobre o fundo escuro validado: branco-quase-puro para a
  * marca, cinza claro para a tagline e o eyebrow.
@@ -95,7 +96,7 @@ export default function OpengraphImage() {
             height: 6,
             borderRadius: 3,
             marginTop: 44,
-            background: "#7C3AED",
+            background: BRAND.accentPrimary,
           }}
         />
       </div>

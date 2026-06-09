@@ -51,7 +51,7 @@ export function Footer() {
                   {link.label}
                 </Link>
               ))}
-            <WhatsAppCta variant="inline" location="footer">
+            <WhatsAppCta variant="inline" location="footer" surface="dark">
               {FOOTER_COPY.whatsappCtaLabel}
             </WhatsAppCta>
           </div>

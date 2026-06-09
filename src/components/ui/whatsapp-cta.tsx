@@ -9,6 +9,7 @@ import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 type Variant = "primary" | "secondary" | "floating" | "inline";
+type Surface = "light" | "dark";
 
 interface Props {
   variant?: Variant;
@@ -16,6 +17,13 @@ interface Props {
   label?: string;
   className?: string;
   children?: React.ReactNode;
+  /**
+   * Contexto de fundo onde o CTA está renderizado.
+   * Em "dark", troca tokens de roxo para accent-on-dark (purple-400) — necessário
+   * para WCAG AA em surface-dark/darker (Pain section, Footer).
+   * Default "light".
+   */
+  surface?: Surface;
 }
 
 /**
@@ -40,6 +48,7 @@ export function WhatsAppCta({
   label,
   className,
   children,
+  surface = "light",
 }: Props) {
   const [loading, setLoading] = useState(false);
 
@@ -65,12 +74,20 @@ export function WhatsAppCta({
     }
   };
 
-  // Variant → Button variant + className extras
+  // Variant → Button variant + className extras.
+  // surface="dark" troca secondary→secondary-on-dark e link→link-on-dark
+  // (WCAG AA: accent-primary falha contra surface-dark/darker; nesses
+  // contextos usamos accent-on-dark, que passa AA com folga).
   const variantProps =
     variant === "primary"
       ? { variant: "default" as const }
       : variant === "secondary"
-        ? { variant: "secondary" as const }
+        ? {
+            variant:
+              surface === "dark"
+                ? ("secondary-on-dark" as const)
+                : ("secondary" as const),
+          }
         : variant === "floating"
           ? {
               variant: "default" as const,
@@ -81,7 +98,10 @@ export function WhatsAppCta({
               ),
             }
           : {
-              variant: "link" as const,
+              variant:
+                surface === "dark"
+                  ? ("link-on-dark" as const)
+                  : ("link" as const),
               // h-auto p-0 mantém o visual de link inline; max-md:min-h-[44px]
               // garante área tocável ≥44px no mobile (MOBILE-03) sem mexer no desktop.
               className: "h-auto p-0 max-md:min-h-[44px]",

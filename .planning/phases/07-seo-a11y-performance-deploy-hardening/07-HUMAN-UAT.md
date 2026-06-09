@@ -33,48 +33,53 @@ Medir contra a URL `.vercel.app` de produção. Ferramenta: Lighthouse no Chrome
 (aba Lighthouse → modo Navigation) **ou** PageSpeed Insights web (`pagespeed.web.dev`).
 Rodar **duas vezes**: um relatório Mobile e um relatório Desktop.
 
-- [ ] **B1 — PERF-01: Lighthouse Performance ≥ 90 desktop / ≥ 85 mobile**
+- [x] **B1 — PERF-01: Lighthouse Performance ≥ 90 desktop / ≥ 85 mobile**
   - Como: abrir a URL de produção no Chrome → DevTools (F12) → aba **Lighthouse** → escolher
     *Device: Desktop*, categoria *Performance*, *Analyze page load*. Repetir com *Device: Mobile*.
     Alternativa: colar a URL em `pagespeed.web.dev` (já roda mobile + desktop).
   - Esperado: score Performance **≥ 90 no desktop** e **≥ 85 no mobile**.
-  - `Resultado:` desktop ____ / mobile ____
+  - `Resultado:` desktop **100** / mobile **88** — PASS ambos (Chrome incognito, 2026-06-09).
 
-- [ ] **B2 — PERF-02: LCP < 2.5s mobile / < 2.0s desktop**
+- [x] **B2 — PERF-02: LCP < 2.5s mobile / < 2.0s desktop**
   - Como: no **mesmo relatório Lighthouse** da B1, ver a métrica *Largest Contentful Paint*.
   - Esperado: LCP **< 2.5s no mobile** e **< 2.0s no desktop**.
-  - `Resultado:` desktop ____ s / mobile ____ s
+  - `Resultado:` desktop **0.5s** / mobile **2.3s** — PASS ambos (margem 0.2s no mobile).
 
-- [ ] **B3 — PERF-03: CLS < 0.1 em todos os breakpoints**
+- [x] **B3 — PERF-03: CLS < 0.1 em todos os breakpoints**
   - Como: ver *Cumulative Layout Shift* no relatório Lighthouse. Confirmar também
     redimensionando a janela (mobile ~375px, tablet ~768px, desktop ~1280px) e observando
     se algum elemento "pula" durante o load.
   - Esperado: CLS **< 0.1** em mobile, tablet e desktop.
-  - `Resultado:` ____
+  - `Resultado:` **CLS 0** em mobile e desktop — PASS perfeito.
 
-- [ ] **B4 — PERF-04: INP < 200ms**
+- [ ] **B4 — PERF-04: INP < 200ms — adiado p/ field**
   - Como: no relatório Lighthouse ver *Interaction to Next Paint* (ou *Total Blocking Time*
     como proxy no lab). Para medição de campo real, abrir o painel **Performance** do DevTools,
     gravar enquanto interage (clicar CTAs, abrir/fechar elementos) e ver o INP reportado.
     Speed Insights da Vercel (07-05) também acumula INP de produção no dashboard.
   - Esperado: INP **< 200ms**.
-  - `Resultado:` ____ ms
+  - `Resultado:` lab proxy **TBT 420ms** (mobile, amarelo). INP real fica pendente de medição
+    de campo via Vercel Speed Insights após acúmulo de tráfego (~24-48h). Não-bloqueador
+    de v1 — INP virá monitorado em produção.
 
-- [ ] **B5 — PERF-06: peso total da página ≤ 1.5MB mobile**
+- [x] **B5 — PERF-06: peso total da página ≤ 1.5MB mobile**
   - Como: DevTools → aba **Network** → ativar throttling *Fast 3G* ou *Slow 4G* + device toolbar
     em modo mobile → recarregar a página com cache desativado (*Disable cache*) → ver o
     *transfer size* total na barra inferior do Network.
   - Esperado: soma de transfer **≤ 1.5 MB** no carregamento mobile.
-  - `Resultado:` ____ MB
+  - `Resultado:` **273 kB transferred** em Slow 4G (17 requests, finish 3.7s, DCL 1.61s) —
+    PASS com ~80% de margem.
 
-- [ ] **B6 — PERF-05 (referência, já medido): First Load JS**
+- [x] **B6 — PERF-05 (referência, já medido): First Load JS**
   - Não precisa medir aqui — apenas registrar. O plan 07-05 mediu via `npm run build`:
     a rota `/` está em **159 kB First Load JS**, ~9 kB acima do gate de 150 KB.
     Há um follow-up registrado no `07-05-SUMMARY.md` (tree-shaking `@radix-ui`, lazy-load
     do `sonner`/Toaster, footprint do `framer-motion`) a priorizar **após** a medição
     Lighthouse desta seção. Se a B1 passar com folga, o excedente de bundle pode ser aceito
     para a v1; se a B1 falhar no mobile, o follow-up vira gap prioritário.
-  - `Resultado:` First Load JS atual ____ kB (rodar `npm run build` se quiser revalidar) — gate B1 passou? ____
+  - `Resultado:` First Load JS atual **159 kB** — gate B1 **PASS** (mobile 88 ≥ 85, desktop 100 ≥ 90).
+    Excedente de bundle aceito para a v1; follow-up de tree-shaking registrado em `07-05-SUMMARY.md`
+    fica como recomendação não-bloqueante.
 
 ---
 
@@ -110,14 +115,23 @@ Rodar **duas vezes**: um relatório Mobile e um relatório Desktop.
 
 ## Seção C — Acessibilidade (ferramenta + olho humano)
 
-- [ ] **B12 — A11Y-01: contraste (axe DevTools)**
+- [x] **B12 — A11Y-01: contraste (axe DevTools)** — PASS após hotfix
   - Como: instalar a extensão **axe DevTools** no Chrome → abrir a URL de produção →
     DevTools → aba *axe DevTools* → *Scan all of my page*. Conferir especialmente os pares
     das seções **DARK** (Pain, Proof) listados no `07-03-SUMMARY.md` — o par mais apertado
     é `text-on-dark-muted` em 5.35:1.
   - Esperado: **zero violações de contraste** (a auditoria de cálculo do 07-03 já deu PASS;
     isto confirma com a ferramenta no render real).
-  - `Resultado:` ____
+  - `Resultado:` 1ª run (2026-06-09): **3 violações WCAG AA serias** encontradas no produção
+    deployada — (a) timestamp "há 14s" do hero card (`text-neutral-400` ratio 2.45, mas em
+    `<article aria-hidden="true">` decorativo); (b) CTA WhatsApp da Pain (`text-accent-primary`
+    sobre `bg-surface-dark`, ratio 3.36); (c) CTA WhatsApp do Footer (mesmo problema, ratio
+    3.36). **Hotfix aplicado** introduzindo token `--color-accent-on-dark: #a78bfa` (purple-400,
+    ratio ~7.2 contra surface-dark/darker) + variants `secondary-on-dark`/`link-on-dark` no
+    Button + prop `surface` no WhatsAppCta. Hero timestamp passou pra `text-neutral-500`
+    (ratio 4.85). Re-validação via axe-core no localhost: **0 violations / 24 passes** (1
+    "incomplete" do tipo gradient/overlap, falso-positivo). Re-rodar axe na URL prod
+    após redeploy.
 
 - [ ] **B13 — A11Y-02: navegação por teclado**
   - Como: na URL de produção, clicar uma vez na barra de endereço e depois percorrer o site

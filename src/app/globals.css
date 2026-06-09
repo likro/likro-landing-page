@@ -24,6 +24,10 @@
   --color-accent-primary: #7c3aed;
   --color-accent-hover: #6d28d9;
   --color-accent-glow: oklch(0.62 0.21 295 / 0.18);
+  /* on-dark: usado em texto/border de CTAs sobre surface-dark / surface-darker.
+     #7c3aed contra fundos dark dá ratio ~3.4 (WCAG AA fail). #a78bfa (Tailwind
+     purple-400) dá ratio ~7.2 — passa AA com folga e mantém o feel da brand. */
+  --color-accent-on-dark: #a78bfa;
 
   /* ── Surface ── Premium "blue-black" — fuga deliberada de preto puro (#000)
      pra warmth azulada cinematográfica (estilo Linear, Attio, Stripe dark). ── */

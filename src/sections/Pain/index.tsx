@@ -43,7 +43,7 @@ export function Pain() {
         <PainCardConstellation />
         <PainStatement />
         <div className="mt-10 flex justify-center md:mt-12">
-          <WhatsAppCta variant="secondary" location="pain">
+          <WhatsAppCta variant="secondary" location="pain" surface="dark">
             Quero entender como organizar
           </WhatsAppCta>
         </div>

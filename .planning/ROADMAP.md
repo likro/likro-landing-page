@@ -136,13 +136,13 @@ Plans:
   5. Deploy ao vivo em URL `.vercel.app`; variáveis de ambiente configuradas (`NEXT_PUBLIC_WA_NUMBER`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_META_PIXEL_ID`, `NEXT_PUBLIC_CLARITY_ID`, `LEAD_WEBHOOK_URL`); previews `.vercel.app` retornam `X-Robots-Tag: noindex` (produção permite indexação); Vercel Speed Insights habilitado para monitoramento contínuo de CWV.
 **Plans:** 7 plans (6 waves)
 Plans:
-- [ ] 07-01-PLAN.md — Wave 0 tests RED (metadata, json-ld, semantic-html, robots, skip-link, speed-insights, device-tier)
-- [ ] 07-02-PLAN.md — SEO metadata + JSON-LD: instalar schema-dts, Organization + WebPage tipados, Twitter Card completo
-- [ ] 07-03-PLAN.md — A11y: skip-link funcional + main#main-content + auditoria de contraste/teclado/form aria/reduced-motion
-- [ ] 07-04-PLAN.md — SEO hardening: X-Robots-Tag header, helper site-url dinâmico, metadataBase dinâmico, polish da OG image
-- [ ] 07-05-PLAN.md — Performance + infra: Speed Insights + bundle-analyzer + auditoria bundle/CLS/lazy-load + PERF-09
+- [x] 07-01-PLAN.md — Wave 0 tests RED (metadata, json-ld, semantic-html, robots, skip-link, speed-insights, device-tier)
+- [x] 07-02-PLAN.md — SEO metadata + JSON-LD: instalar schema-dts, Organization + WebPage tipados, Twitter Card completo
+- [x] 07-03-PLAN.md — A11y: skip-link funcional + main#main-content + auditoria de contraste/teclado/form aria/reduced-motion
+- [x] 07-04-PLAN.md — SEO hardening: X-Robots-Tag header, helper site-url dinâmico, metadataBase dinâmico, polish da OG image
+- [x] 07-05-PLAN.md — Performance + infra: Speed Insights + bundle-analyzer + auditoria bundle/CLS/lazy-load + PERF-09
 - [ ] 07-06-PLAN.md — HUMAN-UAT consolidado (Lighthouse, Rich Results, OG preview, device matrix, bloqueios externos) + checkpoint
-- [ ] 07-07-PLAN.md — Mobile QA + deploy: auditoria tap targets/useDeviceTier/hover→active/Lenis touch + .env.example
+- [x] 07-07-PLAN.md — Mobile QA + deploy: auditoria tap targets/useDeviceTier/hover→active/Lenis touch + .env.example
 **UI hint**: yes
 
 ## Phase Ordering Rationale

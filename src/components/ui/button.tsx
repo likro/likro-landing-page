@@ -36,6 +36,10 @@ const buttonVariants = cva(
         // active: equivalente do hover para feedback touch (MOBILE-05).
         secondary:
           "border border-accent-primary bg-transparent text-accent-primary hover:bg-accent-primary/5 active:bg-accent-primary/10",
+        // Secondary on-dark: para uso sobre surface-dark/darker.
+        // accent-on-dark = purple-400 (#a78bfa), ratio ~7.2:1 (WCAG AA pass).
+        "secondary-on-dark":
+          "border border-accent-on-dark bg-transparent text-accent-on-dark hover:bg-accent-on-dark/10 active:bg-accent-on-dark/15",
         // Ghost: sem fundo, hover sutil — active fallback para touch
         ghost: "hover:bg-neutral-100 active:bg-neutral-200 text-text-primary",
         // Outline: border neutral — active fallback para touch
@@ -45,6 +49,9 @@ const buttonVariants = cva(
         destructive: "bg-red-600 text-white hover:bg-red-700",
         // Link — hover:underline com active:underline (fallback touch, MOBILE-05)
         link: "text-accent-primary underline-offset-4 hover:underline active:underline",
+        // Link on-dark: para uso sobre surface-dark/darker (WCAG AA).
+        "link-on-dark":
+          "text-accent-on-dark underline-offset-4 hover:underline active:underline",
       },
       size: {
         // MOBILE-03: tap targets touch-safe. `max-md:min-h-[44px]` garante

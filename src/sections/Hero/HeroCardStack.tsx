@@ -61,7 +61,7 @@ function HeroCard({ card, className, style, floatClass }: CardProps) {
           <span>{card.label}</span>
         </div>
         {card.meta && card.kind === "lead" && (
-          <span className="font-mono text-[10.5px] tabular-nums text-neutral-400">
+          <span className="font-mono text-[10.5px] tabular-nums text-neutral-500">
             {card.meta}
           </span>
         )}
