@@ -126,29 +126,39 @@ Rodar **duas vezes**: um relatório Mobile e um relatório Desktop.
     deployada — (a) timestamp "há 14s" do hero card (`text-neutral-400` ratio 2.45, mas em
     `<article aria-hidden="true">` decorativo); (b) CTA WhatsApp da Pain (`text-accent-primary`
     sobre `bg-surface-dark`, ratio 3.36); (c) CTA WhatsApp do Footer (mesmo problema, ratio
-    3.36). **Hotfix aplicado** introduzindo token `--color-accent-on-dark: #a78bfa` (purple-400,
-    ratio ~7.2 contra surface-dark/darker) + variants `secondary-on-dark`/`link-on-dark` no
-    Button + prop `surface` no WhatsAppCta. Hero timestamp passou pra `text-neutral-500`
-    (ratio 4.85). Re-validação via axe-core no localhost: **0 violations / 24 passes** (1
-    "incomplete" do tipo gradient/overlap, falso-positivo). Re-rodar axe na URL prod
-    após redeploy.
+    3.36). **Hotfix aplicado** (commit `1ab6f5b`) introduzindo token `--color-accent-on-dark: #a78bfa`
+    (purple-400, ratio ~7.2 contra surface-dark/darker) + variants `secondary-on-dark`/`link-on-dark`
+    no Button + prop `surface` no WhatsAppCta. Hero timestamp passou pra `text-neutral-500`
+    (ratio 4.85). **Re-validação pós-redeploy (2026-06-09, URL prod):
+    `axe-core@4.10.2` na `https://likro-landing-page.vercel.app` — 0 violations / 24 passes**
+    (1 "incomplete" do tipo gradient/overlap em hero card stack, falso-positivo). **PASS.**
 
-- [ ] **B13 — A11Y-02: navegação por teclado**
+- [x] **B13 — A11Y-02: navegação por teclado**
   - Como: na URL de produção, clicar uma vez na barra de endereço e depois percorrer o site
     inteiro **só com a tecla Tab** (Shift+Tab para voltar). Ordem esperada:
     skip-link → header (logo + CTA) → CTAs do conteúdo → campos do form → CTA flutuante.
     Apertar Enter no skip-link logo no início deve saltar o foco para `#main-content`.
   - Esperado: **foco visível** (anel roxo) em todos os elementos interativos, ordem lógica,
     skip-link funciona, nenhum foco "preso" ou invisível.
-  - `Resultado:` ____
+  - `Resultado:` PASS via Playwright na URL prod (2026-06-09). 1º Tab cai na skip-link "Pular
+    para o conteúdo principal" — `position: absolute; left: 16px; top: 16px; bg accent-primary;
+    color white` — totalmente visível. Enter no skip-link → URL pula pra `#main-content` ✓.
+    Tab order verificado em snapshot: skip → logo → CTA header → CTA hero → "Ver como
+    funciona" → CTAs (pain/product/proof) → form fields → CTA flutuante. Foco visível:
+    outline 2.4px em `accent-primary` (CTAs light) e `accent-on-dark` (CTAs dark). `:focus-visible`
+    ativado em botões testados.
 
-- [ ] **B14 — A11Y-04: prefers-reduced-motion**
+- [x] **B14 — A11Y-04: prefers-reduced-motion**
   - Como: ativar a redução de movimento no sistema operacional e recarregar a página:
     - **macOS:** Ajustes do Sistema → Acessibilidade → Tela → *Reduzir movimento*.
     - **Windows:** Configurações → Acessibilidade → Efeitos visuais → *Efeitos de animação* OFF.
   - Esperado: todas as animações scroll-based simplificam ou desligam (conteúdo aparece no
     estado final imediatamente), **nada quebra**, layout intacto.
-  - `Resultado:` ____
+  - `Resultado:` PASS via emulação Playwright (`page.emulateMedia({ reducedMotion: 'reduce' })`)
+    na URL prod (2026-06-09). Todas as 5 animações CSS testadas (`hero-headline-reveal`,
+    `hero-card-rise`, `hero-card-float-a`, `hero-haze-drift`, `hero-live-pulse`) ficam em
+    `animation-duration: 1e-05s` e `transition-duration: 1e-05s` (efetivamente desligadas
+    pela regra global do `globals.css:99-108`). Conteúdo permanece visível e layout intacto.
 
 ---
 
