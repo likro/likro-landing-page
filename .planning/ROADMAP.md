@@ -15,7 +15,7 @@
 - [x] **Phase 5: Conversion (Form + Footer + Floating + CTAs distribuídos)** — Form consultivo discreto + edge route + webhook, floating WhatsApp mobile, CTAs persistentes em 4+ pontos com `location` analytics, footer institucional.
  (completed 2026-05-20)
 - [x] **Phase 6: Analytics Instrumentation Pass** — Verificação sistêmica de todos os eventos nos três dashboards (Pixel Test Events, GA4 DebugView, Clarity recordings), seção views, scroll-depth, PII masking validado em sessão real. (completed 2026-05-21)
-- [ ] **Phase 7: SEO + A11y + Performance + Deploy Hardening** — Lighthouse 90+/85+, JSON-LD validado, OG image testada no preview WhatsApp/LinkedIn, WCAG AA audit, mobile QA real-device, Vercel deploy + env vars + preview noindex.
+- [x] **Phase 7: SEO + A11y + Performance + Deploy Hardening** — Lighthouse 90+/85+, JSON-LD validado, OG image testada no preview WhatsApp/LinkedIn, WCAG AA audit, mobile QA real-device, Vercel deploy + env vars + preview noindex. (completed 2026-06-09)
 
 ## Phase Details
 
@@ -134,14 +134,14 @@ Plans:
   3. WCAG AA audit limpo: todos os pares texto/fundo passam contraste (4.5:1 texto normal, 3:1 texto grande), navegação completa por teclado com foco visível, `prefers-reduced-motion` simplifica todas as animações (validado em macOS Reduce Motion + Windows Animations off), `<h1>` único + hierarquia `<h2>`/`<h3>` correta, skip-link "Pular para conteúdo principal" funcional.
   4. Site validado em iPhone iOS Safari real, Android mid-tier Chrome real, iPad Safari — tap targets ≥ 44x44px, hover effects têm fallback `:active` no touch, animações suspendem/simplificam em conexões 4g/slow via `navigator.connection.effectiveType`.
   5. Deploy ao vivo em URL `.vercel.app`; variáveis de ambiente configuradas (`NEXT_PUBLIC_WA_NUMBER`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_META_PIXEL_ID`, `NEXT_PUBLIC_CLARITY_ID`, `LEAD_WEBHOOK_URL`); previews `.vercel.app` retornam `X-Robots-Tag: noindex` (produção permite indexação); Vercel Speed Insights habilitado para monitoramento contínuo de CWV.
-**Plans:** 7 plans (6 waves)
+**Plans:** 7/7 plans complete
 Plans:
 - [x] 07-01-PLAN.md — Wave 0 tests RED (metadata, json-ld, semantic-html, robots, skip-link, speed-insights, device-tier)
 - [x] 07-02-PLAN.md — SEO metadata + JSON-LD: instalar schema-dts, Organization + WebPage tipados, Twitter Card completo
 - [x] 07-03-PLAN.md — A11y: skip-link funcional + main#main-content + auditoria de contraste/teclado/form aria/reduced-motion
 - [x] 07-04-PLAN.md — SEO hardening: X-Robots-Tag header, helper site-url dinâmico, metadataBase dinâmico, polish da OG image
 - [x] 07-05-PLAN.md — Performance + infra: Speed Insights + bundle-analyzer + auditoria bundle/CLS/lazy-load + PERF-09
-- [ ] 07-06-PLAN.md — HUMAN-UAT consolidado (Lighthouse, Rich Results, OG preview, device matrix, bloqueios externos) + checkpoint
+- [x] 07-06-PLAN.md — HUMAN-UAT consolidado (Lighthouse, Rich Results, OG preview, device matrix, bloqueios externos) + checkpoint
 - [x] 07-07-PLAN.md — Mobile QA + deploy: auditoria tap targets/useDeviceTier/hover→active/Lenis touch + .env.example
 **UI hint**: yes
 
@@ -165,7 +165,7 @@ Plans:
 | 4. Narrative Sections | 0/0 | Not started | - |
 | 5. Conversion | 7/7 | Complete    | 2026-05-20 |
 | 6. Analytics Instrumentation Pass | 4/4 | Complete    | 2026-05-21 |
-| 7. SEO + A11y + Performance + Deploy Hardening | 0/6 | Planned | - |
+| 7. SEO + A11y + Performance + Deploy Hardening | 7/7 | Complete   | 2026-06-09 |
 
 ## Coverage Verification
 
