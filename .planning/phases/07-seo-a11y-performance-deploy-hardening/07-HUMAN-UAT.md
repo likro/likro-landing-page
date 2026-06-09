@@ -255,8 +255,11 @@ Rodar **duas vezes**: um relatório Mobile e um relatório Desktop.
     Vercel antes do go-live). B19 aceito (sem prints reais na v1; mockups CSS atendem o
     objetivo).
 
-- [ ] **B23 — Aprovação final do Lenny**
+- [x] **B23 — Aprovação final do Lenny**
   - Digite "aprovado" se todos os gates A–D passaram (pendências da Seção E são aceitáveis),
     ou descreva os gates que falharam.
-  - `Aprovação:` ____
-  - `Data:` ____
+  - `Aprovação:` **aprovado** (Lenny, com nota: "uma hora vou colocar as fotos da minha
+    plataforma" — registrado em memory `project_product_screenshots_pending.md`; quando
+    os prints reais existirem, abrir phase decimal pra swap dos mockups CSS por
+    `next/image`).
+  - `Data:` 2026-06-09
