@@ -55,7 +55,7 @@
  *  5. 5 MOMENTOS (TRV-02): temperatura (frio→quente), brilho, footprint e
  *     acendimento roxo são mapeados MONOTONICAMENTE no progress — os cortes
  *     ~0/.25/.5/.75/1 leem como 5 quadros distintos. Beats são REGIÕES do
- *     gradiente de parâmetros, NÃO switches (sem `if (beat===2)`).
+ *     gradiente de parâmetros, NÃO switches (sem ramificar por número-de-beat).
  *
  *  6. ARCO DE ESCALA (TRV-04): `footprint = lerp(1.0, 0.42, e)` contrai o estado
  *     ordenado pra uma região central CONTIDA no fim (aberto→envolvente→íntimo),
@@ -333,6 +333,17 @@ export function LightField({ progress, active = true }: LightFieldProps) {
       const e = easeInOutCubic(j);
       const noiseAmp = (1 - e) * BASE_NOISE; // envelope do ruído decrescente 1→0
 
+      // ── Arco de escala (TRV-04): o footprint do estado ordenado CONTRAI de
+      // aberto (tela toda, vaza bordas) → íntimo (região central contida). Junto
+      // com o dolly do optic flow, dá aberto→envolvente→íntimo. Multiplica a
+      // dispersão dos alvos → a chegada ocupa um feixe central pequeno.
+      const footprint = lerp(FOOTPRINT_OPEN, FOOTPRINT_CLOSED, e);
+
+      // ── Roxo escasso intensificando na chegada (TRV-07): o acendimento só
+      // começa depois da metade da travessia (progress alto). A escassez é o
+      // payoff — só uma fração `accent` E só perto, perto da chegada.
+      const purpleProgress = clamp01((j - 0.5) / 0.5);
+
       // Deriva tonal monotônica frio→quente (marca o avanço; nada volta ao começo).
       const tempStep = Math.min(
         TEMP_STEPS - 1,
@@ -364,9 +375,11 @@ export function LightField({ progress, active = true }: LightFieldProps) {
             (Math.cos(nA * 1.7 + part.seed) + 0.5 * Math.sin(nA * 0.9));
 
           // target-lerp: a partícula MIGRA do caos pro estado ordenado (uma só
-          // matéria condensando). O ruído some conforme o alvo vence.
+          // matéria condensando). O ruído some conforme o alvo vence; o alvo é
+          // contraído pelo `footprint` (arco de escala — íntimo no fim).
           const angle = lerp(part.angle, part.targetAngle, e) + noiseAngle;
-          const radius = lerp(part.radius, part.targetRadius, e) + noiseRad;
+          const radius =
+            lerp(part.radius, part.targetRadius * footprint, e) + noiseRad;
 
           // z também migra: caos (fundo, disperso) → ordenado (raso, contido).
           const baseZ = lerp(part.z, part.targetZ, e);
@@ -391,10 +404,19 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           const shimmer = animate
             ? 0.82 + 0.18 * Math.sin(t * 1.4 + part.seed)
             : 1;
-          const alpha = Math.min(
+          let alpha = Math.min(
             0.78,
             (0.18 + 0.55 * scale) * depthAlpha * shimmer * brightness,
           );
+
+          // ── Chegada conquistada — roxo escasso (TRV-07): o acendimento é
+          // gated por (i) progress alto (`purpleProgress`) E (ii) proximidade
+          // (`nearness`, derivada do scale). Só uma partícula `accent` rara que
+          // já chegou perto E só perto da chegada acende — a escassez é o payoff.
+          const nearness = clamp01((scale - 0.5) / 0.5);
+          const purpleGain = purpleProgress * nearness;
+          const lit = part.accent && purpleGain > 0.12;
+          if (lit) alpha = Math.min(0.9, alpha * (1 + 0.7 * purpleGain));
           if (alpha <= 0.003) continue;
 
           // Sprite por profundidade: longe = mais mole (blur assado), perto = nítido.
@@ -402,9 +424,8 @@ export function LightField({ progress, active = true }: LightFieldProps) {
             BLUR_LEVELS - 1,
             Math.round((1 - scale) * (BLUR_LEVELS - 1)),
           );
-          // Roxo escasso: só partículas `accent` próximas (scale alto) acendem.
-          // (O gate temporal — só perto da chegada — entra na task 2.)
-          const atlas = part.accent && scale > 0.55 ? accentAtlas : warmAtlas;
+          // Acende roxo só quando o gate (progress alto + proximidade) abre.
+          const atlas = lit ? accentAtlas : warmAtlas;
           const sprite = atlas[blurIdx] ?? atlas[atlas.length - 1];
           if (!sprite) continue;
 
