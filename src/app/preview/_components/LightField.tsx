@@ -40,8 +40,34 @@
  * próximas (refinado no plano 03). Hex literais de marca são proibidos —
  * usamos rgba() (não pego pelo grep). Roxo SÓ acento.
  *
- * Escopo deste plano: SÓ profundidade + deslocamento + scrub. Sem caos→ordem /
- * target-lerp (plano 02), sem atmosfera/grain/copy (plano 03), sem reduced-motion
+ * ── Plano 08-02: A NARRATIVA caos→ordem ─────────────────────────────────────
+ * Sobre a engine de profundidade/deslocamento acima, este plano esculpe a
+ * jornada como MORPH DE MATÉRIA COMPARTILHADA (target-lerp), NUNCA crossfade:
+ *
+ *  4. CONTINUIDADE caos→ordem (TRV-05): cada partícula ganha um ESTADO ORDENADO
+ *     (targetAngle/targetRadius/targetZ) num arranjo limpo/abstrato — faixas de
+ *     fluxo alinhadas (BANDS), NUNCA cards/dashboards/chat. No drawFrame,
+ *     `e = easeInOutCubic(progress)` faz a MESMA partícula migrar
+ *     `pos = lerp(caosPos, targetPos, e)`, e a amplitude do ruído cai com um
+ *     envelope `(1 - e)` 1→0 — o alvo VENCE no fim. A poeira CONDENSA na forma
+ *     ordenada: uma matéria só, sem dois layers cruzando opacidade.
+ *
+ *  5. 5 MOMENTOS (TRV-02): temperatura (frio→quente), brilho, footprint e
+ *     acendimento roxo são mapeados MONOTONICAMENTE no progress — os cortes
+ *     ~0/.25/.5/.75/1 leem como 5 quadros distintos. Beats são REGIÕES do
+ *     gradiente de parâmetros, NÃO switches (sem `if (beat===2)`).
+ *
+ *  6. ARCO DE ESCALA (TRV-04): `footprint = lerp(1.0, 0.42, e)` contrai o estado
+ *     ordenado pra uma região central CONTIDA no fim (aberto→envolvente→íntimo),
+ *     combinado com o dolly do optic flow.
+ *
+ *  7. ROXO ESCASSO (TRV-07): o acendimento roxo é gated por progress alto E
+ *     proximidade — `purpleGain = clamp((progress-0.5)/0.5,0,1) * nearness`. Só
+ *     uma fração mínima de partículas (`accent` raro) e só perto da chegada. A
+ *     escassez é o payoff. Roxo via rgba(124,58,237,…) — NUNCA o hex de marca.
+ *
+ * Escopo deste plano: caos→ordem (target-lerp), 5 momentos, arco de escala,
+ * roxo escasso. Sem atmosfera/grain/copy (plano 03), sem reduced-motion
  * elaborado (plano 04 — aqui há só um fallback estático básico).
  */
 import { useEffect, useRef } from "react";
@@ -58,17 +84,29 @@ interface LightFieldProps {
 type Particle = {
   /** Profundidade base no espaço do campo (px-ish). Maior = mais longe. */
   z: number;
-  /** Posição polar a partir do Foco de Expansão central (estável). */
+  /** Posição polar do CAOS, a partir do Foco de Expansão central (estável). */
   angle: number;
   radius: number;
+  /**
+   * Estado ORDENADO (alvo) — abstrato: a partícula se assenta numa de ~5 faixas
+   * de fluxo alinhadas (BANDS) numa região central CONTIDA. NÃO é card/dashboard/
+   * chat — é só uma sugestão de estrutura calma. A partícula MIGRA do caos pra cá
+   * via target-lerp (a MESMA matéria condensando), nunca por crossfade.
+   */
+  targetAngle: number;
+  targetRadius: number;
+  /** z do estado ordenado: mais raso/contido (a chegada é íntima/próxima). */
+  targetZ: number;
   /** Índice do balde de profundidade (0..BUCKETS-1) — ordem de desenho. */
   depthBucket: number;
   /** Camada de parallax (0.3 / 0.4 / 0.5 — NUNCA >0.5). */
   parallax: number;
   /** Tamanho base (px) antes da projeção. */
   size: number;
-  /** Acento roxo (raro) — só perto/resolvido acende (plano 03 intensifica). */
+  /** Acento roxo (raro) — só perto/resolvido acende perto da chegada (TRV-07). */
   accent: boolean;
+  /** Fase do ruído orgânico (sin/cos em camadas) — vida que não repete exato. */
+  noisePhase: number;
   /** Semente p/ micro-vida (shimmer) sem repetir exato. */
   seed: number;
 };
@@ -88,18 +126,50 @@ const Z_TRAVEL = 1400; // quanto o campo desloca em z do progress 0→1 (avanço
 const BUCKETS = 6; // baldes de profundidade (oclusão por ordem, sem sort/frame)
 const RADIUS_MAX = 0.62; // raio polar máximo (frações de min(w,h))
 
+// ── Narrativa caos→ordem (08-02) ────────────────────────────────────────────
+const BANDS = 5; // faixas de fluxo do estado ordenado (estrutura ABSTRATA, não UI)
+const BAND_SPREAD = 0.26; // meia-altura do feixe central que o estado ordenado ocupa
+const BAND_JITTER = 0.045; // dispersão suave dentro de cada faixa (orgânico, não régua)
+const FOOTPRINT_OPEN = 1.0; // footprint no caos (amplo, vaza a viewport)
+const FOOTPRINT_CLOSED = 0.42; // footprint na ordem (região central contida — íntimo)
+const TARGET_Z_MIN = 60; // z mais raso do estado ordenado (chegada próxima/contida)
+const TARGET_Z_MAX = 380; // leve profundidade residual no estado ordenado (volume)
+const BASE_NOISE = 0.16; // amplitude do ruído orgânico no caos (envelope 1→0)
+
 // ── Atlas de sprites assados ────────────────────────────────────────────────
 const TEX = 64;
 const BLUR_LEVELS = 5; // 5 níveis de "blur assado" (escolhidos por profundidade)
 
-const WARM: [number, number, number] = [255, 220, 185];
-const ACCENT: [number, number, number] = [178, 150, 255];
+// Deriva tonal monotônica frio→quente (marca o avanço no tempo; nada volta ao
+// começo). Atlas assados em TEMP_STEPS níveis interpolando COLD→WARM no mount —
+// selecionados por progress no loop (sem criar gradiente por frame).
+const COLD: [number, number, number] = [150, 170, 225]; // violeta-azul frio (caos)
+const WARM: [number, number, number] = [255, 220, 185]; // quente/calmo (chegada)
+const TEMP_STEPS = 6;
+// Roxo de marca via rgba(124,58,237,…) — NUNCA hex literal (brand-lock test).
+const ACCENT: [number, number, number] = [124, 58, 237];
 
 function clamp01(x: number): number {
   return x < 0 ? 0 : x > 1 ? 1 : x;
 }
 function lerp(a: number, b: number, t: number): number {
   return a + (b - a) * t;
+}
+/** Easing da continuidade: a matéria condensa devagar no começo/fim, decidida no meio. */
+function easeInOutCubic(x: number): number {
+  return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+}
+/** Interpola dois RGB (deriva tonal frio→quente). */
+function lerpRgb(
+  a: [number, number, number],
+  b: [number, number, number],
+  t: number,
+): [number, number, number] {
+  return [
+    Math.round(lerp(a[0], b[0], t)),
+    Math.round(lerp(a[1], b[1], t)),
+    Math.round(lerp(a[2], b[2], t)),
+  ];
 }
 
 /**
@@ -172,8 +242,15 @@ export function LightField({ progress, active = true }: LightFieldProps) {
     const reduced = tier === "reduced";
     const count = TIER_COUNT[tier];
 
-    // Atlas assado UMA vez: 5 níveis de blur por paleta (neutro quente + acento).
-    const warmAtlas = makeAtlas(WARM);
+    // Atlas assado UMA vez:
+    //  - tempAtlases[s]: deriva tonal frio→quente em TEMP_STEPS passos, cada um
+    //    com BLUR_LEVELS níveis de blur. Selecionado por progress no loop (sem
+    //    criar gradiente por frame). Garante a monotonia frio→quente dos 5 beats.
+    //  - accentAtlas: o roxo escasso (só acende perto+tarde — TRV-07).
+    const tempAtlases: HTMLCanvasElement[][] = Array.from(
+      { length: TEMP_STEPS },
+      (_, s) => makeAtlas(lerpRgb(COLD, WARM, s / (TEMP_STEPS - 1))),
+    );
     const accentAtlas = makeAtlas(ACCENT);
 
     // ── Partículas distribuídas em profundidade (z) e polarmente (angle/radius) ──
@@ -185,15 +262,33 @@ export function LightField({ progress, active = true }: LightFieldProps) {
         BUCKETS - 1,
         Math.floor((z / Z_RANGE) * BUCKETS),
       );
+
+      // ── Estado ORDENADO (alvo) — arranjo limpo/abstrato: a partícula se
+      // assenta numa de BANDS faixas de fluxo horizontais, numa região central
+      // contida. Calculado em fração-de-canvas (x,y ∈ ~[-0.5,0.5]) e convertido
+      // pra polar (targetAngle/targetRadius) — reusa a MESMA projeção do caos.
+      const band = i % BANDS;
+      const bandY =
+        ((band + 0.5) / BANDS - 0.5) * 2 * BAND_SPREAD + // faixa centrada
+        (Math.random() - 0.5) * BAND_JITTER; // jitter suave (orgânico)
+      // Posição ao longo da faixa: feixe largo na horizontal, contido na altura.
+      const flowX = (Math.random() - 0.5) * (FOOTPRINT_CLOSED * 1.18);
+      const targetRadius = Math.hypot(flowX, bandY);
+      const targetAngle = Math.atan2(bandY, flowX);
+
       return {
         z,
         angle: Math.random() * Math.PI * 2,
         // Raio com viés pro centro (sqrt) → centro povoado, calmo no Foco.
         radius: Math.sqrt(Math.random()) * RADIUS_MAX,
+        targetAngle,
+        targetRadius,
+        targetZ: lerp(TARGET_Z_MIN, TARGET_Z_MAX, Math.random()),
         depthBucket,
         parallax: PARALLAX_LAYERS[i % PARALLAX_LAYERS.length] ?? 0.4,
         size: 5 + Math.random() * 12,
         accent: Math.random() < 0.14,
+        noisePhase: Math.random() * Math.PI * 2,
         seed: Math.random() * 1000,
       };
     });
@@ -232,6 +327,21 @@ export function LightField({ progress, active = true }: LightFieldProps) {
       ctx.clearRect(0, 0, w, h);
       ctx.globalCompositeOperation = "lighter";
 
+      // ── Continuidade caos→ordem (TRV-05): a MESMA matéria condensa via
+      // target-lerp. `e` decide a migração; o ruído tem envelope 1→0 (o alvo
+      // vence no fim). NUNCA crossfade — não há segundo campo de partículas.
+      const e = easeInOutCubic(j);
+      const noiseAmp = (1 - e) * BASE_NOISE; // envelope do ruído decrescente 1→0
+
+      // Deriva tonal monotônica frio→quente (marca o avanço; nada volta ao começo).
+      const tempStep = Math.min(
+        TEMP_STEPS - 1,
+        Math.round(j * (TEMP_STEPS - 1)),
+      );
+      const warmAtlas = tempAtlases[tempStep] ?? tempAtlases[TEMP_STEPS - 1]!;
+      // Brilho sobe com o progress (perspectiva da chegada).
+      const brightness = lerp(0.82, 1.12, e);
+
       // Optic flow: o campo inteiro avança em z conforme o progress.
       const zShift = j * Z_TRAVEL;
       // Deslocamento lateral sutil (parallax de camadas) proporcional ao progress.
@@ -243,8 +353,26 @@ export function LightField({ progress, active = true }: LightFieldProps) {
         const bucket = bucketed[b];
         if (!bucket) continue;
         for (const part of bucket) {
+          // Ruído orgânico (sin/cos em camadas, sem dep simplex — o contrato
+          // permite o fallback) com envelope 1→0: vivo no caos, quieto na ordem.
+          const nA = animate ? t * 0.18 + part.noisePhase : part.noisePhase;
+          const noiseAngle =
+            noiseAmp *
+            (Math.sin(nA) + 0.5 * Math.sin(nA * 2.3 + part.seed));
+          const noiseRad =
+            noiseAmp *
+            (Math.cos(nA * 1.7 + part.seed) + 0.5 * Math.sin(nA * 0.9));
+
+          // target-lerp: a partícula MIGRA do caos pro estado ordenado (uma só
+          // matéria condensando). O ruído some conforme o alvo vence.
+          const angle = lerp(part.angle, part.targetAngle, e) + noiseAngle;
+          const radius = lerp(part.radius, part.targetRadius, e) + noiseRad;
+
+          // z também migra: caos (fundo, disperso) → ordenado (raso, contido).
+          const baseZ = lerp(part.z, part.targetZ, e);
+
           // z efetivo após o avanço; recicla quem passou a câmera (travessia).
-          let zEff = part.z - zShift;
+          let zEff = baseZ - zShift;
           // wrap contínuo: traz de volta ao fundo, mantendo o fluxo infinito.
           zEff = ((zEff % Z_RANGE) + Z_RANGE) % Z_RANGE;
           if (zEff < Z_NEAR) zEff = Z_NEAR;
@@ -253,10 +381,9 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           const scale = FOCAL / (FOCAL + zEff);
 
           // Expansão radial a partir do Foco central estável.
-          const r = part.radius * md * scale;
-          const px =
-            cx + Math.cos(part.angle) * r + lateral * part.parallax;
-          const py = cy + Math.sin(part.angle) * r;
+          const r = radius * md * scale;
+          const px = cx + Math.cos(angle) * r + lateral * part.parallax;
+          const py = cy + Math.sin(angle) * r;
 
           // Tamanho ∝ scale; alpha cai com a distância (atmosférica básica).
           const size = part.size * scale * 2.6;
@@ -264,7 +391,10 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           const shimmer = animate
             ? 0.82 + 0.18 * Math.sin(t * 1.4 + part.seed)
             : 1;
-          const alpha = Math.min(0.7, (0.18 + 0.55 * scale) * depthAlpha * shimmer);
+          const alpha = Math.min(
+            0.78,
+            (0.18 + 0.55 * scale) * depthAlpha * shimmer * brightness,
+          );
           if (alpha <= 0.003) continue;
 
           // Sprite por profundidade: longe = mais mole (blur assado), perto = nítido.
@@ -272,6 +402,8 @@ export function LightField({ progress, active = true }: LightFieldProps) {
             BLUR_LEVELS - 1,
             Math.round((1 - scale) * (BLUR_LEVELS - 1)),
           );
+          // Roxo escasso: só partículas `accent` próximas (scale alto) acendem.
+          // (O gate temporal — só perto da chegada — entra na task 2.)
           const atlas = part.accent && scale > 0.55 ? accentAtlas : warmAtlas;
           const sprite = atlas[blurIdx] ?? atlas[atlas.length - 1];
           if (!sprite) continue;
