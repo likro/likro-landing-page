@@ -14,12 +14,12 @@
 ### Travessia — Experiência / Sensação (TRV)
 
 - [x] **TRV-01**: O usuário sente **deslocamento** — percebe que está avançando *através* de um espaço, não observando uma transformação de fora. Entregue pela "câmera presa" (palco sticky scrubbed que re-atribui o movimento do scroll pro espaço) + optic flow (expansão radial a partir de um Foco de Expansão central e estável).
-- [ ] **TRV-02**: A travessia percorre **5 momentos distintos e reconhecíveis**, de forma contínua: (1) caos frio/distante/disperso, (2) entrada, (3) travessia/convergência, (4) quase-ordem, (5) ordem conquistada.
+- [x] **TRV-02**: A travessia percorre **5 momentos distintos e reconhecíveis**, de forma contínua: (1) caos frio/distante/disperso, (2) entrada, (3) travessia/convergência, (4) quase-ordem, (5) ordem conquistada.
 - [x] **TRV-03**: **Profundidade** percebida via oclusão (ordem de desenho far→near) + tamanho relativo + perspectiva atmosférica (longe dissolve no escuro, blur pré-assado) + parallax sutil em camadas (0.3/0.4/0.5) — não um campo chapado.
-- [ ] **TRV-04**: **Arco de escala** (enquadramento): começo amplo/distante/disperso (plano aberto) → meio envolvente (médio) → fim íntimo/contido/resolvido (fechado). Entregue por dolly do optic flow + contração do footprint da convergência + vinheta de enquadramento.
-- [ ] **TRV-05**: **Uma matéria-prima única** (campo de luz/poeira) evolui continuamente por morph de matéria compartilhada (target-lerp) — PROIBIDO crossfade, coleção de efeitos, um beat = uma animação diferente, slideshow.
+- [x] **TRV-04**: **Arco de escala** (enquadramento): começo amplo/distante/disperso (plano aberto) → meio envolvente (médio) → fim íntimo/contido/resolvido (fechado). Entregue por dolly do optic flow + contração do footprint da convergência + vinheta de enquadramento.
+- [x] **TRV-05**: **Uma matéria-prima única** (campo de luz/poeira) evolui continuamente por morph de matéria compartilhada (target-lerp) — PROIBIDO crossfade, coleção de efeitos, um beat = uma animação diferente, slideshow.
 - [ ] **TRV-06**: **Atmosfera** evolui contínua e monotônica: frio/tensão → quente/calma, acoplada ao scroll; nada volta ao começo.
-- [ ] **TRV-07**: **Chegada conquistada** — estado final resolvido, limpo, claramente diferente do começo, com o acento roxo `#7C3AED` no auge da escassez (só matéria próxima/resolvida acende em roxo).
+- [x] **TRV-07**: **Chegada conquistada** — estado final resolvido, limpo, claramente diferente do começo, com o acento roxo `#7C3AED` no auge da escassez (só matéria próxima/resolvida acende em roxo).
 - [ ] **TRV-08**: **Hero exit de vetores opostos** entrega o usuário na travessia no início — o campo recua/afunda enquanto a headline sobe e dissolve no primeiro scroll.
 - [ ] **TRV-09**: A **copy vive só no topo** (validar a experiência visual pura antes de amplificar com texto); some cedo conforme a travessia assume o palco.
 - [x] **TRV-10**: Tudo **scrubbed pelo scroll** (held camera) — parar = descansa num quadro, rolar = avança. Sem relógio macro autônomo (sem loop ambiente).
