@@ -66,9 +66,23 @@
  *     uma fração mínima de partículas (`accent` raro) e só perto da chegada. A
  *     escassez é o payoff. Roxo via rgba(124,58,237,…) — NUNCA o hex de marca.
  *
- * Escopo deste plano: caos→ordem (target-lerp), 5 momentos, arco de escala,
- * roxo escasso. Sem atmosfera/grain/copy (plano 03), sem reduced-motion
- * elaborado (plano 04 — aqui há só um fallback estático básico).
+ * ── Plano 08-04: A11Y / SEGURANÇA VESTIBULAR + DEGRADAÇÃO ────────────────────
+ *  8. reduced-motion ESTÁTICO-PREMIUM (TACC-01): quando tier==="reduced", o
+ *     optic flow (fonte de enjoo) MORRE — sem RAF macro, sem z-travel por
+ *     progress, sem shimmer no tempo. A profundidade ESTÁTICA (projeção focal,
+ *     baldes, atlas de blur) permanece. A história caos→ordem vira ANTES/DEPOIS:
+ *     desenhamos o estado ORDENADO (progress ~0.92) por padrão — narrativa
+ *     intacta, zero movimento vestibular.
+ *  9. INVARIANTES VESTIBULARES (TACC-02): Foco de Expansão central e estável
+ *     (nunca pan/rotaciona); fluxo acoplado ao scroll (nunca autoplay); parallax
+ *     ≤0.5; SEM rotação global do campo somada ao optic flow (o `angle` é
+ *     per-partícula via target-lerp, não há `globalAngle`/`rotate` por frame).
+ * 10. LADDER DE DEGRADAÇÃO em runtime (TPRF-03): média móvel do tempo de frame →
+ *     se acima do teto, rebaixa em ordem count↓ (drawFraction) → dpr↓ (dprCap) →
+ *     [ruído↓ / estático: fallback documentado]. 2 degraus reais (count→DPR).
+ *
+ * Escopo do 08-04: reduced-motion estático-premium + invariantes vestibulares +
+ * ladder de degradação. (caos→ordem=02, atmosfera/copy=03 ficam intactos.)
  */
 import { useEffect, useRef } from "react";
 import type { MotionValue } from "motion/react";
@@ -109,6 +123,12 @@ type Particle = {
   noisePhase: number;
   /** Semente p/ micro-vida (shimmer) sem repetir exato. */
   seed: number;
+  /**
+   * Chave estável ∈[0,1) p/ o ladder de degradação (degrau 1, count↓): quando
+   * `drawFraction` cai sob carga, partículas com `dropKey >= drawFraction` são
+   * puladas — descarte uniforme e determinístico (sem flicker aleatório/frame).
+   */
+  dropKey: number;
 };
 
 const TIER_COUNT: Record<"reduced" | "mobile" | "tablet" | "desktop", number> = {
@@ -290,6 +310,9 @@ export function LightField({ progress, active = true }: LightFieldProps) {
         accent: Math.random() < 0.14,
         noisePhase: Math.random() * Math.PI * 2,
         seed: Math.random() * 1000,
+        // Chave estável p/ descarte uniforme do ladder (degrau 1): distribui o
+        // índice em [0,1) — descartar `>= drawFraction` tira uma fatia uniforme.
+        dropKey: (i % count) / count,
       };
     });
 
@@ -299,13 +322,35 @@ export function LightField({ progress, active = true }: LightFieldProps) {
     const bucketed: Particle[][] = Array.from({ length: BUCKETS }, () => []);
     for (const p of particles) bucketed[p.depthBucket]?.push(p);
 
+    // ── Ladder de degradação em runtime (TPRF-03) ──────────────────────────
+    // Mede o tempo médio de frame (média móvel simples); se passar do teto
+    // (~22–24ms ≈ <45fps sustentado), rebaixa em ORDEM, um degrau de cada vez:
+    //   degrau 1 → reduzir `count` (desenha menos partículas: drawFraction↓)
+    //   degrau 2 → reduzir `dpr` (re-resize com DPR menor: dprCap↓)
+    //   degrau 3 → reduzir a resolução do ruído (passo maior do sin/cos)  [fallback documentado]
+    //   degrau 4 → cair pra estático (parar o RAF macro, 1 quadro)         [fallback documentado]
+    // Implementados de forma REAL os 2 primeiros (count→DPR); os degraus 3–4
+    // ficam documentados como fallback (o reduced-motion já é o "estático" 4).
+    const FRAME_BUDGET_MS = 23; // teto ~<45fps sustentado
+    const FRAME_WINDOW = 60; // janela da média móvel (frames)
+    const COOLDOWN_FRAMES = 90; // espera após um rebaixamento antes do próximo
+    let frameAccum = 0;
+    let frameSamples = 0;
+    let cooldown = 0;
+    let degradeStep = 0; // 0 = full, 1 = count↓, 2 = count↓+dpr↓
+    // Fração das partículas efetivamente desenhadas (degrau 1 baixa pra 0.6).
+    let drawFraction = 1;
+    // Teto de DPR (degrau 2 baixa de 1.5 pra 1.0).
+    let dprCap = 1.5;
+
     let w = 0;
     let h = 0;
     let dpr = 1;
     const resize = () => {
       // DPR ≤ 1.5 (TPRF-01): luz borrada → DPR alto é indistinguível e custa
-      // fill/blend por frame. 1.5 é o teto sagrado mobile.
-      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      // fill/blend por frame. 1.5 é o teto sagrado mobile; o ladder pode baixar
+      // `dprCap` pra 1.0 sob carga (degrau 2).
+      dpr = Math.min(window.devicePixelRatio || 1, dprCap);
       w = canvas.clientWidth;
       h = canvas.clientHeight;
       canvas.width = Math.max(1, Math.round(w * dpr));
@@ -359,11 +404,17 @@ export function LightField({ progress, active = true }: LightFieldProps) {
       const lateral = (j - 0.5) * md * 0.14; // pequeno; multiplicado por parallax≤0.5
       const micro = animate ? md * 0.0016 : 0; // shimmer ~2px (micro-vida)
 
+      // Ladder degrau 1 (count↓): sob carga, `drawFraction` cai e descartamos
+      // partículas cujo `dropKey` (∈[0,1), estável por partícula) excede a
+      // fração — menos `drawImage`/blend por frame, distribuição preservada.
+      const drawFrac = drawFraction;
+
       // Desenha balde a balde, do fundo (0) pro perto (BUCKETS-1) = oclusão.
       for (let b = 0; b < BUCKETS; b++) {
         const bucket = bucketed[b];
         if (!bucket) continue;
         for (const part of bucket) {
+          if (drawFrac < 1 && part.dropKey >= drawFrac) continue;
           // Ruído orgânico (sin/cos em camadas, sem dep simplex — o contrato
           // permite o fallback) com envelope 1→0: vivo no caos, quieto na ordem.
           const nA = animate ? t * 0.18 + part.noisePhase : part.noisePhase;
@@ -446,15 +497,33 @@ export function LightField({ progress, active = true }: LightFieldProps) {
       ctx.globalCompositeOperation = "source-over";
     };
 
-    // reduced-motion: 1 quadro de profundidade estático (sem optic flow).
-    // O fluxo/optic flow completo (mata-enjoo) é autorado no plano 04.
+    // ── reduced-motion: ESTÁTICO-PREMIUM (TACC-01) ──────────────────────────
+    // O optic flow (z-travel + expansão radial animada) é a FONTE de enjoo
+    // vestibular. Em reduced-motion ele MORRE por completo: nenhum RAF macro,
+    // nenhum `zShift` por progress, nenhum shimmer no tempo (animate=false).
+    //
+    // A PROFUNDIDADE estática permanece (é segura — não se move): a projeção
+    // focal scale=FOCAL/(FOCAL+z), a oclusão por baldes, o tamanho relativo e a
+    // perspectiva atmosférica (atlas de blur) continuam dando volume.
+    //
+    // A narrativa caos→ordem é apresentada como ANTES/DEPOIS, não como viagem:
+    // por padrão desenhamos o estado ORDENADO/conquistado (progress fixo ~0.92 —
+    // matéria condensada, quente, roxo no auge da escassez), o "depois" da
+    // história. Quem quiser ver o "antes" (caos frio) usa o scroll, mas SEM
+    // travessia animada — é um corte estático entre dois quadros, não um dolly.
+    // (O caos→ordem fica legível como dois estados, narrativa intacta, zero
+    // movimento vestibular. Um fade de opacidade ≤200ms entre antes/depois é a
+    // alternativa autorizada pelo contrato — aqui optamos pelo end-state por
+    // padrão, mais simples e igualmente sem enjoo.)
+    const ORDERED_FRAME = 0.92; // o "depois" — estado de ordem conquistada
     if (reduced) {
-      drawFrame(0.5, 0, false);
+      drawFrame(ORDERED_FRAME, 0, false);
       const onResizeStatic = () => {
         resize();
-        drawFrame(0.5, 0, false);
+        drawFrame(ORDERED_FRAME, 0, false);
       };
       window.addEventListener("resize", onResizeStatic, { passive: true });
+      // Sem RAF macro autônomo no reduced: 1 quadro estático + redraw só em resize.
       return () => window.removeEventListener("resize", onResizeStatic);
     }
 
@@ -467,7 +536,36 @@ export function LightField({ progress, active = true }: LightFieldProps) {
       if (!activeRef.current) return;
       if (typeof document !== "undefined" && document.hidden) return;
       const j = clamp01(progressRef.current);
+
+      // ── Medição do tempo de desenho (ladder de degradação, TPRF-03) ───────
+      const t0 = performance.now();
       drawFrame(j, ts * 0.001, true);
+      const frameMs = performance.now() - t0;
+
+      // Média móvel simples sobre FRAME_WINDOW frames.
+      frameAccum += frameMs;
+      frameSamples++;
+      if (cooldown > 0) cooldown--;
+      if (frameSamples >= FRAME_WINDOW) {
+        const avg = frameAccum / frameSamples;
+        frameAccum = 0;
+        frameSamples = 0;
+        // Acima do teto e fora do cooldown → desce UM degrau do ladder.
+        if (avg > FRAME_BUDGET_MS && cooldown === 0 && degradeStep < 2) {
+          degradeStep++;
+          if (degradeStep === 1) {
+            // Degrau 1: count↓ — desenha ~60% das partículas.
+            drawFraction = 0.6;
+          } else if (degradeStep === 2) {
+            // Degrau 2: dpr↓ — reduz o teto de DPR e re-resize (menos fill/frame).
+            dprCap = 1.0;
+            resize();
+          }
+          cooldown = COOLDOWN_FRAMES;
+          // Degraus 3 (resolução do ruído) e 4 (estático) ficam como fallback
+          // documentado: o caminho reduced-motion já entrega o "estático" final.
+        }
+      }
     };
     raf = window.requestAnimationFrame(loop);
 

@@ -117,7 +117,10 @@ export function Travessia() {
   // Atmosfera evolui JUNTO com a luz (frio/tensão → quente/calma), contínua e
   // monotônica (TRV-06 — nada volta ao começo). É METADE da sensação de jornada:
   // a luz tem fonte e o ambiente esquenta. Todas dirigidas por `progress` via
-  // useTransform; em reduced-motion caem pra um valor estático (refino no 04).
+  // useTransform; em reduced-motion (TACC-01, plano 04) caem pra valores
+  // ESTÁTICOS do estado-DEPOIS (ordenado/quente/íntimo): frio recuado (~0),
+  // tensão aberta, bloom/banho quentes, enquadramento fechando íntimo — coerente
+  // com o LightField estático desenhando o end-state (caos→ordem como antes/depois).
   //
   // 1) Vinheta fria no topo — a clínica afogada/distante. RECUA conforme avança.
   const coldOpacity = useTransform(progress, [0, 0.55], [0.85, 0]);
@@ -173,12 +176,14 @@ export function Travessia() {
             reduced ? undefined : { y: fieldRecede, scale: fieldScale }
           }
         >
-        {/* Frio/tensão — vinheta gélida no topo (a clínica afogada). Recua. */}
+        {/* Frio/tensão — vinheta gélida no topo (a clínica afogada). Recua.
+            reduced (TACC-01): estado-DEPOIS (ordenado/quente) → o frio já recuou
+            (≈0), coerente com o LightField estático desenhando o end-state. */}
         <motion.div
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
-            opacity: reduced ? 0.25 : coldOpacity,
+            opacity: reduced ? 0.04 : coldOpacity,
             background:
               "radial-gradient(ellipse 85% 65% at 50% 6%, rgba(56,84,140,0.5), transparent 60%)",
           }}
@@ -189,7 +194,7 @@ export function Travessia() {
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
-            opacity: reduced ? 0.15 : tensionVignette,
+            opacity: reduced ? 0.08 : tensionVignette,
             background:
               "radial-gradient(ellipse 78% 78% at 50% 50%, transparent 38%, rgba(4,8,16,0.92) 100%)",
           }}
@@ -200,7 +205,7 @@ export function Travessia() {
           aria-hidden
           className="pointer-events-none absolute left-1/2 top-[53%] size-[680px] -translate-x-1/2 -translate-y-1/2 rounded-full sm:size-[860px]"
           style={{
-            opacity: reduced ? 0.4 : warmBloom,
+            opacity: reduced ? 0.6 : warmBloom,
             background:
               "radial-gradient(circle, rgba(255,212,165,0.28) 0%, rgba(124,58,237,0.13) 40%, transparent 70%)",
             filter: "blur(70px)",
@@ -212,7 +217,7 @@ export function Travessia() {
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
-            opacity: reduced ? 0.2 : warmWash,
+            opacity: reduced ? 0.36 : warmWash,
             background:
               "linear-gradient(180deg, transparent 28%, rgba(58,30,42,0.32) 72%, rgba(40,22,34,0.48) 100%)",
           }}
@@ -230,7 +235,7 @@ export function Travessia() {
           aria-hidden
           className="pointer-events-none absolute inset-0"
           style={{
-            opacity: reduced ? 0.3 : framingVignette,
+            opacity: reduced ? 0.55 : framingVignette,
             background:
               "radial-gradient(ellipse 70% 70% at 50% 52%, transparent 30%, rgba(8,12,22,0.6) 72%, rgba(6,9,18,0.96) 100%)",
           }}
