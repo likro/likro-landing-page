@@ -18,10 +18,10 @@
 - [x] **TRV-03**: **Profundidade** percebida via oclusão (ordem de desenho far→near) + tamanho relativo + perspectiva atmosférica (longe dissolve no escuro, blur pré-assado) + parallax sutil em camadas (0.3/0.4/0.5) — não um campo chapado.
 - [x] **TRV-04**: **Arco de escala** (enquadramento): começo amplo/distante/disperso (plano aberto) → meio envolvente (médio) → fim íntimo/contido/resolvido (fechado). Entregue por dolly do optic flow + contração do footprint da convergência + vinheta de enquadramento.
 - [x] **TRV-05**: **Uma matéria-prima única** (campo de luz/poeira) evolui continuamente por morph de matéria compartilhada (target-lerp) — PROIBIDO crossfade, coleção de efeitos, um beat = uma animação diferente, slideshow.
-- [ ] **TRV-06**: **Atmosfera** evolui contínua e monotônica: frio/tensão → quente/calma, acoplada ao scroll; nada volta ao começo.
+- [x] **TRV-06**: **Atmosfera** evolui contínua e monotônica: frio/tensão → quente/calma, acoplada ao scroll; nada volta ao começo.
 - [x] **TRV-07**: **Chegada conquistada** — estado final resolvido, limpo, claramente diferente do começo, com o acento roxo `#7C3AED` no auge da escassez (só matéria próxima/resolvida acende em roxo).
-- [ ] **TRV-08**: **Hero exit de vetores opostos** entrega o usuário na travessia no início — o campo recua/afunda enquanto a headline sobe e dissolve no primeiro scroll.
-- [ ] **TRV-09**: A **copy vive só no topo** (validar a experiência visual pura antes de amplificar com texto); some cedo conforme a travessia assume o palco.
+- [x] **TRV-08**: **Hero exit de vetores opostos** entrega o usuário na travessia no início — o campo recua/afunda enquanto a headline sobe e dissolve no primeiro scroll.
+- [x] **TRV-09**: A **copy vive só no topo** (validar a experiência visual pura antes de amplificar com texto); some cedo conforme a travessia assume o palco.
 - [x] **TRV-10**: Tudo **scrubbed pelo scroll** (held camera) — parar = descansa num quadro, rolar = avança. Sem relógio macro autônomo (sem loop ambiente).
 
 ### Verificação / Aceite (TVER) — a régua oficial
@@ -43,7 +43,7 @@
 
 ### Brand-lock & Escopo (TBND)
 
-- [ ] **TBND-01**: Roxo `#7C3AED` só acento (escasso, intensifica na chegada); fundo dark **tingido** (roxo-navy, não preto puro — anti-banding + premium); Inter, com ênfase em itálico da MESMA família (sem serif).
+- [x] **TBND-01**: Roxo `#7C3AED` só acento (escasso, intensifica na chegada); fundo dark **tingido** (roxo-navy, não preto puro — anti-banding + premium); Inter, com ênfase em itálico da MESMA família (sem serif).
 - [x] **TBND-02**: Sem WebGL pesado; sem prisma estilo Vercel; sem fotografia/IA literal; sem cursor/kinetic gimmick; sem vídeo autoplay; sem scroll-jacking (Lenis suaviza, não sequestra o scroll).
 - [x] **TBND-03**: Rota `/preview` isolada e gated (404 em produção); produção `/` intocada até validação do Lenny.
 

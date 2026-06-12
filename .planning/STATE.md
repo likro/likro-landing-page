@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v2.0
 milestone_name: "**Goal**: Reconstruir o Hero em `/preview`"
 status: executing
-last_updated: "2026-06-12T00:30:36.894Z"
-last_activity: 2026-06-12 -- 08-02 executado (caos→ordem por target-lerp + 5 momentos + arco de escala + roxo escasso)
+last_updated: "2026-06-12T00:36:08.390Z"
+last_activity: 2026-06-12 -- 08-03 executado (atmosfera evolutiva + vinheta de enquadramento + film grain + hero exit de vetores opostos + copy some cedo)
 progress:
   total_phases: 11
   completed_phases: 6
   total_plans: 41
-  completed_plans: 38
-  percent: 93
+  completed_plans: 40
+  percent: 98
 ---
 
 # Project State: Likro Landing Page
@@ -36,12 +36,12 @@ progress:
 ## Current Position
 
 **Milestone:** v2.0 (Hero Premium — Travessia)
-Phase: 8 — Hero Travessia (A Travessia da Luz) — EM EXECUÇÃO (2/4 plans, 3 waves)
-Plan: 08-01 ✅ · 08-02 ✅ executados · 08-03..08-04 pendentes (ver `.planning/phases/08-*/`)
-Status: In Progress — 08-01 (fundação pseudo-3D) + 08-02 (narrativa caos→ordem: target-lerp, 5 momentos, arco de escala, roxo escasso) completos; tsc + brand-lock verdes
-Last activity: 2026-06-12 -- 08-02 executado (caos→ordem por target-lerp + 5 momentos + footprint + roxo escasso)
+Phase: 8 — Hero Travessia (A Travessia da Luz) — EM EXECUÇÃO (3/4 plans, 3 waves)
+Plan: 08-01 ✅ · 08-02 ✅ · 08-03 ✅ executados · 08-04 pendente (ver `.planning/phases/08-*/`)
+Status: In Progress — 08-01 (fundação pseudo-3D) + 08-02 (narrativa caos→ordem: target-lerp, 5 momentos, arco de escala, roxo escasso) + 08-03 (atmosfera evolutiva monotônica, vinheta de enquadramento, escuros tingidos, film grain, hero exit de vetores opostos, copy some cedo) completos; tsc + brand-lock verdes
+Last activity: 2026-06-12 -- 08-03 executado (atmosfera evolutiva + vinheta de enquadramento + film grain + hero exit de vetores opostos + copy some cedo)
 
-**Progress:** [█████████░] 93%
+**Progress:** [██████████] 98%
 
 **Nota:** o protótipo `src/app/preview/` foi RECONSTRUÍDO contra o contrato no plano 08-01 e agora está versionado no git (commits 67267e0 + f350398). Travessia.tsx = palco held-camera (sticky alto, progress manual rect→MotionValue, mount pós-hidratação, pause via IntersectionObserver/visibilitychange). LightField.tsx = engine pseudo-3D (z, optic flow radial do Foco central, oclusão por baldes, atlas de blur assado, 1 RAF, DPR≤1.5). Falta: caos→ordem (02), atmosfera/roxo (03), a11y/5-quadros (04). Validação visual (Playwright) pertence ao 08-04 + checkpoint do Lenny.
 
@@ -61,6 +61,7 @@ Last activity: 2026-06-12 -- 08-02 executado (caos→ordem por target-lerp + 5 m
 | Phase 01 P04 | 12min | 2 tasks | 26 files |
 | Phase 08 P01 | 5min | 2 tasks | 4 files |
 | Phase 08 P02 | 5min | 2 tasks | 1 files |
+| Phase 08 P03 | 6min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
