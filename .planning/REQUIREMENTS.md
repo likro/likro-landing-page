@@ -5,6 +5,58 @@
 
 > **Como ler:** cada requisito é específico, testável e atômico. Categorias e REQ-IDs servem como contrato entre planejamento e execução. Os 6 riscos críticos identificados no research (copy com cara de IA, LCP do hero, Lenis+sticky no iOS, restrição mecânica do roxo, WhatsApp abrindo o app, tracking sem double-fire/PII) aparecem como requisitos explícitos nas categorias **COPY**, **HERO**, **MOTION**, **FOUND**, **CTA** e **TRACK** — não como notas soltas.
 
+---
+
+## Milestone v2.0 — Hero Premium (Travessia)
+
+**Definido:** 2026-06-11 · Escopo: SÓ o Hero, rota `/preview` isolada. Base: pesquisa `research/HERO-V2-RESEARCH.md` + contrato em `PROJECT.md › Current Milestone`. Norte: **uma experiência que faz o usuário sentir que percorreu um caminho** (`caos → jornada → ordem`), não um efeito impressionante.
+
+### Travessia — Experiência / Sensação (TRV)
+
+- [x] **TRV-01**: O usuário sente **deslocamento** — percebe que está avançando *através* de um espaço, não observando uma transformação de fora. Entregue pela "câmera presa" (palco sticky scrubbed que re-atribui o movimento do scroll pro espaço) + optic flow (expansão radial a partir de um Foco de Expansão central e estável).
+- [ ] **TRV-02**: A travessia percorre **5 momentos distintos e reconhecíveis**, de forma contínua: (1) caos frio/distante/disperso, (2) entrada, (3) travessia/convergência, (4) quase-ordem, (5) ordem conquistada.
+- [x] **TRV-03**: **Profundidade** percebida via oclusão (ordem de desenho far→near) + tamanho relativo + perspectiva atmosférica (longe dissolve no escuro, blur pré-assado) + parallax sutil em camadas (0.3/0.4/0.5) — não um campo chapado.
+- [ ] **TRV-04**: **Arco de escala** (enquadramento): começo amplo/distante/disperso (plano aberto) → meio envolvente (médio) → fim íntimo/contido/resolvido (fechado). Entregue por dolly do optic flow + contração do footprint da convergência + vinheta de enquadramento.
+- [ ] **TRV-05**: **Uma matéria-prima única** (campo de luz/poeira) evolui continuamente por morph de matéria compartilhada (target-lerp) — PROIBIDO crossfade, coleção de efeitos, um beat = uma animação diferente, slideshow.
+- [ ] **TRV-06**: **Atmosfera** evolui contínua e monotônica: frio/tensão → quente/calma, acoplada ao scroll; nada volta ao começo.
+- [ ] **TRV-07**: **Chegada conquistada** — estado final resolvido, limpo, claramente diferente do começo, com o acento roxo `#7C3AED` no auge da escassez (só matéria próxima/resolvida acende em roxo).
+- [ ] **TRV-08**: **Hero exit de vetores opostos** entrega o usuário na travessia no início — o campo recua/afunda enquanto a headline sobe e dissolve no primeiro scroll.
+- [ ] **TRV-09**: A **copy vive só no topo** (validar a experiência visual pura antes de amplificar com texto); some cedo conforme a travessia assume o palco.
+- [x] **TRV-10**: Tudo **scrubbed pelo scroll** (held camera) — parar = descansa num quadro, rolar = avança. Sem relógio macro autônomo (sem loop ambiente).
+
+### Verificação / Aceite (TVER) — a régua oficial
+
+- [ ] **TVER-01**: **Teste dos 5 quadros** — 5 screenshots em 5 pontos do scroll lidos como 5 momentos distintos da MESMA jornada (5 quadros de um filme), não 5 versões do mesmo efeito; nada volta ao começo. (Validação: Lenny + screenshots Playwright)
+- [ ] **TVER-02**: **Teste do retrospecto** — ao chegar no fim e olhar mentalmente pra trás, sente-se que percorreu uma distância emocional e visual relevante; o estado final parece **conquistado**, não só alcançado por uma animação. (Validação: Lenny no browser real)
+
+### Performance & Técnica (TPRF) — mobile é sagrado
+
+- [x] **TPRF-01**: Mobile não regride — campo limitado (≈350–700 partículas), DPR ≤ 1.5, **1 RAF único** (dono do Lenis), sprites de luz pré-assados, zero `ctx.filter`/`shadowBlur` por frame. LCP mobile não regride vs. produção atual (~2.3s).
+- [x] **TPRF-02**: Canvas monta **pós-hidratação**; o LCP é a headline + atmosfera estática (nunca o canvas); CLS = 0 (caixa do palco reservada com `svh`/`dvh`).
+- [x] **TPRF-03**: O loop **pausa** quando offscreen/aba oculta (IntersectionObserver + `visibilitychange`); ladder de degradação em runtime (count → DPR → ruído → estático).
+- [x] **TPRF-04**: Progress lido via MotionValue/ref (**sem React state por frame**); o canvas lê `progress.get()` no próprio RAF (protege INP).
+
+### Acessibilidade (TACC)
+
+- [ ] **TACC-01**: `prefers-reduced-motion` mata o optic flow (fonte de enjoo), mantém profundidade estática + atmosfera, e apresenta a história caos→ordem como **antes/depois** (fade ≤200ms ou estado de ordem por padrão) — narrativa intacta, sem movimento vestibular.
+- [ ] **TACC-02**: Foco de Expansão central e estável; fluxo acoplado ao scroll (nunca autoplay); velocidade do fluxo limitada (anti-náusea); parallax ≤ 0.5; sem expansão+rotação+pan simultâneos.
+
+### Brand-lock & Escopo (TBND)
+
+- [ ] **TBND-01**: Roxo `#7C3AED` só acento (escasso, intensifica na chegada); fundo dark **tingido** (roxo-navy, não preto puro — anti-banding + premium); Inter, com ênfase em itálico da MESMA família (sem serif).
+- [x] **TBND-02**: Sem WebGL pesado; sem prisma estilo Vercel; sem fotografia/IA literal; sem cursor/kinetic gimmick; sem vídeo autoplay; sem scroll-jacking (Lenis suaviza, não sequestra o scroll).
+- [x] **TBND-03**: Rota `/preview` isolada e gated (404 em produção); produção `/` intocada até validação do Lenny.
+
+### Out of Scope (v2.0)
+
+- **Efeito visual impressionante como fim em si** — a régua é a sensação de jornada percorrida, não o espetáculo.
+- Outras seções da landing, PDF/pricing, redesign completo — milestones futuros.
+- "Mais partículas / brilho / espiral / complexidade" como solução — explicitamente rejeitado.
+- Copy adicional na jornada (além do hero no topo) — só depois que a experiência visual pura validar.
+- Integração na produção `/` — só após Lenny aprovar a travessia em `/preview`.
+
+---
+
 ## v1 Requirements
 
 Requisitos para o lançamento inicial. Cada um mapeia pra uma fase do roadmap.

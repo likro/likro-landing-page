@@ -161,7 +161,7 @@ Plans:
   5. **Perf + a11y travados (TPRF-01..04, TACC-01/02):** mobile não regride (LCP ~2.3s mantido, 1 RAF, canvas pós-hidratação, CLS=0, pausa offscreen); `prefers-reduced-motion` entrega versão estática-premium com a história caos→ordem como antes/depois. Verificado via Lighthouse + Playwright + toggle reduced-motion.
 **Plans:** 4 plans (3 waves)
 Plans:
-- [ ] 08-01-PLAN.md — Fundação: palco câmera-presa (sticky alto, progress manual rect→MotionValue, mount pós-hidratação, pause) + campo pseudo-3D (z/optic-flow/baldes de profundidade/atlas assado/1 RAF) [wave 1]
+- [x] 08-01-PLAN.md — Fundação: palco câmera-presa (sticky alto, progress manual rect→MotionValue, mount pós-hidratação, pause) + campo pseudo-3D (z/optic-flow/baldes de profundidade/atlas assado/1 RAF) [wave 1]
 - [ ] 08-02-PLAN.md — Narrativa caos→ordem por target-lerp (easeInOutCubic, ruído envelope 1→0) + 5 momentos + arco de escala (footprint contrai) + roxo escasso na chegada [wave 2]
 - [ ] 08-03-PLAN.md — Atmosfera evolutiva monotônica (vinhetas/bloom/grain/escuros tingidos) + hero exit de vetores opostos + copy editorial só no topo [wave 2]
 - [ ] 08-04-PLAN.md — reduced-motion estático-premium + ladder de degradação + harness [BLOCKING] dos 5 quadros + 08-VALIDATION.md + checkpoint humano (TVER-01/02) [wave 3]

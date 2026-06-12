@@ -1,15 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: v1-active-phases-complete
-last_updated: "2026-06-09T21:45:00.000Z"
+milestone: v2.0
+milestone_name: "**Goal**: Reconstruir o Hero em `/preview`"
+status: executing
+last_updated: "2026-06-12T00:23:04.020Z"
+last_activity: 2026-06-11 -- Phase 8 planning complete + verificado
 progress:
-  total_phases: 7
-  completed_phases: 7
-  total_plans: 30
-  completed_plans: 30
-  percent: 100
+  total_phases: 11
+  completed_phases: 6
+  total_plans: 41
+  completed_plans: 37
+  percent: 90
 ---
 
 # Project State: Likro Landing Page
@@ -22,7 +23,7 @@ progress:
 
 **Core value:** Uma clínica entra na landing e sente em segundos: *"isso foi feito exatamente pra minha operação — e essa empresa é absurda"*.
 
-**Current focus:** v1 active phases complete — milestone v1 pronto pra `/gsd-complete-milestone`. Backlog 999.1/999.2/999.3 fica pra milestone futuro.
+**Current focus:** Milestone v2.0 "Hero Premium (Travessia)" — **Phase 8 PLANEJADA** (4 plans em 3 waves, checker PASSOU, 21/21 reqs). Aguardando Lenny aprovar o plano pra executar. Escopo: SÓ o Hero, na rota `/preview` isolada. Contrato em PROJECT.md (caos → jornada → ordem; deslocamento espacial percebido; 2 testes de aceite). v1 (fases 01–07) em produção, intocada. Backlog 999.x segue para milestone futuro.
 
 **Key documents:**
 
@@ -34,14 +35,15 @@ progress:
 
 ## Current Position
 
-Phase: 6 (Analytics Instrumentation Pass) — EXECUTING
-Plan: 1 of 4
-**Milestone:** v1 (initial launch — clínicas vertical)
-**Phase:** 999.1 of 7 (visual rhythm card repetition polish)
-**Plan:** Not started
-**Status:** Ready to plan
+**Milestone:** v2.0 (Hero Premium — Travessia)
+Phase: 8 — Hero Travessia (A Travessia da Luz) — EM EXECUÇÃO (1/4 plans, 3 waves)
+Plan: 08-01 ✅ executado · 08-02..08-04 pendentes (ver `.planning/phases/08-*/`)
+Status: In Progress — 08-01 (fundação: held camera + campo pseudo-3D) completo; tsc + brand-lock verdes
+Last activity: 2026-06-12 -- 08-01 executado (held camera + optic flow + profundidade)
 
-**Progress:** [██████████] 100%
+**Progress:** [█████████░] 90%
+
+**Nota:** o protótipo `src/app/preview/` foi RECONSTRUÍDO contra o contrato no plano 08-01 e agora está versionado no git (commits 67267e0 + f350398). Travessia.tsx = palco held-camera (sticky alto, progress manual rect→MotionValue, mount pós-hidratação, pause via IntersectionObserver/visibilitychange). LightField.tsx = engine pseudo-3D (z, optic flow radial do Foco central, oclusão por baldes, atlas de blur assado, 1 RAF, DPR≤1.5). Falta: caos→ordem (02), atmosfera/roxo (03), a11y/5-quadros (04). Validação visual (Playwright) pertence ao 08-04 + checkpoint do Lenny.
 
 ## Performance Metrics
 
@@ -57,6 +59,7 @@ Plan: 1 of 4
 | Bundle JS gzipped (first load) | ≤ 150KB | — |
 | Page weight mobile | ≤ 1.5MB | — |
 | Phase 01 P04 | 12min | 2 tasks | 26 files |
+| Phase 08 P01 | 5min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
