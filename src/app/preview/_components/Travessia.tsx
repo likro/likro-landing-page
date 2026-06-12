@@ -115,14 +115,38 @@ export function Travessia() {
   }, []);
 
   // Atmosfera evolui JUNTO com a luz (frio/tensão → quente/calma), contínua e
-  // monotônica — metade da sensação de jornada. (Planos 02/03 refinam.)
+  // monotônica (TRV-06 — nada volta ao começo). É METADE da sensação de jornada:
+  // a luz tem fonte e o ambiente esquenta. Todas dirigidas por `progress` via
+  // useTransform; em reduced-motion caem pra um valor estático (refino no 04).
+  //
+  // 1) Vinheta fria no topo — a clínica afogada/distante. RECUA conforme avança.
   const coldOpacity = useTransform(progress, [0, 0.55], [0.85, 0]);
-  const tensionVignette = useTransform(progress, [0, 0.62], [0.55, 0.1]);
-  const warmBloom = useTransform(progress, [0.28, 1], [0, 0.62]);
-  const warmWash = useTransform(progress, [0.5, 1], [0, 0.4]);
+  // 2) Vinheta de TENSÃO — bordas fechadas no caos, ABREM na calma (fecha-no-caos
+  //    -abre-na-calma). Reforça o arco emocional de aperto → respiro.
+  const tensionVignette = useTransform(progress, [0, 0.62], [0.55, 0.08]);
+  // 3) Bloom quente central — o calor/cuidado CRESCE com a ordem. Glow COM FONTE
+  //    (centrado no Foco de Expansão), não decoração; halo toca roxo discreto.
+  const warmBloom = useTransform(progress, [0.28, 1], [0, 0.66]);
+  // 4) Banho quente de ambiente — a atmosfera inteira esquenta no fim (chegada).
+  const warmWash = useTransform(progress, [0.5, 1], [0, 0.42]);
+  // 5) Vinheta de ENQUADRAMENTO (TRV-04, arco de escala aberto→envolvente→íntimo):
+  //    ABRE no meio (deixa a travessia respirar, ~0.5) e FECHA no fim (~1.0) num
+  //    enquadramento íntimo — acompanha o footprint contraindo do estado ordenado
+  //    (plano 02). 0=fechado(wide-tenso) · 0.5=aberto(travessia) · 1=fechado-íntimo.
+  //    Não é monotônica numa direção só — é a curva do arco de escala (intencional).
+  const framingVignette = useTransform(
+    progress,
+    [0, 0.5, 1],
+    [0.5, 0.05, 0.6],
+  );
   // Copy só vive no topo: some cedo pra travessia pura assumir.
-  const copyY = useTransform(progress, [0, 0.3], [0, -44]);
+  const copyY = useTransform(progress, [0, 0.3], [0, -56]);
   const copyOpacity = useTransform(progress, [0, 0.12, 0.24], [1, 0.6, 0]);
+  // Hero exit de VETORES OPOSTOS (TRV-08): enquanto a copy SOBE (-y), o campo de
+  // luz/atmosfera RECUA/AFUNDA (+y leve + scale↓) — o gesto que entrega o usuário
+  // na travessia. Os dois vetores opostos são perceptíveis já no 1º scroll.
+  const fieldRecede = useTransform(progress, [0, 0.25], [0, 26]);
+  const fieldScale = useTransform(progress, [0, 0.25], [1, 0.94]);
 
   return (
     <section
@@ -133,6 +157,17 @@ export function Travessia() {
       aria-labelledby="hero-headline"
     >
       <div className="sticky top-0 flex h-svh w-full items-center justify-center overflow-hidden">
+        {/* Campo + atmosfera viajante: este wrapper RECUA/AFUNDA no 1º scroll
+            (hero exit de vetores opostos — TRV-08). Enquanto a copy sobe (-y),
+            tudo aqui desce (+y leve) e encolhe (scale↓): o usuário é entregue na
+            travessia. A copy fica FORA deste wrapper (vetor oposto). */}
+        <motion.div
+          aria-hidden
+          className="absolute inset-0"
+          style={
+            reduced ? undefined : { y: fieldRecede, scale: fieldScale }
+          }
+        >
         {/* Frio/tensão — vinheta gélida no topo (a clínica afogada). Recua. */}
         <motion.div
           aria-hidden
@@ -182,6 +217,20 @@ export function Travessia() {
             o LCP é a headline + atmosfera acima (já no DOM), nunca este canvas.
             `active` pausa o loop quando offscreen/oculto (TPRF-03). */}
         {mounted && <LightField progress={progress} active={active} />}
+
+        {/* Vinheta de ENQUADRAMENTO (TRV-04) — abre no meio, fecha no fim (íntimo).
+            Fica ACIMA do campo: é o frame que aperta/solta o olho. Escuro TINGIDO
+            (roxo-navy ~#0A0F1A em rgba), NUNCA preto puro (TBND-01, anti-banding). */}
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            opacity: reduced ? 0.3 : framingVignette,
+            background:
+              "radial-gradient(ellipse 70% 70% at 50% 52%, transparent 30%, rgba(8,12,22,0.6) 72%, rgba(6,9,18,0.96) 100%)",
+          }}
+        />
+        </motion.div>
 
         {/* Remate inferior — handoff suave pra próxima seção. */}
         <div
@@ -234,6 +283,19 @@ export function Travessia() {
             </div>
           </Container>
         </motion.div>
+
+        {/* Film grain (TBND-01) — ESTÁTICO, mix-blend-overlay ~5%. Mata banding
+            dos gradients e dá textura analógica ("filme" único sobre a cena).
+            data-URI SVG feTurbulence: zero custo por frame (é background-image),
+            não roda no rAF. Fica no topo de tudo, inclusive da copy. */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-20 opacity-[0.05] [mix-blend-mode:overlay]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: "repeat",
+          }}
+        />
       </div>
     </section>
   );
