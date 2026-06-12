@@ -139,9 +139,14 @@ export function Travessia() {
     [0, 0.5, 1],
     [0.5, 0.05, 0.6],
   );
-  // Copy só vive no topo: some cedo pra travessia pura assumir.
+  // Copy só vive no topo: SOBE e DISSOLVE cedo (TRV-09) pra travessia pura
+  // assumir o palco. O opacity chega a 0 por ~0.24 (antes do beat de entrada
+  // ~0.25) — validamos a experiência visual sem texto antes de amplificar copy.
   const copyY = useTransform(progress, [0, 0.3], [0, -56]);
   const copyOpacity = useTransform(progress, [0, 0.12, 0.24], [1, 0.6, 0]);
+  // Leve escala↓ da copy ao subir reforça o "ser deixado pra trás" (vetor da copy
+  // sobe/encolhe; o campo desce — vetores opostos no mesmo gesto).
+  const copyScale = useTransform(progress, [0, 0.24], [1, 0.97]);
   // Hero exit de VETORES OPOSTOS (TRV-08): enquanto a copy SOBE (-y), o campo de
   // luz/atmosfera RECUA/AFUNDA (+y leve + scale↓) — o gesto que entrega o usuário
   // na travessia. Os dois vetores opostos são perceptíveis já no 1º scroll.
@@ -242,9 +247,16 @@ export function Travessia() {
           }}
         />
 
-        {/* Copy editorial — só no topo, some cedo. */}
+        {/* Copy editorial — só no topo. HERO EXIT de vetores opostos (TRV-08):
+            a headline SOBE (-y), DISSOLVE (opacity→0 por ~0.24) e encolhe (scale↓)
+            enquanto o campo/atmosfera RECUA/AFUNDA (+y, scale↓) — o gesto que
+            entrega o usuário na travessia. Em reduced-motion fica no estado final. */}
         <motion.div
-          style={reduced ? undefined : { y: copyY, opacity: copyOpacity }}
+          style={
+            reduced
+              ? undefined
+              : { y: copyY, opacity: copyOpacity, scale: copyScale }
+          }
           className="relative z-10 w-full"
         >
           <Container className="flex flex-col items-center text-center">
