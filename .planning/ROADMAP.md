@@ -17,6 +17,10 @@
 - [x] **Phase 6: Analytics Instrumentation Pass** — Verificação sistêmica de todos os eventos nos três dashboards (Pixel Test Events, GA4 DebugView, Clarity recordings), seção views, scroll-depth, PII masking validado em sessão real. (completed 2026-05-21)
 - [x] **Phase 7: SEO + A11y + Performance + Deploy Hardening** — Lighthouse 90+/85+, JSON-LD validado, OG image testada no preview WhatsApp/LinkedIn, WCAG AA audit, mobile QA real-device, Vercel deploy + env vars + preview noindex. (completed 2026-06-09)
 
+**Milestone v2.0 — Hero Premium (Travessia):**
+
+- [ ] **Phase 8: Hero Travessia (A Travessia da Luz)** — Reconstruir o Hero em `/preview` como uma matéria de luz pseudo-3D que o usuário ATRAVESSA (held camera + optic flow), evoluindo `caos → jornada → ordem` em 5 momentos distintos com arco de escala (aberto→envolvente→íntimo), até passar os 2 testes de aceite. Produção `/` intocada.
+
 ## Phase Details
 
 ### Phase 1: Foundations & Design System
@@ -143,6 +147,24 @@ Plans:
 - [x] 07-05-PLAN.md — Performance + infra: Speed Insights + bundle-analyzer + auditoria bundle/CLS/lazy-load + PERF-09
 - [x] 07-06-PLAN.md — HUMAN-UAT consolidado (Lighthouse, Rich Results, OG preview, device matrix, bloqueios externos) + checkpoint
 - [x] 07-07-PLAN.md — Mobile QA + deploy: auditoria tap targets/useDeviceTier/hover→active/Lenis touch + .env.example
+**UI hint**: yes
+
+### Phase 8: Hero Travessia (A Travessia da Luz) — Milestone v2.0
+**Goal**: Reconstruir o Hero em `/preview` (isolado) como "A Travessia da Luz" — uma matéria de luz pseudo-3D que o usuário ATRAVESSA (held camera + optic flow), evoluindo `caos → jornada → ordem` em 5 momentos distintos, com profundidade e arco de escala (aberto→envolvente→íntimo), até passar os 2 testes de aceite. O norte é a SENSAÇÃO de jornada percorrida, não um efeito impressionante. Produção `/` permanece intocada.
+**Depends on**: Phase 2 (primitivas de motion — `<ScrollScene>`/`<StickyStage>`) + Phase 3 (Hero de produção como base de copy/CTA). Base de pesquisa: `research/HERO-V2-RESEARCH.md`.
+**Requirements**: TRV-01, TRV-02, TRV-03, TRV-04, TRV-05, TRV-06, TRV-07, TRV-08, TRV-09, TRV-10, TVER-01, TVER-02, TPRF-01, TPRF-02, TPRF-03, TPRF-04, TACC-01, TACC-02, TBND-01, TBND-02, TBND-03
+**Success Criteria** (what must be TRUE):
+  1. **Teste dos 5 quadros (TVER-01):** 5 screenshots em 5 pontos do scroll mostram 5 momentos distintos e reconhecíveis da MESMA jornada (caos frio/distante/disperso → entrada → travessia/convergência → quase-ordem → ordem conquistada); nenhum quadro repete o estado de outro, nada volta ao começo. Lenny confirma no browser real.
+  2. **Teste do retrospecto (TVER-02):** ao chegar no fim, Lenny sente que percorreu uma distância emocional e visual relevante; o estado final parece **conquistado** — limpo, resolvido, claramente diferente do começo, com o roxo `#7C3AED` no auge da escassez.
+  3. **Deslocamento + escala (TRV-01/03/04):** a experiência gera a sensação de avançar *através* de um espaço (não observar de fora), com profundidade percebida e arco de escala aberto→envolvente→íntimo. Lenny valida "senti que atravessei", não "vi um efeito".
+  4. **Coesão (TRV-05/06/10):** uma matéria única evolui continuamente (morph de matéria compartilhada — sem crossfade, sem coleção de efeitos, sem loop); atmosfera frio→quente monotônica; scrubbed (parar = descansa num quadro).
+  5. **Perf + a11y travados (TPRF-01..04, TACC-01/02):** mobile não regride (LCP ~2.3s mantido, 1 RAF, canvas pós-hidratação, CLS=0, pausa offscreen); `prefers-reduced-motion` entrega versão estática-premium com a história caos→ordem como antes/depois. Verificado via Lighthouse + Playwright + toggle reduced-motion.
+**Plans:** 4 plans (3 waves)
+Plans:
+- [ ] 08-01-PLAN.md — Fundação: palco câmera-presa (sticky alto, progress manual rect→MotionValue, mount pós-hidratação, pause) + campo pseudo-3D (z/optic-flow/baldes de profundidade/atlas assado/1 RAF) [wave 1]
+- [ ] 08-02-PLAN.md — Narrativa caos→ordem por target-lerp (easeInOutCubic, ruído envelope 1→0) + 5 momentos + arco de escala (footprint contrai) + roxo escasso na chegada [wave 2]
+- [ ] 08-03-PLAN.md — Atmosfera evolutiva monotônica (vinhetas/bloom/grain/escuros tingidos) + hero exit de vetores opostos + copy editorial só no topo [wave 2]
+- [ ] 08-04-PLAN.md — reduced-motion estático-premium + ladder de degradação + harness [BLOCKING] dos 5 quadros + 08-VALIDATION.md + checkpoint humano (TVER-01/02) [wave 3]
 **UI hint**: yes
 
 ## Phase Ordering Rationale
