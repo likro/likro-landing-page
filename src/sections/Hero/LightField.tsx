@@ -561,13 +561,8 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           // as bordas (baseline 0.5). A expansão do optic flow segue (spread sobe
           // com scale conforme você avança).
           const spread = 0.55 + 0.42 * scale;
-          let px = cx + bx * md * spread + lateral * part.parallax;
-          let py = cy + by * md * spread;
-
-          // ── Mouse vivo (o tempo todo): (a) parallax de profundidade — o campo
-          // inclina pro cursor, partículas próximas (parallax↑) reagem mais; (b)
-          // atração local — a luz se JUNTA onde você aponta (falloff gaussiano,
-          // mais forte nas próximas via `scale`). Sutil, mas claramente sentido.
+          const px = cx + bx * md * spread + lateral * part.parallax;
+          const py = cy + by * md * spread;
 
           // Tamanho ∝ scale; alpha cai com a distância (atmosférica básica).
           // Fator maior → partículas próximas GRANDES, com presença periférica
