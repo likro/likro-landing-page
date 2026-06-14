@@ -129,32 +129,77 @@ type Particle = {
    * puladas — descarte uniforme e determinístico (sem flicker aleatório/frame).
    */
   dropKey: number;
+  /** "Canal" de origem no caos (0..NCH-1) — fragmentação SENTIDA, não rótulo. */
+  channel: number;
+  /** Mensagem que chega e ESFRIA sem resposta (paciente esperando) — só no caos. */
+  msg: boolean;
+  /** Oportunidade que VAZA pra fora do quadro (perda silenciosa) — só no caos. */
+  leak: boolean;
+  /** Fase própria do ciclo de esfriar/vazar (não repete exato entre partículas). */
+  lifePhase: number;
+  /** Caos em CARTESIANO normalizado (migração em linha reta — sem artefato de
+   *  interpolar ângulo cruzando 0/2π, que enviesava o meio da travessia pra esquerda). */
+  cx0: number;
+  cy0: number;
+  /** Estado ordenado em CARTESIANO normalizado (alvo da migração). */
+  tx: number;
+  ty: number;
 };
 
+// Budgets enxutos (Lenny: "muito pesado / trava"). Menos partículas + sprites
+// menores = muito menos fillrate em blend aditivo (o gargalo real). Mobile sagrado.
 const TIER_COUNT: Record<"reduced" | "mobile" | "tablet" | "desktop", number> = {
-  reduced: 350,
-  mobile: 500,
-  tablet: 700,
-  desktop: 1000,
+  reduced: 340,
+  mobile: 400,
+  tablet: 620,
+  desktop: 820,
 };
 
 // ── Modelo de câmera / projeção ─────────────────────────────────────────────
 const FOCAL = 320; // distância focal (px-ish): scale = FOCAL/(FOCAL+z)
 const Z_NEAR = 12; // partícula que cruza isto já passou a câmera → reciclar
 const Z_RANGE = 1100; // profundidade total do campo (fundo - frente)
-const Z_TRAVEL = 1400; // quanto o campo desloca em z do progress 0→1 (avanço)
+const Z_TRAVEL = 1350; // quanto o campo desloca em z (avanço). Reduzido de 1900:
+// expansão menos agressiva = menos partículas voam pra fora no meio da travessia
+// (mantém densidade na tela), sem perder a sensação de avanço.
 const BUCKETS = 6; // baldes de profundidade (oclusão por ordem, sem sort/frame)
-const RADIUS_MAX = 0.62; // raio polar máximo (frações de min(w,h))
+const RADIUS_MAX = 0.8; // raio polar máximo — enche os cantos sem jogar partículas
+// demais pra fora da tela no meio da travessia (0.92 esvaziava; 0.74 deixava cantos).
 
 // ── Narrativa caos→ordem (08-02) ────────────────────────────────────────────
-const BANDS = 5; // faixas de fluxo do estado ordenado (estrutura ABSTRATA, não UI)
-const BAND_SPREAD = 0.26; // meia-altura do feixe central que o estado ordenado ocupa
-const BAND_JITTER = 0.045; // dispersão suave dentro de cada faixa (orgânico, não régua)
+// ── Estado ORDENADO: campo CHEIO, nunca uma banda fina ──────────────────────
+// REGRA 1 (Lenny): a ordem JAMAIS encolhe pra um filete. O estado ordenado é a
+// MESMA matéria do caos, agora UNIFICADA e calma, PREENCHENDO a viewport inteira
+// (borda→borda, topo→base). A "organização" é sentida pela calma (ruído→0), calor,
+// roxo, pulso único e convergência dos canais — NÃO por colapso espacial. Antes
+// havia BANDS (faixas) que, sob a projeção radial, viravam uma tira fina no topo
+// com a tela vazia embaixo (a compressão). Removido.
+const ORDER_FILL = 0.92; // espalhamento radial do estado ordenado (enche a tela)
 const FOOTPRINT_OPEN = 1.0; // footprint no caos (amplo, vaza a viewport)
-const FOOTPRINT_CLOSED = 0.42; // footprint na ordem (região central contida — íntimo)
+const FOOTPRINT_CLOSED = 1.15; // a ordem NÃO encolhe — ENCHE a viewport (até cresce
+// um pouco). Lenny: "o campo não pode encolher; quero estar DENTRO dele".
+// Ajustado pós-checkpoint do Lenny: ele quer sentir-se DENTRO do fenômeno, não
+// olhando um objeto central isolado. O arco de escala vira o dolly/calor do optic
+// flow, NÃO uma contração que encolhe o campo — a chegada ocupa a tela inteira.
 const TARGET_Z_MIN = 60; // z mais raso do estado ordenado (chegada próxima/contida)
 const TARGET_Z_MAX = 380; // leve profundidade residual no estado ordenado (volume)
-const BASE_NOISE = 0.16; // amplitude do ruído orgânico no caos (envelope 1→0)
+const BASE_NOISE = 0.06; // amplitude do ruído orgânico no caos (envelope 1→0).
+// Menor agora que o ruído é JITTER CARTESIANO (×md): 0.16 explodia em centenas de
+// px; 0.06 dá um wiggle gentil de vida no caos que some na ordem.
+
+// ── Semântica sentida (08-NARRATIVE: a luz REPRESENTA a operação da Likro) ───
+// A história é carregada pelo COMPORTAMENTO da luz, não por copy. Tudo aqui é
+// SENTIDO (fragmentação, esfriar, vazar, costurar, unificar) — nunca logo/cor de
+// canal (brand-lock: roxo é o único acento). Acoplado ao scroll (scrubbed); só a
+// micro-vida do caos (esfriar/vazar/shimmer) roda no tempo — a clínica não para
+// "às 9 da noite" mesmo quando ninguém olha.
+const NCH = 3; // "canais" desconexos no caos (IG/WA/Msg) — fragmentação sentida
+const CH_RATE = [0.1, 0.185, 0.275]; // ritmos dessincronizados no caos → 1 ritmo na ordem
+const MSG_FRAC = 0.2; // fração que "chega e esfria" sem resposta (paciente esperando)
+const LEAK_FRAC = 0.1; // fração que "vaza" pra fora do quadro (oportunidade perdida)
+const CHAOS_END = 0.42; // até onde as dores do caos vivem (fragmentar/esfriar/vazar)
+const AI_IN = 0.34; // a IA começa a costurar/capturar...
+const AI_OUT = 0.66; // ...e termina de atender tudo aqui (nada cai)
 
 // ── Atlas de sprites assados ────────────────────────────────────────────────
 const TEX = 64;
@@ -287,20 +332,33 @@ export function LightField({ progress, active = true }: LightFieldProps) {
       // assenta numa de BANDS faixas de fluxo horizontais, numa região central
       // contida. Calculado em fração-de-canvas (x,y ∈ ~[-0.5,0.5]) e convertido
       // pra polar (targetAngle/targetRadius) — reusa a MESMA projeção do caos.
-      const band = i % BANDS;
-      const bandY =
-        ((band + 0.5) / BANDS - 0.5) * 2 * BAND_SPREAD + // faixa centrada
-        (Math.random() - 0.5) * BAND_JITTER; // jitter suave (orgânico)
-      // Posição ao longo da faixa: feixe largo na horizontal, contido na altura.
-      const flowX = (Math.random() - 0.5) * (FOOTPRINT_CLOSED * 1.18);
-      const targetRadius = Math.hypot(flowX, bandY);
-      const targetAngle = Math.atan2(bandY, flowX);
+      // ── Estado ORDENADO (alvo): o campo CHEIO e calmo — NÃO uma banda fina.
+      // Distribuição radial completa (centro→borda) preenchendo a viewport. A
+      // ordem se distingue do caos por calma/calor/roxo/pulso, não por posição.
+      const targetAngle = Math.random() * Math.PI * 2;
+      const targetRadius = (0.1 + Math.sqrt(Math.random()) * ORDER_FILL) * RADIUS_MAX;
+
+      // ── Caos: campo CHEIO (sem buraco — regra 1). A fragmentação NÃO é espacial
+      // (gaps deixam dead space); é TEMPORAL — cada canal pulsa num ritmo próprio
+      // (CH_RATE) + mensagens esfriando + oportunidades vazando, espalhadas por
+      // toda a tela. CH_DIR dá só um leve viés de foco, sem esvaziar regiões.
+      const channel = i % NCH;
+      // Ângulo do caos PURAMENTE aleatório (sem viés por canal): o viés angular
+      // criava assimetria esquerda↔direita que fazia o campo parecer "torto" e o
+      // texto centralizado parecer fora de centro. A fragmentação por canal vive
+      // no RITMO (CH_RATE) + esfriar + vazar, não na posição.
+      const chaosAngle = Math.random() * Math.PI * 2;
+      const chaosRadius = (0.06 + Math.sqrt(Math.random()) * 0.98) * RADIUS_MAX;
+
+      // Partição determinística msg/leak (frações estáveis, sem sobreposição).
+      const roll = (i * 0.6180339887) % 1;
+      const leak = roll < LEAK_FRAC;
+      const msg = !leak && roll < LEAK_FRAC + MSG_FRAC;
 
       return {
         z,
-        angle: Math.random() * Math.PI * 2,
-        // Raio com viés pro centro (sqrt) → centro povoado, calmo no Foco.
-        radius: Math.sqrt(Math.random()) * RADIUS_MAX,
+        angle: chaosAngle,
+        radius: chaosRadius,
         targetAngle,
         targetRadius,
         targetZ: lerp(TARGET_Z_MIN, TARGET_Z_MAX, Math.random()),
@@ -313,6 +371,16 @@ export function LightField({ progress, active = true }: LightFieldProps) {
         // Chave estável p/ descarte uniforme do ladder (degrau 1): distribui o
         // índice em [0,1) — descartar `>= drawFraction` tira uma fatia uniforme.
         dropKey: (i % count) / count,
+        channel,
+        msg,
+        leak,
+        lifePhase: Math.random(),
+        // Cartesiano normalizado (caos e alvo) — a migração lerpa ISTO em linha
+        // reta, sem o artefato de ponto-médio-oposto do lerp de ângulo.
+        cx0: Math.cos(chaosAngle) * chaosRadius,
+        cy0: Math.sin(chaosAngle) * chaosRadius,
+        tx: Math.cos(targetAngle) * targetRadius,
+        ty: Math.sin(targetAngle) * targetRadius,
       };
     });
 
@@ -331,14 +399,14 @@ export function LightField({ progress, active = true }: LightFieldProps) {
     //   degrau 4 → cair pra estático (parar o RAF macro, 1 quadro)         [fallback documentado]
     // Implementados de forma REAL os 2 primeiros (count→DPR); os degraus 3–4
     // ficam documentados como fallback (o reduced-motion já é o "estático" 4).
-    const FRAME_BUDGET_MS = 23; // teto ~<45fps sustentado
-    const FRAME_WINDOW = 60; // janela da média móvel (frames)
-    const COOLDOWN_FRAMES = 90; // espera após um rebaixamento antes do próximo
+    const FRAME_BUDGET_MS = 21; // teto ~<48fps sustentado (intervalo REAL de frame)
+    const FRAME_WINDOW = 45; // janela da média móvel (frames)
+    const COOLDOWN_FRAMES = 80; // espera após um rebaixamento antes do próximo
     let frameAccum = 0;
     let frameSamples = 0;
     let cooldown = 0;
-    let degradeStep = 0; // 0 = full, 1 = count↓, 2 = count↓+dpr↓
-    // Fração das partículas efetivamente desenhadas (degrau 1 baixa pra 0.6).
+    let degradeStep = 0; // 0=full, 1=count↓, 2=count↓↓, 3=+dpr↓
+    // Fração das partículas efetivamente desenhadas (degraus baixam progressivo).
     let drawFraction = 1;
     // Teto de DPR (degrau 2 baixa de 1.5 pra 1.0).
     let dprCap = 1.5;
@@ -359,13 +427,20 @@ export function LightField({ progress, active = true }: LightFieldProps) {
     };
     resize();
 
+    // Interação com o cursor REMOVIDA: derrubava o fps ao mexer o mouse sobre o
+    // campo e dava uma travada quando o cursor saía (o parallax zerava de repente,
+    // fazendo o campo pular). Não é parte da narrativa — a travessia é scrubbed.
+
     /**
      * Desenha um quadro do campo pseudo-3D em função do progress `j` (scrubbed)
      * e do micro-tempo `t` (só shimmer). Foco de Expansão = centro (cx,cy),
      * ESTÁVEL — nunca pan/rotaciona (segurança vestibular, TACC-02).
      */
     const drawFrame = (j: number, t: number, animate: boolean) => {
-      const md = Math.min(w, h);
+      // Escala do campo pela MAIOR dimensão (não a menor): o campo enche a
+      // largura e ultrapassa as bordas em telas wide → envolve, não fica um
+      // objeto central isolado (pós-checkpoint do Lenny: "estar DENTRO").
+      const md = Math.max(w, h);
       const cx = w / 2;
       const cy = h / 2;
 
@@ -395,14 +470,27 @@ export function LightField({ progress, active = true }: LightFieldProps) {
         Math.round(j * (TEMP_STEPS - 1)),
       );
       const warmAtlas = tempAtlases[tempStep] ?? tempAtlases[TEMP_STEPS - 1]!;
-      // Brilho sobe com o progress (perspectiva da chegada).
-      const brightness = lerp(0.82, 1.12, e);
+      // Brilho sobe com o progress (perspectiva da chegada — destino presente).
+      const brightness = lerp(0.82, 1.24, e);
 
       // Optic flow: o campo inteiro avança em z conforme o progress.
       const zShift = j * Z_TRAVEL;
       // Deslocamento lateral sutil (parallax de camadas) proporcional ao progress.
-      const lateral = (j - 0.5) * md * 0.14; // pequeno; multiplicado por parallax≤0.5
+      const lateral = 0; // ZERADO: qualquer deslocamento lateral por progress
+      // criava assimetria esquerda↔direita nas pontas (caos puxava esquerda, chegada
+      // direita) e fazia o texto centralizado parecer fora de centro. Foco de
+      // Expansão fica 100% central e estável (também melhor pra segurança vestibular).
       const micro = animate ? md * 0.0016 : 0; // shimmer ~2px (micro-vida)
+
+      // ── Semântica sentida (gates acoplados ao scroll) ───────────────────────
+      // chaos: as dores (fragmentar/esfriar/vazar) vivem forte no início e somem.
+      // aiCapture: conforme você ROLA pela virada, a IA "atende" — costura e pega.
+      // unanswered: esfriar/vazar só até a IA pegar (depois, nada cai).
+      // weave: surto de re-acendimento da IA costurando (pico no meio da virada).
+      const chaos = clamp01(1 - j / CHAOS_END);
+      const aiCapture = clamp01((j - AI_IN) / (AI_OUT - AI_IN));
+      const unanswered = chaos * (1 - aiCapture);
+      const weave = aiCapture * (1 - aiCapture) * 4;
 
       // Ladder degrau 1 (count↓): sob carga, `drawFraction` cai e descartamos
       // partículas cujo `dropKey` (∈[0,1), estável por partícula) excede a
@@ -417,7 +505,11 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           if (drawFrac < 1 && part.dropKey >= drawFrac) continue;
           // Ruído orgânico (sin/cos em camadas, sem dep simplex — o contrato
           // permite o fallback) com envelope 1→0: vivo no caos, quieto na ordem.
-          const nA = animate ? t * 0.18 + part.noisePhase : part.noisePhase;
+          // Ritmo de vida POR CANAL: no caos cada canal pulsa num compasso
+          // diferente (dessincronia = focos desconexos); conforme a ordem forma,
+          // os ritmos convergem pra um só (unificação sentida).
+          const lifeRate = lerp(CH_RATE[part.channel] ?? 0.18, 0.18, e);
+          const nA = animate ? t * lifeRate + part.noisePhase : part.noisePhase;
           const noiseAngle =
             noiseAmp *
             (Math.sin(nA) + 0.5 * Math.sin(nA * 2.3 + part.seed));
@@ -425,12 +517,29 @@ export function LightField({ progress, active = true }: LightFieldProps) {
             noiseAmp *
             (Math.cos(nA * 1.7 + part.seed) + 0.5 * Math.sin(nA * 0.9));
 
+          // Vazamento (oportunidade perdida): no caos, partículas `leak` derivam
+          // pra FORA do quadro e somem — perda silenciosa. A IA capturando
+          // (aiCapture↑) anula a deriva (pega antes de vazar). Respawn via ciclo
+          // (%1) traz de volta dim → densidade preservada (regra 1: não esvazia).
+          let leakDrift = 0;
+          if (animate && part.leak && unanswered > 0.01) {
+            leakDrift = (t * 0.05 + part.lifePhase) % 1;
+          }
+
           // target-lerp: a partícula MIGRA do caos pro estado ordenado (uma só
           // matéria condensando). O ruído some conforme o alvo vence; o alvo é
           // contraído pelo `footprint` (arco de escala — íntimo no fim).
-          const angle = lerp(part.angle, part.targetAngle, e) + noiseAngle;
-          const radius =
-            lerp(part.radius, part.targetRadius * footprint, e) + noiseRad;
+          // Migração em CARTESIANO (linha reta caos→ordem) — sem o artefato de
+          // interpolar ângulo (que enviesava o meio da travessia pra esquerda). O
+          // ruído entra como jitter x/y; o alvo é contraído pelo footprint.
+          let bx = lerp(part.cx0, part.tx * footprint, e) + noiseAngle;
+          let by = lerp(part.cy0, part.ty * footprint, e) + noiseRad;
+          // Oportunidade que vaza: empurra a magnitude pra fora (some do quadro).
+          if (leakDrift > 0) {
+            const push = 1 + unanswered * leakDrift * 1.05;
+            bx *= push;
+            by *= push;
+          }
 
           // z também migra: caos (fundo, disperso) → ordenado (raso, contido).
           const baseZ = lerp(part.z, part.targetZ, e);
@@ -444,21 +553,56 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           // Projeção: perto (z↓) = grande; longe (z↑) = pequeno.
           const scale = FOCAL / (FOCAL + zEff);
 
-          // Expansão radial a partir do Foco central estável.
-          const r = radius * md * scale;
-          const px = cx + Math.cos(angle) * r + lateral * part.parallax;
-          const py = cy + Math.sin(angle) * r;
+          // Expansão radial a partir do Foco central estável. A POSIÇÃO usa um
+          // `spread` que NÃO colapsa as distantes no centro (antes `r = radius*md*
+          // scale` puxava tudo o que era far/dim pro meio → coluna central cheia,
+          // laterais/cantos mortos = a "concentração" que o Lenny via). Agora as
+          // distantes mantêm `size` pequeno (3D intacto) mas ESPALHAM pra encher
+          // as bordas (baseline 0.5). A expansão do optic flow segue (spread sobe
+          // com scale conforme você avança).
+          const spread = 0.55 + 0.42 * scale;
+          let px = cx + bx * md * spread + lateral * part.parallax;
+          let py = cy + by * md * spread;
+
+          // ── Mouse vivo (o tempo todo): (a) parallax de profundidade — o campo
+          // inclina pro cursor, partículas próximas (parallax↑) reagem mais; (b)
+          // atração local — a luz se JUNTA onde você aponta (falloff gaussiano,
+          // mais forte nas próximas via `scale`). Sutil, mas claramente sentido.
 
           // Tamanho ∝ scale; alpha cai com a distância (atmosférica básica).
-          const size = part.size * scale * 2.6;
+          // Fator maior → partículas próximas GRANDES, com presença periférica
+          // (luz grande e mole cruzando as bordas = envolvimento, sem +partículas).
+          const size = Math.min(72, part.size * scale * 4.3); // sprites menores +
+          // teto baixo = MUITO menos fillrate em blend aditivo (FPS na máquina real).
           const depthAlpha = scale; // longe = dim
-          const shimmer = animate
-            ? 0.82 + 0.18 * Math.sin(t * 1.4 + part.seed)
-            : 1;
+          // Shimmer: no caos cada partícula cintila na sua fase (vida dispersa);
+          // na ordem as fases convergem (lerp→0) = um PULSO ÚNICO (operação que
+          // respira junto). Unificação sentida, micro-vida (não macro-loop).
+          const shPhase = lerp(part.seed, 0, e);
+          const shimmer = animate ? 0.82 + 0.18 * Math.sin(t * 1.4 + shPhase) : 1;
           let alpha = Math.min(
-            0.78,
-            (0.18 + 0.55 * scale) * depthAlpha * shimmer * brightness,
+            0.82,
+            (0.24 + 0.6 * scale) * depthAlpha * shimmer * brightness,
           );
+
+          // ── Mensagem que esfria sem resposta + IA re-acendendo ──────────────
+          if (animate) {
+            // Paciente esperando: `msg` acende e ESFRIA num ciclo (chega→ninguém
+            // vê→esfria). Só enquanto `unanswered` (antes da IA pegar).
+            if (part.msg && unanswered > 0.01) {
+              const cyc = (t * 0.22 + part.lifePhase) % 1;
+              const f = 1 - cyc;
+              const flare = f * f * f; // sobe rápido, esfria devagar (sem Math.exp)
+              alpha *= lerp(1, 0.26 + 0.82 * flare, unanswered);
+            }
+            // Oportunidade vazando: some conforme deriva pra fora (dim ao sair).
+            if (leakDrift > 0) alpha *= 1 - leakDrift;
+            // A IA costura a virada: surto de re-acendimento (pega o que esfriava
+            // e o que vazava). Mais forte nos `msg` (são os que estavam apagando).
+            if (weave > 0.01) alpha *= 1 + 0.5 * weave * (part.msg ? 1.6 : 1);
+          }
+
+          if (alpha > 0.92) alpha = 0.92; // teto (a costura da IA não estoura branco)
 
           // ── Chegada conquistada — roxo escasso (TRV-07): o acendimento é
           // gated por (i) progress alto (`purpleProgress`) E (ii) proximidade
@@ -530,42 +674,52 @@ export function LightField({ progress, active = true }: LightFieldProps) {
     window.addEventListener("resize", resize, { passive: true });
 
     let raf = 0;
+    let lastTs = 0;
     const loop = (ts: number) => {
       raf = window.requestAnimationFrame(loop);
       // Pause offscreen/aba oculta (TPRF-03): não desenha quando inativo.
-      if (!activeRef.current) return;
-      if (typeof document !== "undefined" && document.hidden) return;
+      if (!activeRef.current) {
+        lastTs = 0;
+        return;
+      }
+      if (typeof document !== "undefined" && document.hidden) {
+        lastTs = 0;
+        return;
+      }
       const j = clamp01(progressRef.current);
 
-      // ── Medição do tempo de desenho (ladder de degradação, TPRF-03) ───────
-      const t0 = performance.now();
       drawFrame(j, ts * 0.001, true);
-      const frameMs = performance.now() - t0;
 
-      // Média móvel simples sobre FRAME_WINDOW frames.
-      frameAccum += frameMs;
-      frameSamples++;
+      // ── Auto-degradação por FPS REAL (intervalo entre frames) ─────────────
+      // Mede o intervalo REAL entre frames (ts - lastTs) — inclui a compositação
+      // da atmosfera (blur/blends), não só o desenho do canvas. Se a máquina não
+      // segura ~48fps, o campo se rebaixa SOZINHO. Robusto a hardware fraco (o
+      // sandbox de teste é mais rápido que a máquina do usuário — isso protege).
       if (cooldown > 0) cooldown--;
-      if (frameSamples >= FRAME_WINDOW) {
-        const avg = frameAccum / frameSamples;
-        frameAccum = 0;
-        frameSamples = 0;
-        // Acima do teto e fora do cooldown → desce UM degrau do ladder.
-        if (avg > FRAME_BUDGET_MS && cooldown === 0 && degradeStep < 2) {
-          degradeStep++;
-          if (degradeStep === 1) {
-            // Degrau 1: count↓ — desenha ~60% das partículas.
-            drawFraction = 0.6;
-          } else if (degradeStep === 2) {
-            // Degrau 2: dpr↓ — reduz o teto de DPR e re-resize (menos fill/frame).
-            dprCap = 1.0;
-            resize();
+      if (lastTs > 0) {
+        const dt = ts - lastTs;
+        // Ignora picos isolados (scroll brusco/GC) > 80ms: não poluem a média.
+        if (dt < 80) {
+          frameAccum += dt;
+          frameSamples++;
+        }
+        if (frameSamples >= FRAME_WINDOW) {
+          const avg = frameAccum / frameSamples;
+          frameAccum = 0;
+          frameSamples = 0;
+          if (avg > FRAME_BUDGET_MS && cooldown === 0 && degradeStep < 3) {
+            degradeStep++;
+            if (degradeStep === 1) drawFraction = 0.62; // desenha ~62%
+            else if (degradeStep === 2) drawFraction = 0.42; // ~42%
+            else if (degradeStep === 3) {
+              dprCap = 1.0; // por último, baixa o DPR e re-resize
+              resize();
+            }
+            cooldown = COOLDOWN_FRAMES;
           }
-          cooldown = COOLDOWN_FRAMES;
-          // Degraus 3 (resolução do ruído) e 4 (estático) ficam como fallback
-          // documentado: o caminho reduced-motion já entrega o "estático" final.
         }
       }
+      lastTs = ts;
     };
     raf = window.requestAnimationFrame(loop);
 

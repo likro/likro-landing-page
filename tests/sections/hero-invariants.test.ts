@@ -65,18 +65,28 @@ function stripCopyAllowlist(line: string): string {
 
 describe("hero invariants — Phase 3 LCP + copy gates", () => {
   // -------------------------------------------------------------------------
-  // Test 1 — zero `motion.*` in Hero/ and Header.tsx (HERO-02 / HERO-03)
+  // Test 1 — no entrance-animation props on Hero/Header LCP (HERO-02, v2.0)
   // -------------------------------------------------------------------------
-  it("zero `motion.*` JSX elements in src/sections/Hero/ or src/components/layout/Header.tsx (HERO-02)", () => {
+  // v2.0 (milestone Hero Travessia): o Hero AGORA é a travessia de luz dirigida
+  // por scroll — `motion.*` é ESPERADO e permitido. O que ainda mata o LCP é
+  // animação de ENTRADA no H1/sub/CTA (fade/slide-in no mount ou ao entrar na
+  // viewport). Então banimos as props de entrada (`initial`, `animate`,
+  // `whileInView`) em Hero/Header. `style={{ ... }}` scroll-bound (useTransform,
+  // identidade em progress 0) é OK — o H1 renderiza em opacidade plena no SSR.
+  // A lookbehind (?<![\w-]) evita falso-positivo em `data-animate`/`data-hidden`.
+  it("no entrance-animation props (initial/animate/whileInView) in Hero or Header — LCP renders static (HERO-02)", () => {
     const files = heroAndHeaderFiles();
-    const motionRegex =
-      /\bmotion\.(div|h1|h2|h3|h4|h5|h6|p|span|section|article|img|button|a|ul|li|nav|header|footer|main|aside|form|input|label)\b/g;
+    // Match a FORMA de prop JSX de entrada: `initial={…}`, `animate="…"`,
+    // `whileInView='…'`, `variants={…}` (propagação de variant também anima a
+    // entrada do elemento). Tolera espaço (`animate ={{…}}`) e exige `=` seguido de
+    // `{`/`"`/`'` — evita prosa em comentários (ex: `animate=false`).
+    const entranceRegex = /(?<![\w-])(initial|animate|whileInView|variants)\s*=\s*["'{]/g;
 
     const violations: string[] = [];
     for (const file of files) {
       const lines = readLines(file);
       lines.forEach((line, idx) => {
-        const m = line.match(motionRegex);
+        const m = line.match(entranceRegex);
         if (m) {
           violations.push(
             `${path.relative(SRC_DIR, file)}:${idx + 1}: ${m.join(", ")} — ${line.trim()}`,
@@ -86,9 +96,11 @@ describe("hero invariants — Phase 3 LCP + copy gates", () => {
     }
     expect(
       violations,
-      `HERO-02 / STATE.md invariant violation: 'motion.div direto em arquivos de seção é proibido'. ` +
-        `Hero/Header LCP elements MUST be static SSR (no entrance animation on H1/sub/CTA/mockup).\n` +
-        `Found motion.* usage:\n${violations.join("\n")}`,
+      `HERO-02 violation: props de entrada (initial/animate/whileInView) em Hero/Header ` +
+        `animariam o elemento LCP no mount/scroll-into-view, atrasando o LCP percebido. ` +
+        `A travessia v2.0 dirige motion só por 'style' scroll-bound (useTransform, ` +
+        `identidade em repouso); o H1/sub/CTA devem renderizar no estado final em SSR.\n` +
+        `Found entrance props:\n${violations.join("\n")}`,
     ).toEqual([]);
   });
 

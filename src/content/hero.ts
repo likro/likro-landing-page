@@ -31,7 +31,17 @@ export type HeroCard = {
 
 export type HeroCopy = {
   h1: string;
+  /** H1 partido para a ênfase itálica do Hero travessia (v2.0). h1Lead + h1Emphasis === h1. */
+  h1Lead: string;
+  h1Emphasis: string;
   sub: string;
+  /**
+   * Beat de RESOLUÇÃO da travessia (v2.0) — UMA linha que DÁ NOME ao que foi
+   * sentido (caos→ordem), não explica. Registro premium, não slogan. Aparece no
+   * auge da chegada com o CTA. resolveLead + resolveEmphasis === a conclusão.
+   */
+  resolveLead: string;
+  resolveEmphasis: string;
   ctaPrimary: { label: string };
   ctaSecondary: { label: string; href: string };
   trust: string;
@@ -40,7 +50,11 @@ export type HeroCopy = {
 
 export const HERO_COPY: HeroCopy = {
   h1: "O sistema operacional da sua clínica.",
+  h1Lead: "O sistema operacional da ",
+  h1Emphasis: "sua clínica.",
   sub: "Da captação ao retorno do paciente, toda a operação da clínica passa por aqui.",
+  resolveLead: "Nenhuma conversa fica ",
+  resolveEmphasis: "para trás.",
   ctaPrimary: { label: "Falar no WhatsApp" },
   ctaSecondary: { label: "Ver como funciona", href: "#produto" },
   trust: "Em uso em clínicas de estética, dermatologia e harmonização facial.",
