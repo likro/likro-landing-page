@@ -19,7 +19,7 @@
 
 **Milestone v2.0 — Hero Premium (Travessia):**
 
-- [ ] **Phase 8: Hero Travessia (A Travessia da Luz)** — Reconstruir o Hero em `/preview` como uma matéria de luz pseudo-3D que o usuário ATRAVESSA (held camera + optic flow), evoluindo `caos → jornada → ordem` em 5 momentos distintos com arco de escala (aberto→envolvente→íntimo), até passar os 2 testes de aceite. Produção `/` intocada.
+- [x] **Phase 8: Hero Travessia (A Travessia da Luz)** — Reconstruir o Hero como uma matéria de luz pseudo-3D que o usuário ATRAVESSA (held camera + optic flow), evoluindo `caos → jornada → ordem`, com beat de resolução que NOMEIA o que foi sentido. Prototipado em `/preview`, aprovado pelo Lenny e **portado para o Hero de produção** (`/preview` consolidado em `src/sections/Hero/`). (completed 2026-06-14)
 
 ## Phase Details
 
