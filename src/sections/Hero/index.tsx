@@ -263,8 +263,8 @@ export function Hero() {
         {/* Copy editorial — só no topo. HERO EXIT de vetores opostos: a headline
             SOBE (-y), DISSOLVE (opacity→0 por ~0.24) e encolhe (scale↓) enquanto o
             campo/atmosfera RECUA/AFUNDA. Em reduced-motion fica no estado final
-            (sem transform). O H1 é texto SSR sem entrada JS; o reveal é CSS-only
-            (herdado da Phase 3) e é neutralizado sob prefers-reduced-motion. */}
+            (sem transform). O H1 é texto SSR e pinta no estado final imediatamente
+            (sem entrada JS nem reveal CSS) — é o elemento de LCP. */}
         <motion.div
           style={
             reduced
@@ -274,9 +274,13 @@ export function Hero() {
           className="relative z-10 w-full"
         >
           <Container className="flex flex-col items-center text-center">
+            {/* SEM animação de entrada (HERO-01/HERO-02): o H1 É o elemento de LCP.
+                O reveal CSS `hero-headline-reveal` (Phase 3) começava em opacity:0 e
+                empurrava o render delay do LCP pra ~3s (medido em produção 2026-06-14)
+                — removido. O H1 pinta no estado final imediatamente. */}
             <h1
               id="hero-headline"
-              className="hero-headline-reveal max-w-3xl text-balance font-sans text-[2.5rem] font-semibold leading-[1.06] tracking-[-0.03em] text-text-on-dark-primary sm:text-5xl lg:text-[4rem] xl:text-[4.5rem]"
+              className="max-w-3xl text-balance font-sans text-[2.5rem] font-semibold leading-[1.06] tracking-[-0.03em] text-text-on-dark-primary sm:text-5xl lg:text-[4rem] xl:text-[4.5rem]"
             >
               {HERO_COPY.h1Lead}
               <em className="pb-1 font-normal italic leading-[1.1] text-text-on-dark-primary/95">
