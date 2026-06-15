@@ -38,6 +38,11 @@
   --color-surface-card: #FBFCFD;
   --color-surface-card-strong: #ffffff;
 
+  /* ── Funnel chapter (Phase 9) — dark stage, reusable by sibling dark chapters ── */
+  --color-funnel-stage: #0d0e16;        /* Kanban stage background (chapter signature surface) */
+  --color-funnel-column: #13141f;       /* resting/inactive column fill */
+  --color-funnel-column-line: #1e2030;  /* resting column border */
+
   /* ── Text (variantes pra contexto dark e light) ── */
   --color-text-primary: #0a0a0b;
   --color-text-secondary: #3f3f46;
