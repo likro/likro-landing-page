@@ -78,7 +78,7 @@ Project baseline is the brand's existing rhythm (Tailwind default 4px grid). Dec
 
 ## Typography
 
-Inter only. Two weights max for this chapter: **regular (400)** and **semibold (600)** — matches brand book (3-weight global budget; medium 500 used only on the closing statement, which is shared with the Hero's resolve-line register). Sizes use `clamp()` for fluid scaling exactly as the prototype, mapped to brand tokens.
+Inter only. **Two weights: 400 (regular) and 500 (medium).** Both are in the project's globally-loaded Inter set (400/500/700 per `src/app/layout.tsx`). 500 is the established heading/emphasis weight used across existing sections (e.g. Bridge — `BridgeStatement.tsx` renders a major statement heading at `font-medium`). **Weight 600 is intentionally NOT used — it is not loaded by `next/font` in this project** (loading it would breach the brand-book 3-weight budget and would render as a fallback/mis-weight). Sizes use `clamp()` for fluid scaling exactly as the prototype, mapped to brand tokens.
 
 **Size scale — exactly 4 distinct sizes** (2 body + 2 heading registers):
 
@@ -95,13 +95,13 @@ The prototype's three micro-sizes (11 / 12 / 12.5px) sat in an indistinct 1.5px 
 
 | Role | Size (from scale) | Weight | Line Height | Tracking | Color token |
 |------|-------------------|--------|-------------|----------|-------------|
-| Eyebrow | 14px (#2), `letter-spacing .14em`, uppercase | 600 | 1.0 | +0.14em | `accent-on-dark` (#a78bfa) at ~85% opacity — the soft-violet eyebrow, on-dark AA-safe |
-| Headline (h2) | `clamp(24px, 3.4vw, 40px)` (#3) | 600 | 1.12 | -0.02em | `text-on-dark-primary` (#F5F7FA) |
-| Column head | 14px (#2) (mobile 11px → use scale #1) | 600 | 1.2 | +0.02em | resting: `text-on-dark-muted`; active: `text-on-dark-primary` |
-| Card name | 14px (#2) | 600 | 1.1 | normal | `text-on-dark-primary` |
+| Eyebrow | 14px (#2), `letter-spacing .14em`, uppercase | 500 | 1.0 | +0.14em | `accent-on-dark` (#a78bfa) at ~85% opacity — the soft-violet eyebrow, on-dark AA-safe |
+| Headline (h2) | `clamp(24px, 3.4vw, 40px)` (#3) | 500 | 1.12 | -0.02em | `text-on-dark-primary` (#F5F7FA) |
+| Column head | 14px (#2) (mobile 11px → use scale #1) | 500 | 1.2 | +0.02em | resting: `text-on-dark-muted`; active: `text-on-dark-primary` |
+| Card name | 14px (#2) | 500 | 1.1 | normal | `text-on-dark-primary` |
 | Card channel | 11px (#1) | 400 | 1.2 | normal | `text-on-dark-secondary` |
 | Card moment (the human beat) | 14px (#2) | 400 | 1.4 | normal | `#c9cbd9` (≈ `text-on-dark-secondary`); climax: `#e9ddff` (warm-violet ink) |
-| Confirmation tag | 11px (#1) | 600 | 1.2 | normal | `accent-on-dark` (#a78bfa) |
+| Confirmation tag | 11px (#1) | 500 | 1.2 | normal | `accent-on-dark` (#a78bfa) |
 | Closing statement | `clamp(20px, 2.6vw, 30px)` (#4) | 500 (medium) | 1.3 | -0.01em | `text-on-dark-primary`; accent span in `accent-on-dark` |
 
 > Note: the mobile column-head size uses scale step #1 (`11px`) instead of a 5th distinct value — the column head simply drops one step on the existing scale at < 640px. No new size is introduced.
