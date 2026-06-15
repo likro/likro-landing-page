@@ -358,7 +358,7 @@ export function Hero() {
           <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center">
             <motion.p
               style={{ y: resolveY, opacity: resolveOpacity }}
-              className="max-w-xl text-balance font-sans text-[1.75rem] font-medium leading-[1.15] tracking-[-0.02em] text-text-on-dark-primary [text-shadow:0_1px_2px_rgba(6,9,18,0.6),0_0_28px_rgba(6,9,18,0.7)] sm:text-[2.5rem]"
+              className="max-w-2xl text-balance font-sans text-[2.25rem] font-medium leading-[1.12] tracking-[-0.02em] text-text-on-dark-primary [text-shadow:0_1px_2px_rgba(6,9,18,0.6),0_0_28px_rgba(6,9,18,0.7)] sm:text-[3rem] lg:text-[3.5rem]"
             >
               {HERO_COPY.resolveLead}
               <em className="font-normal italic text-text-on-dark-primary/95">
