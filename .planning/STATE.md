@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.1
-milestone_name: "Capítulos Visuais — identidade visual própria por capítulo (ritmo bookend escuro)"
-status: planning
-last_updated: "2026-06-15T12:40:00.000Z"
-last_activity: 2026-06-15 -- v2.1 aberto; Funil (Phase 9) protótipo validado pelo Lenny; iniciando UI-SPEC
+milestone: v2.0
+milestone_name: "**Goal**: Reconstruir o Hero em `/preview`"
+status: executing
+last_updated: "2026-06-15T14:56:03.320Z"
+last_activity: 2026-06-15
 progress:
-  total_phases: 11
-  completed_phases: 6
-  total_plans: 41
-  completed_plans: 40
-  percent: 98
+  total_phases: 12
+  completed_phases: 7
+  total_plans: 44
+  completed_plans: 42
+  percent: 95
 ---
 
 # Project State: Likro Landing Page
@@ -36,10 +36,10 @@ progress:
 ## Current Position
 
 **Milestone:** v2.0 (Hero Premium — Travessia)
-Phase: 8 — Hero Travessia (A Travessia da Luz) — EM EXECUÇÃO (3/4 plans, 3 waves)
-Plan: 08-01 ✅ · 08-02 ✅ · 08-03 ✅ executados · 08-04 pendente (ver `.planning/phases/08-*/`)
+Phase: 999.1
+Plan: Not started
 Status: In Progress — 08-01 (fundação pseudo-3D) + 08-02 (narrativa caos→ordem: target-lerp, 5 momentos, arco de escala, roxo escasso) + 08-03 (atmosfera evolutiva monotônica, vinheta de enquadramento, escuros tingidos, film grain, hero exit de vetores opostos, copy some cedo) completos; tsc + brand-lock verdes
-Last activity: 2026-06-12 -- 08-03 executado (atmosfera evolutiva + vinheta de enquadramento + film grain + hero exit de vetores opostos + copy some cedo)
+Last activity: 2026-06-15
 
 **Progress:** [██████████] 98%
 

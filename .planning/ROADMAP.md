@@ -190,9 +190,9 @@ Plans:
   5. O antigo HowItWorks é absorvido/removido (não há duas seções sequenciais parecidas); headline "Você vê cada paciente, do primeiro oi até a consulta." e fechamento "WhatsApp, Instagram, agenda, funil e IA trabalhando juntos pra transformar conversa em consulta." (Messenger fora); copy em `content/` (zero string hard-coded em JSX), aprovada por Lenny.
 **Plans:** 3 plans (3 waves)
 Plans:
-- [ ] 09-01-PLAN.md — Foundation: registrar FUNIL-* requirements, 3 tokens @theme de palco escuro, src/content/funnel.ts (copy travada) + Wave 0 tests
-- [ ] 09-02-PLAN.md — Seção Funnel: travessia desktop (ScrollScene+StickyStage, 4 beats, ghosts, clímax roxo), trilho mobile, reduced-motion estado final
-- [ ] 09-03-PLAN.md — Remoção/integração: wire Funnel no page.tsx, atualizar coherence.test.ts (ordem + excluir Funnel do ban motion), deletar HowItWorks + checkpoint Lenny
+- [x] 09-01-PLAN.md — Foundation: registrar FUNIL-* requirements, 3 tokens @theme de palco escuro, src/content/funnel.ts (copy travada) + Wave 0 tests
+- [x] 09-02-PLAN.md — Seção Funnel: travessia desktop (ScrollScene+StickyStage, 4 beats, ghosts, clímax roxo), trilho mobile, reduced-motion estado final
+- [x] 09-03-PLAN.md — Remoção/integração: wire Funnel no page.tsx, atualizar coherence.test.ts (ordem + excluir Funnel do ban motion), deletar HowItWorks + checkpoint Lenny
 **UI hint**: yes
 
 ## Phase Ordering Rationale
