@@ -21,6 +21,17 @@
 
 - [x] **Phase 8: Hero Travessia (A Travessia da Luz)** — Reconstruir o Hero como uma matéria de luz pseudo-3D que o usuário ATRAVESSA (held camera + optic flow), evoluindo `caos → jornada → ordem`, com beat de resolução que NOMEIA o que foi sentido. Prototipado em `/preview`, aprovado pelo Lenny e **portado para o Hero de produção** (`/preview` consolidado em `src/sections/Hero/`). (completed 2026-06-14)
 
+**Milestone v2.1 — Capítulos Visuais:**
+
+> Depois do topo (Hero + Pain escuros) a página perde contraste — solução/produto/funcionamento leem como uma superfície só. O milestone dá identidade visual própria a cada capítulo, no ritmo de temperatura "bookend escuro" (`Hero D · Problema D · Virada L · Produto L · Funil D · Prova L · Conversão D`), com motivo visual distinto por capítulo (não só alternância de cor). Disciplina do roxo: 4 momentos só na página inteira. Protótipo do Funil validado pelo Lenny em HTML descartável (2026-06-15) — esta é a primeira fase. Ver memória `project_visual_chapters_open` + `project_copy_v2_direction`.
+
+- [ ] **Phase 9: Funil (Caminho do Paciente)** — Capítulo ESCURO novo: um paciente (Marina) atravessa o Kanban de "chegou agora" a "consulta marcada" conforme o scroll, com momento real por etapa e roxo acendendo no clímax. Absorve o antigo HowItWorks. Protótipo aprovado — esta fase porta pro Next.js (Lenis/Framer + reduced-motion).
+- [ ] **Phase 10: Problema (capítulo escuro frio/fragmentado)** — Identidade própria: entropia/textura matte, cards desencontrados; difere do Hero por textura, não por cor. (detalhe TBD)
+- [ ] **Phase 11: Virada (capítulo claro, glow roxo nascendo)** — Claro quase vazio, respiro; a transição mais sentida; copy da Virada assenta com o visual. (detalhe TBD)
+- [ ] **Phase 12: Produto (capítulo claro denso/organizado)** — A ferramenta; contraste com a Virada (cheio vs vazio); Facebook revelado aqui (caixa de entrada completa). (detalhe TBD)
+- [ ] **Phase 13: Prova (capítulo claro calmo/silencioso)** — Calma como prova; sem chips/número. (detalhe TBD)
+- [ ] **Phase 14: Conversão (capítulo escuro espelhando o Hero)** — CTA roxo; form vira convite, não vitrine. (detalhe TBD)
+
 ## Phase Details
 
 ### Phase 1: Foundations & Design System
@@ -165,6 +176,19 @@ Plans:
 - [x] 08-02-PLAN.md — Narrativa caos→ordem por target-lerp (easeInOutCubic, ruído envelope 1→0) + 5 momentos + arco de escala (footprint contrai) + roxo escasso na chegada [wave 2]
 - [x] 08-03-PLAN.md — Atmosfera evolutiva monotônica (vinhetas/bloom/grain/escuros tingidos) + hero exit de vetores opostos + copy editorial só no topo [wave 2]
 - [ ] 08-04-PLAN.md — reduced-motion estático-premium + ladder de degradação + harness [BLOCKING] dos 5 quadros + 08-VALIDATION.md + checkpoint humano (TVER-01/02) [wave 3]
+**UI hint**: yes
+
+### Phase 9: Funil (Caminho do Paciente) — Milestone v2.1
+**Goal**: Entregar o capítulo do Funil como uma peça de demonstração ESCURA que materializa a tese "nenhum paciente fica pelo caminho" — um paciente (Marina) atravessa o Kanban de "chegou agora" até "consulta marcada" conforme o scroll, com um momento real por etapa e o roxo acendendo no clímax. Dá ao capítulo identidade visual própria (palco escuro com glow, diferente do Hero) e absorve o antigo HowItWorks. Norte: a sensação de ver UMA pessoa caminhando até a consulta, não um dashboard de colunas e métricas.
+**Depends on**: Phase 2 (primitivas de motion — `<ScrollScene>`/`<StickyStage>`) + Phase 4 (HowItWorks que será absorvido). Base: protótipo `funil-proto.html` validado + memória `project_visual_chapters_open`.
+**Requirements**: TBD (derivar no plan-phase — candidatos: FUNIL-01 travessia scroll-driven, FUNIL-02 momentos reais sem KPI, FUNIL-03 clímax roxo, FUNIL-04 reduced-motion jornada pré-montada, FUNIL-05 mobile, FUNIL-06 absorve HowItWorks, COPY do capítulo)
+**Success Criteria** (what must be TRUE):
+  1. O capítulo renderiza em produção como seção ESCURA própria; a Marina (1 card protagonista) atravessa as 4 colunas (Chegou agora → Em atendimento → Escolhendo horário → Consulta marcada) conforme o scroll, com os outros cards apagados (ghost) ao fundo.
+  2. Cada etapa mostra um momento real e pequeno da conversa (manda mensagem / atendente assume / escolhe horário / confirma) — zero número, KPI, %, gráfico ou widget de dashboard em toda a seção (audit visual + grep de termos de métrica passa).
+  3. O clímax (chegada na coluna "Consulta marcada") acende o roxo `#7C3AED` (borda + glow + selo de confirmação) de forma que se SENTE que a consulta aconteceu; é um dos 4 únicos momentos de roxo da página.
+  4. Scroll-driven via primitivas da Phase 2 (`<StickyStage>`/`<ScrollScene>`), zero `motion.div` direto na seção; `prefers-reduced-motion` entrega a jornada já montada no estado final (sem scrub), validado no toggle do OS.
+  5. O antigo HowItWorks é absorvido/removido (não há duas seções sequenciais parecidas); headline "Você vê cada paciente, do primeiro oi até a consulta." e fechamento "WhatsApp, Instagram, agenda, funil e IA trabalhando juntos pra transformar conversa em consulta." (Messenger fora); copy em `content/` (zero string hard-coded em JSX), aprovada por Lenny.
+**Plans**: TBD
 **UI hint**: yes
 
 ## Phase Ordering Rationale

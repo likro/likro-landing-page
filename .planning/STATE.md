@@ -1,10 +1,10 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.0
-milestone_name: "**Goal**: Reconstruir o Hero em `/preview`"
-status: executing
-last_updated: "2026-06-12T00:36:08.390Z"
-last_activity: 2026-06-12 -- 08-03 executado (atmosfera evolutiva + vinheta de enquadramento + film grain + hero exit de vetores opostos + copy some cedo)
+milestone: v2.1
+milestone_name: "Capítulos Visuais — identidade visual própria por capítulo (ritmo bookend escuro)"
+status: planning
+last_updated: "2026-06-15T12:40:00.000Z"
+last_activity: 2026-06-15 -- v2.1 aberto; Funil (Phase 9) protótipo validado pelo Lenny; iniciando UI-SPEC
 progress:
   total_phases: 11
   completed_phases: 6
