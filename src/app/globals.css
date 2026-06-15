@@ -104,6 +104,18 @@ body {
   font-feature-settings: "cv02", "cv11", "ss01", "ss03";
 }
 
+/* Funnel chapter (Phase 9) — wash atmosférico 6% roxo no topo do palco.
+   rgba (brand-lock safe) + porcentagens de gradiente vivem aqui, em CSS, e não
+   nos arquivos .tsx da seção (o audit no-metric FUNIL-02 leria `%` como métrica).
+   Reutilizável por capítulos escuros irmãos (Fases 10–14). */
+.funnel-atmosphere {
+  background: radial-gradient(
+    120% 80% at 50% -10%,
+    rgba(124, 58, 237, 0.06),
+    transparent 60%
+  );
+}
+
 /* prefers-reduced-motion — desliga transitions globais (D-04) */
 @media (prefers-reduced-motion: reduce) {
   *,
