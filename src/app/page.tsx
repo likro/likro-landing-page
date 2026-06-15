@@ -4,7 +4,7 @@ import { Hero } from "@/sections/Hero";
 import { Pain } from "@/sections/Pain";
 import { Bridge } from "@/sections/Bridge";
 import { Product } from "@/sections/Product";
-import { HowItWorks } from "@/sections/HowItWorks";
+import { Funnel } from "@/sections/Funnel";
 import { Proof } from "@/sections/Proof";
 import { Form } from "@/sections/Form";
 import { FloatingWhatsApp } from "@/sections/Floating/FloatingWhatsApp";
@@ -28,8 +28,8 @@ export default function HomePage() {
         <TrackSection section="product">
           <Product />
         </TrackSection>
-        <TrackSection section="how">
-          <HowItWorks />
+        <TrackSection section="funnel">
+          <Funnel />
         </TrackSection>
         <TrackSection section="proof">
           <Proof />

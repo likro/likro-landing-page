@@ -5,9 +5,9 @@ import { useSectionView } from "@/hooks/use-section-view";
 /**
  * Phase 6 — Wrapper client de `section_view` tracking (TRACK-04).
  *
- * Existe para NÃO editar os 7 arquivos de seção (Pain/Bridge/Product/HowItWorks/
- * Proof são server components; envolver cada um numa lógica client exigiria
- * torná-los client = risco de regressão). `page.tsx` (Plan 03) envolve cada
+ * Existe para NÃO editar os arquivos de seção (Pain/Bridge/Product/Proof são
+ * server components; o Funnel é client; envolver cada um numa lógica client
+ * exigiria torná-los client = risco de regressão). `page.tsx` envolve cada
  * `<Section />` com `<TrackSection section="...">`.
  *
  * `className="contents"` (CSS `display: contents`): o wrapper não cria caixa de

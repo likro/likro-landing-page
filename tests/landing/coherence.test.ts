@@ -5,11 +5,16 @@ import path from "node:path";
 /**
  * Phase 4 — Cross-section coherence gates (Plan 04-00).
  *
- * Guards the 5 narrative sections collectively:
- *   - src/app/page.tsx must import + render Hero → Pain → Bridge → Product → HowItWorks → Proof in order.
+ * Guards the narrative sections collectively (order updated in Phase 9 — Funil):
+ *   - src/app/page.tsx must import + render Hero → Pain → Bridge → Product → Funnel → Proof in order.
+ *     Funnel is the DARK chapter that replaced HowItWorks (FUNIL-06): the light HowItWorks
+ *     section was absorbed into the Funil chapter and removed.
  *   - Zero `<Image priority>` in any section file (LCP element is Hero H1 text per Phase 3).
- *   - Zero motion lib imports inside narrative sections (NARR-06 reinterpretation, vide 04-RESEARCH §483-492):
- *     no `framer-motion`, no `motion/react`, no `@/components/motion/*` imports under the 5 section dirs.
+ *   - Zero motion lib imports inside the four NARRATIVE sections (NARR-06 reinterpretation,
+ *     vide 04-RESEARCH §483-492): no `framer-motion`, no `motion/react`, no `@/components/motion/*`
+ *     imports under Pain/Bridge/Product/Proof. Funnel is EXCLUDED from this ban — it consumes the
+ *     Phase 2 motion primitives via @/components/motion by design (FUNIL-01); its motion-import
+ *     discipline is gated by tests/sections/funnel-invariants.test.ts instead.
  *
  * Pattern (Node-puro fs + regex) mirrors tests/sections/hero-invariants.test.ts.
  * Tests SKIP gracefully when section dirs don't exist yet, so this file can be merged
@@ -18,8 +23,14 @@ import path from "node:path";
 
 const SRC_DIR = path.resolve(__dirname, "../../src");
 const PAGE_FILE = path.resolve(SRC_DIR, "app/page.tsx");
-const SECTION_NAMES = ["Pain", "Bridge", "Product", "HowItWorks", "Proof"] as const;
+const SECTION_NAMES = ["Pain", "Bridge", "Product", "Funnel", "Proof"] as const;
 const SECTION_DIRS = SECTION_NAMES.map((s) => path.resolve(SRC_DIR, "sections", s));
+
+// Sections subject to the NARR-06 motion-import ban (Test 4). Funnel is excluded —
+// it consumes the Phase 2 motion primitives via @/components/motion by design (FUNIL-01);
+// its motion-import discipline is gated by tests/sections/funnel-invariants.test.ts instead.
+const NARRATIVE_NO_MOTION = SECTION_NAMES.filter((s) => s !== "Funnel");
+const NO_MOTION_DIRS = NARRATIVE_NO_MOTION.map((s) => path.resolve(SRC_DIR, "sections", s));
 
 const TSX_EXTS = new Set([".tsx", ".ts"]);
 
@@ -48,10 +59,10 @@ function allSectionFiles(): string[] {
 
 describe("landing coherence — Phase 4 narrative section gates", () => {
   // ---------------------------------------------------------------------------
-  // Test 1 — page.tsx imports Hero, Pain, Bridge, Product, HowItWorks, Proof in order
+  // Test 1 — page.tsx imports Hero, Pain, Bridge, Product, Funnel, Proof in order
   // ---------------------------------------------------------------------------
   it.skipIf(!allSectionDirsExist())(
-    "page.tsx imports Hero → Pain → Bridge → Product → HowItWorks → Proof in order",
+    "page.tsx imports Hero → Pain → Bridge → Product → Funnel → Proof in order",
     () => {
       const content = fs.readFileSync(PAGE_FILE, "utf-8");
       const lines = content.split(/\r?\n/);
@@ -92,13 +103,13 @@ describe("landing coherence — Phase 4 narrative section gates", () => {
   // Test 2 — page.tsx renders the sections in narrative order (JSX)
   // ---------------------------------------------------------------------------
   it.skipIf(!allSectionDirsExist())(
-    "page.tsx JSX renders <Hero> → <Pain> → <Bridge> → <Product> → <HowItWorks> → <Proof> in order",
+    "page.tsx JSX renders <Hero> → <Pain> → <Bridge> → <Product> → <Funnel> → <Proof> in order",
     () => {
       const content = fs.readFileSync(PAGE_FILE, "utf-8");
-      const re = /<Hero[\s\S]*?<Pain[\s\S]*?<Bridge[\s\S]*?<Product[\s\S]*?<HowItWorks[\s\S]*?<Proof/;
+      const re = /<Hero[\s\S]*?<Pain[\s\S]*?<Bridge[\s\S]*?<Product[\s\S]*?<Funnel[\s\S]*?<Proof/;
       expect(
         re.test(content),
-        `page.tsx must render <Hero/> → <Pain/> → <Bridge/> → <Product/> → <HowItWorks/> → <Proof/> in this exact order.\n` +
+        `page.tsx must render <Hero/> → <Pain/> → <Bridge/> → <Product/> → <Funnel/> → <Proof/> in this exact order.\n` +
           `Current content:\n${content}`,
       ).toBe(true);
     },
@@ -134,7 +145,12 @@ describe("landing coherence — Phase 4 narrative section gates", () => {
   // Test 4 — zero motion lib imports in narrative sections (NARR-06 reinterpretation)
   // ---------------------------------------------------------------------------
   it("zero `framer-motion` / `motion/react` / `@/components/motion/` imports in narrative sections (NARR-06)", () => {
-    const files = allSectionFiles();
+    // Funnel is EXCLUDED here — it legitimately imports @/components/motion (FUNIL-01:
+    // it MUST consume the frozen Phase 2 primitives). Its motion-import discipline is gated
+    // by tests/sections/funnel-invariants.test.ts instead. The original narrative sections
+    // (Pain/Bridge/Product/Proof) still must NOT import motion libs (NARR-06): they use
+    // useInView() + CSS keyframes.
+    const files = NO_MOTION_DIRS.flatMap((d) => walk(d));
     const motionImportRegex = /from\s+['"](?:framer-motion|motion\/react|@\/components\/motion)/;
 
     const violations: string[] = [];
