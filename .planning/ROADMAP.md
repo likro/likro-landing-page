@@ -181,14 +181,18 @@ Plans:
 ### Phase 9: Funil (Caminho do Paciente) — Milestone v2.1
 **Goal**: Entregar o capítulo do Funil como uma peça de demonstração ESCURA que materializa a tese "nenhum paciente fica pelo caminho" — um paciente (Marina) atravessa o Kanban de "chegou agora" até "consulta marcada" conforme o scroll, com um momento real por etapa e o roxo acendendo no clímax. Dá ao capítulo identidade visual própria (palco escuro com glow, diferente do Hero) e absorve o antigo HowItWorks. Norte: a sensação de ver UMA pessoa caminhando até a consulta, não um dashboard de colunas e métricas.
 **Depends on**: Phase 2 (primitivas de motion — `<ScrollScene>`/`<StickyStage>`) + Phase 4 (HowItWorks que será absorvido). Base: protótipo `funil-proto.html` validado + memória `project_visual_chapters_open`.
-**Requirements**: TBD (derivar no plan-phase — candidatos: FUNIL-01 travessia scroll-driven, FUNIL-02 momentos reais sem KPI, FUNIL-03 clímax roxo, FUNIL-04 reduced-motion jornada pré-montada, FUNIL-05 mobile, FUNIL-06 absorve HowItWorks, COPY do capítulo)
+**Requirements**: FUNIL-01, FUNIL-02, FUNIL-03, FUNIL-04, FUNIL-05, FUNIL-06, FUNIL-COPY
 **Success Criteria** (what must be TRUE):
   1. O capítulo renderiza em produção como seção ESCURA própria; a Marina (1 card protagonista) atravessa as 4 colunas (Chegou agora → Em atendimento → Escolhendo horário → Consulta marcada) conforme o scroll, com os outros cards apagados (ghost) ao fundo.
   2. Cada etapa mostra um momento real e pequeno da conversa (manda mensagem / atendente assume / escolhe horário / confirma) — zero número, KPI, %, gráfico ou widget de dashboard em toda a seção (audit visual + grep de termos de métrica passa).
   3. O clímax (chegada na coluna "Consulta marcada") acende o roxo `#7C3AED` (borda + glow + selo de confirmação) de forma que se SENTE que a consulta aconteceu; é um dos 4 únicos momentos de roxo da página.
   4. Scroll-driven via primitivas da Phase 2 (`<StickyStage>`/`<ScrollScene>`), zero `motion.div` direto na seção; `prefers-reduced-motion` entrega a jornada já montada no estado final (sem scrub), validado no toggle do OS.
   5. O antigo HowItWorks é absorvido/removido (não há duas seções sequenciais parecidas); headline "Você vê cada paciente, do primeiro oi até a consulta." e fechamento "WhatsApp, Instagram, agenda, funil e IA trabalhando juntos pra transformar conversa em consulta." (Messenger fora); copy em `content/` (zero string hard-coded em JSX), aprovada por Lenny.
-**Plans**: TBD
+**Plans:** 3 plans (3 waves)
+Plans:
+- [ ] 09-01-PLAN.md — Foundation: registrar FUNIL-* requirements, 3 tokens @theme de palco escuro, src/content/funnel.ts (copy travada) + Wave 0 tests
+- [ ] 09-02-PLAN.md — Seção Funnel: travessia desktop (ScrollScene+StickyStage, 4 beats, ghosts, clímax roxo), trilho mobile, reduced-motion estado final
+- [ ] 09-03-PLAN.md — Remoção/integração: wire Funnel no page.tsx, atualizar coherence.test.ts (ordem + excluir Funnel do ban motion), deletar HowItWorks + checkpoint Lenny
 **UI hint**: yes
 
 ## Phase Ordering Rationale
