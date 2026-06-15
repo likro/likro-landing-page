@@ -75,24 +75,28 @@ export function Header() {
         transition: "transform 0.22s cubic-bezier(0.4, 0, 0.2, 1)",
       }}
     >
-      <Container className="flex h-14 items-center justify-between lg:h-16">
+      <Container className="flex h-16 items-center justify-between lg:h-[72px]">
         <Link
           href="/"
           aria-label="Likro - página inicial"
-          className="group inline-flex items-center gap-2 rounded-md text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 max-md:min-h-[44px]"
+          className="group inline-flex items-center gap-2.5 rounded-md text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 max-md:min-h-[44px]"
         >
           {/* Logo placeholder em texto — substituir por SVG quando asset final chegar */}
           <span
             aria-hidden="true"
-            className="grid size-7 place-items-center rounded-[7px] bg-gradient-to-br from-violet-500 to-violet-700 text-[13px] font-bold text-white shadow-[0_0_0_1px_rgba(124,58,237,0.4),0_4px_12px_-2px_rgba(124,58,237,0.5)]"
+            className="grid size-9 place-items-center rounded-[9px] bg-gradient-to-br from-violet-500 to-violet-700 text-[16px] font-bold text-white shadow-[0_0_0_1px_rgba(124,58,237,0.4),0_4px_12px_-2px_rgba(124,58,237,0.5)]"
           >
             L
           </span>
-          <span className="text-[15px] font-semibold tracking-[-0.01em] lg:text-base">
+          <span className="text-lg font-semibold tracking-[-0.01em] lg:text-xl">
             Likro
           </span>
         </Link>
-        <WhatsAppCta variant="secondary" location="header">
+        <WhatsAppCta
+          variant="secondary"
+          location="header"
+          className="h-11 rounded-[10px] px-5 text-[15px]"
+        >
           {HERO_COPY.ctaPrimary.label}
         </WhatsAppCta>
       </Container>
