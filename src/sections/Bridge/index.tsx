@@ -34,6 +34,17 @@ export function Bridge() {
             "radial-gradient(ellipse 58% 50% at 50% 46%, rgba(124,58,237,0.10), transparent 70%)",
         }}
       />
+      {/* Dissolve cromático Bridge → Product: o rodapé do Bridge (#F4F7FB) clareia
+          até a COR EXATA do Product (#E6ECF4) ao longo do padding inferior — virada de
+          cor suave, sem linha dura (mesma lógica do dissolve Pain→Bridge no topo). */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-40"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(230,236,244,0) 0%, rgb(230,236,244) 100%)",
+        }}
+      />
       <Container className="max-w-3xl text-center">
         <BridgeStatement />
       </Container>

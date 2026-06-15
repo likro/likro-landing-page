@@ -41,14 +41,14 @@ export function PainBackground() {
       />
 
       {/* L3 — vinheta inferior fade-to-light: transição cromática Pain DARK → Bridge LIGHT (D-15).
-          Dissolve na COR EXATA do Bridge (#F4F7FB), 100% opaco no fim, fade longo (40% da
-          seção) — sem emenda de dois tons (antes ia pra #FAFAF9 branco-quente, que destoava
-          do azulado-frio do Bridge e criava a faixa estranha no encontro). */}
+          Dissolve na COR EXATA do Bridge (#F4F7FB), 100% opaco no fim. FICA TRANSPARENTE
+          (escuro) nos primeiros 65% da faixa pra NÃO lavar o statement + CTA que vivem aqui
+          embaixo (eram ilegíveis quando o fade subia por cima deles), e só então clareia. */}
       <div
         className="absolute inset-x-0 bottom-0 h-2/5"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(244,247,251,0) 0%, rgba(244,247,251,0.55) 65%, rgba(244,247,251,1) 100%)",
+            "linear-gradient(to bottom, rgba(244,247,251,0) 0%, rgba(244,247,251,0) 65%, rgba(244,247,251,0.6) 86%, rgba(244,247,251,1) 100%)",
         }}
       />
     </div>

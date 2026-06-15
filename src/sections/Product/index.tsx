@@ -24,7 +24,7 @@ export function Product() {
     <section
       id="produto"
       aria-labelledby="product-headline"
-      className="relative isolate overflow-hidden border-t border-[rgba(2,6,23,0.07)] bg-[#E6ECF4] py-24 sm:py-28 lg:py-36"
+      className="relative isolate overflow-hidden bg-[#E6ECF4] py-24 sm:py-28 lg:py-36"
     >
       {/* Atmosfera (remix de cor): glow VIOLETA suave atrás do feature hero — pop de
           marca na seção de produto. Brand-safe (rgba, acento); fundo cool, não branco. */}
