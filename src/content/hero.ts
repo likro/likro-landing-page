@@ -57,7 +57,11 @@ export const HERO_COPY: HeroCopy = {
   resolveEmphasis: "consulta.",
   ctaPrimary: { label: "Falar no WhatsApp" },
   ctaSecondary: { label: "Ver como funciona", href: "#produto" },
-  trust: "Em uso em clínicas de estética, dermatologia e harmonização facial.",
+  // Linha de diferenciação (microcopy sob os CTAs): responde "por que vocês?" sem
+  // citar concorrente, rejeitando as duas categorias que o PROJECT.md contrasta
+  // (CRM pesado tradicional / chatbot genérico) e cravando o vertical. Sem
+  // especialidades (regra: a copy não enumera tipo de clínica).
+  trust: "Não é CRM pesado nem chatbot genérico, é feito pra clínica.",
   cards: [
     {
       kind: "lead",

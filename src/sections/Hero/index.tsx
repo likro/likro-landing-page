@@ -348,6 +348,12 @@ export function Hero() {
                 />
               </Link>
             </div>
+
+            {/* Linha de diferenciação — responde "por que vocês?" logo no topo, sem
+                citar concorrente. Microcopy discreta sob os CTAs (HERO_COPY.trust). */}
+            <p className="mt-6 text-sm font-medium tracking-[-0.005em] text-text-on-dark-secondary">
+              {HERO_COPY.trust}
+            </p>
           </Container>
         </motion.div>
 
