@@ -10,6 +10,27 @@ A landing precisa transmitir, em segundos, que a Likro é uma plataforma de oper
 
 Uma clínica entra na landing e sente em segundos: *"isso foi feito exatamente pra minha operação — e essa empresa é absurda"*. Tudo no site (copy, animações, hierarquia visual) serve essa única sensação. Se isso falha, nada mais importa.
 
+## Current Milestone: v2.0 — Hero Premium (Travessia)
+
+**Goal:** Reconstruir o Hero (em `/preview`, isolado da produção) como uma **travessia** — uma experiência scroll-driven que faz o usuário **sentir que percorreu um caminho** (`caos → jornada → ordem`) do primeiro ao último pixel. O objetivo NÃO é um efeito visual impressionante; é a sensação de **jornada conquistada**.
+
+**Emoção dominante (norte):** "ser conduzido — com calma, mas de forma inevitável — para dentro da ordem." Arco no corpo: tensão contida (clínica afogada) → alívio/abertura → clareza e chegada. A emoção É o produto: o dono de clínica sente o próprio caos virar controle.
+
+**Requisitos experienciais (o contrato):**
+- **`caos → jornada → ordem`, não `caos → ordem`.** Mostrar a ordem emergindo não basta; o usuário precisa sentir que percorreu um caminho até ela.
+- **Progressão espacial percebida:** sentir que está **avançando através de um ambiente**, não apenas observando um sistema se reorganizar. A sensação de **deslocamento é tão importante quanto a de transformação**. Profundidade/avanço sugeridos — sem câmera literal, sem parallax gimmick, sem WebGL pesado.
+- **Arco de escala (enquadramento):** a jornada muda de escala — começo **amplo/distante/disperso** (plano aberto) → meio **envolvente** (você está dentro) → fim **íntimo/contido/resolvido** (plano fechado). A mudança de escala reforça a sensação de progresso. Entregue via dolly do optic flow + contração do footprint da convergência + enquadramento (vinheta).
+- **Consequência / chegada conquistada:** estado final resolvido, claramente diferente do começo. Nada volta ao início; "acaba e não dá em nada" é falha.
+- **Coesão:** uma **única matéria-prima** (campo de luz) evoluindo continuamente, scrubbed pelo scroll. Proibido: coleção de efeitos, um beat = uma animação diferente, slideshow.
+
+**Critérios de aceite (régua oficial):**
+1. **Teste dos 5 quadros:** 5 screenshots em 5 pontos do scroll = 5 momentos distintos da MESMA jornada (5 quadros de um filme), não 5 versões do mesmo efeito. Nada volta ao começo.
+2. **Teste do retrospecto:** ao chegar no fim e olhar mentalmente pra trás, sentir que percorri uma **distância emocional e visual relevante** — o estado final parece **conquistado**, não apenas alcançado por uma animação.
+
+**Não-objetivos (explícitos):** outras seções da landing, PDF/pricing, redesign completo; "mais partículas / brilho / espiral / complexidade"; **efeito visual impressionante como fim em si**.
+
+**Restrições herdadas:** brand-lock (roxo `#7C3AED` só acento, Inter com ênfase em itálico da mesma família, fundo dark); mobile é sagrado (perf não regride — sem WebGL pesado); `prefers-reduced-motion` degrada pra estado calmo; rota `/preview` isolada (produção `/` intocada até validação). Lenny: sem pressa, quer bem feito.
+
 ## Requirements
 
 ### Validated
@@ -154,4 +175,6 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-16 after Phase 2 (Motion Primitives) completion — 5 primitivas (RevealOnView, ParallaxLayer, ScrollScene, TextSplit, StickyStage) com API @frozen no barrel `src/components/motion`. Risco Crítico #3 (smooth-scroll + sticky iOS) mitigado e validado em iPhone 15 real. 4 itens de cobertura real-device deferidos (Android, macOS Safari, Firefox/Edge, prefers-reduced-motion real) — rastreados em 02-HUMAN-UAT.md com triggers explícitos.*
+*Last updated: 2026-06-11 — started Milestone v2.0 "Hero Premium (Travessia)", escopada SÓ no Hero (rota /preview isolada). Contrato: caos → jornada → ordem, com deslocamento espacial percebido tão central quanto a transformação; 2 testes de aceite (5 quadros + retrospecto). v1 (fases 01–07) permanece em produção, intocada.*
+
+*Histórico: 2026-05-16 after Phase 2 (Motion Primitives) completion — 5 primitivas (RevealOnView, ParallaxLayer, ScrollScene, TextSplit, StickyStage) com API @frozen no barrel `src/components/motion`. Risco Crítico #3 (smooth-scroll + sticky iOS) mitigado e validado em iPhone 15 real. 4 itens de cobertura real-device deferidos (Android, macOS Safari, Firefox/Edge, prefers-reduced-motion real) — rastreados em 02-HUMAN-UAT.md com triggers explícitos.*

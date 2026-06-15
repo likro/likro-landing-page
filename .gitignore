@@ -50,3 +50,6 @@ next-env.d.ts
 /hero-*.png
 /screenshot-*.png
 .vercel
+
+# staging temporário de skills (descartável)
+.skills-tmp/
