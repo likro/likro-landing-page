@@ -20,7 +20,7 @@ export function ProductSecondaryGrid() {
   return (
     <div
       ref={ref}
-      className="mt-24 grid grid-cols-1 gap-6 lg:mt-32 lg:grid-cols-3 lg:gap-8"
+      className="mt-28 grid grid-cols-1 gap-8 lg:mt-40 lg:grid-cols-3 lg:gap-12"
     >
       {PRODUCT_COPY.secondaries.map((card, i) => (
         <div
