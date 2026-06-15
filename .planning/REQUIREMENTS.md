@@ -57,6 +57,27 @@
 
 ---
 
+## Milestone v2.1 — Capítulos Visuais
+
+**Definido:** 2026-06-15 · Escopo: dar identidade visual própria a cada capítulo da página no ritmo "bookend escuro" (a página perde contraste depois do topo). O **Funil (Caminho do Paciente)** é o primeiro capítulo — capítulo ESCURO que prova a tese *"nenhum paciente fica pelo caminho"*. Base: `09-CONTEXT.md` (decisões travadas com Lenny) + protótipo `funil-proto.html` (aprovado via Playwright @1536×730, 2026-06-15).
+
+### Funil (Caminho do Paciente) — FUNIL
+
+- [ ] **FUNIL-01**: Travessia scroll-driven via primitivas da Phase 2 (`<ScrollScene>` + `<StickyStage>`); zero `motion.div` direto e zero import de `motion/react` fora da exceção do render-prop do `<ScrollScene>`.
+- [ ] **FUNIL-02**: Momento real e humano por etapa; zero número, KPI, %, gráfico, taxa de conversão, contador ou widget de dashboard em toda a seção (audit grep + visual).
+- [ ] **FUNIL-03**: Clímax roxo `#7C3AED` exclusivo na coluna 4 ("Consulta marcada") — borda + glow + selo; um dos 4 únicos momentos de roxo da página. Roxo proibido nas colunas 1–3.
+- [ ] **FUNIL-04**: `prefers-reduced-motion` entrega a jornada já montada no estado final (Marina na coluna 4, roxo aceso, selo visível) sem scrub e sem dead-scroll; validado no toggle do OS.
+- [ ] **FUNIL-05**: Mobile (`useDeviceTier === "mobile"`, ≤639px) renderiza "1 coluna em foco + trilho horizontal" (~420svh), sem duplicar o componente — mesma fonte de progress, só o DOM/length diverge por tier.
+- [ ] **FUNIL-06**: O antigo HowItWorks é absorvido e removido (seção + content + testes); ordem final da página `Product → Funnel → Proof`.
+- [ ] **FUNIL-COPY**: Toda a copy travada em `src/content/funnel.ts` (zero string hard-coded em JSX); headline/eyebrow/4 beats/selo/fechamento exatos; anti-IA; sem "Messenger"/"Facebook" no fechamento.
+
+### Out of Scope (v2.1, fora desta fase)
+
+- Os outros capítulos (Problema, Virada, Produto, Prova, Conversão) — Phases 10–14 do v2.1.
+- Reescrita da copy v2 das outras seções (ver `project_copy_v2_direction` na memória) — frente separada.
+
+---
+
 ## v1 Requirements
 
 Requisitos para o lançamento inicial. Cada um mapeia pra uma fase do roadmap.
@@ -368,6 +389,13 @@ Mapping requirement → phase. Preenchido pelo gsd-roadmapper em 2026-05-15.
 | DEPLOY-03 | Phase 7 | Pending |
 | DEPLOY-04 | Phase 7 | Pending |
 | DEPLOY-05 | Phase 7 | Pending |
+| FUNIL-01 | Phase 9 | Pending |
+| FUNIL-02 | Phase 9 | Pending |
+| FUNIL-03 | Phase 9 | Pending |
+| FUNIL-04 | Phase 9 | Pending |
+| FUNIL-05 | Phase 9 | Pending |
+| FUNIL-06 | Phase 9 | Pending |
+| FUNIL-COPY | Phase 9 | Pending |
 
 **Coverage:**
 - v1 requirements: 99 total (preâmbulo da v1 mencionava 84 como preliminar; reconfirmado em 99 pelo roadmapper — 12 FOUND + 8 MOTION + 7 HERO + 8 NARR + 6 COPY + 12 CTA + 7 TRACK + 9 PERF + 11 SEO + 7 A11Y + 7 MOBILE + 5 DEPLOY)
@@ -383,6 +411,7 @@ Mapping requirement → phase. Preenchido pelo gsd-roadmapper em 2026-05-15.
 - Phase 5 (Conversion): 11 reqs
 - Phase 6 (Analytics Instrumentation Pass): 4 reqs
 - Phase 7 (SEO + A11y + Performance + Deploy Hardening): 37 reqs
+- Phase 9 (Funil): 7 reqs (FUNIL-01..06 + FUNIL-COPY) — milestone v2.1, separados da contagem v1
 
 ---
 *Requirements defined: 2026-05-15*
