@@ -11,8 +11,8 @@ export function GhostCard() {
       aria-hidden="true"
       className="rounded-[10px] border border-[#181a26] bg-[#0f1019] px-[11px] py-2.5 opacity-[0.32]"
     >
-      <div className="mb-[7px] h-2 w-[62%] rounded-[4px] bg-[#262838]" />
-      <div className="h-1.5 w-[42%] rounded-[4px] bg-[#1c1e2c]" />
+      <div className="mb-[7px] h-2 w-3/5 rounded-[4px] bg-[#262838]" />
+      <div className="h-1.5 w-2/5 rounded-[4px] bg-[#1c1e2c]" />
     </div>
   );
 }
