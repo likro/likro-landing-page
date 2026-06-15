@@ -24,8 +24,18 @@ export function Product() {
     <section
       id="produto"
       aria-labelledby="product-headline"
-      className="relative bg-surface-light py-24 sm:py-28 lg:py-36"
+      className="relative isolate overflow-hidden border-t border-[rgba(2,6,23,0.07)] bg-[#F1F4F9] py-24 sm:py-28 lg:py-36"
     >
+      {/* Atmosfera (remix de cor): glow VIOLETA suave atrás do feature hero — pop de
+          marca na seção de produto. Brand-safe (rgba, acento); fundo cool, não branco. */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(ellipse 50% 42% at 80% 24%, rgba(124,58,237,0.10), transparent 66%)",
+        }}
+      />
       <Container>
         <ProductHeader />
         <ProductHeroFeature />

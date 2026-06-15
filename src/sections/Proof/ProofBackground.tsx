@@ -1,38 +1,25 @@
 /**
- * ProofBackground — dark editorial AUSTERE.
+ * ProofBackground — CLARO editorial silencioso (v2, 2026-06-14).
  *
- * D-28: silêncio visual vale mais que exagero. SEM accent roxo, SEM haze, SEM
- * radial glow. Apenas base gradient + grid quase imperceptível + transição
- * top que costura Funnel (dark) → Proof (dark) sem corte abrupto.
+ * Proof era DARK; virou CLARA pra fluir com HowItWorks (acima) e Form (abaixo) —
+ * acaba com a "ilha preta" no meio do bloco claro (feedback Lenny). Tratamento
+ * mínimo: leve profundidade vertical (branco → off-white → branco), SEM grid duro,
+ * SEM accent — silêncio editorial, sem costura com as vizinhas claras.
  *
  * MOTION-08: zero animation; CSS layered backgrounds. Server Component (default).
  */
 export function ProofBackground() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-      {/* L1 — top transition fade do dark Funnel pro dark Proof */}
-      <div
-        className="absolute inset-x-0 top-0 h-1/3"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(255,255,255,0.0) 0%, rgba(10,15,26,1) 100%)",
-        }}
-      />
-      {/* L2 — base atmospheric gradient blue-black */}
+      {/* Base clara TINGIDA (cinza-azulado leve, NÃO branca — pedido Lenny): a Prova
+          ganha um tom sutil que a distingue das vizinhas brancas (HowItWorks/Form)
+          sem virar ilha — continua clara, arco tonal preservado. Profundidade vertical
+          mínima dentro do mesmo tom (sem borda dura). */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(10,15,26,1) 0%, rgba(14,20,34,1) 50%, rgba(10,15,26,1) 100%)",
-        }}
-      />
-      {/* L3 — grid técnico opacity 0.012 (mais baixo que Pain — austere) */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.012) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.012) 1px, transparent 1px)",
-          backgroundSize: "72px 72px",
+            "linear-gradient(180deg, #F2F4F8 0%, #EEF1F5 55%, #F2F4F8 100%)",
         }}
       />
     </div>

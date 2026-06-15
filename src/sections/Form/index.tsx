@@ -31,10 +31,21 @@ export function Form() {
     <section
       id={FORM_COPY.sectionId}
       data-clarity-mask="true"
-      className="bg-surface-light py-20 md:py-28"
+      className="relative isolate overflow-hidden border-t border-[rgba(2,6,23,0.07)] bg-[#E9EEF5] py-20 md:py-28"
       aria-labelledby="lead-form-heading"
     >
-      <Container className="max-w-2xl">
+      {/* Atmosfera de conversão (remix de cor): a seção mais "embaixo" ganha o
+          tratamento mais rico — base cool um pouco mais funda (não branca) + glow
+          VIOLETA suave atraindo o olho pro form/CTA. Brand-safe (roxo = acento, rgba). */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 55% at 50% 30%, rgba(124,58,237,0.13), transparent 68%)",
+        }}
+      />
+      <Container className="relative max-w-2xl">
         <div className="mb-8 md:mb-10">
           <p className="text-sm font-medium uppercase tracking-[0.18em] text-accent-primary">
             {FORM_COPY.eyebrow}

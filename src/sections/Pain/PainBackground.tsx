@@ -23,13 +23,20 @@ export function PainBackground() {
         }}
       />
 
-      {/* L2 — grid técnico quase imperceptível, SEM mask radial (Pain quer espalhamento, não foco) */}
+      {/* L2 — grid técnico quase imperceptível, SEM mask radial (Pain quer espalhamento, não foco).
+          Mask de TOPO: o grid FADE-IN de cima (invisível no topo, cheio por ~16%) pra não criar
+          uma borda dura na costura com o Hero — o topo da Pain fica #0A0F1A puro, igual ao remate
+          do campo que dissolve em sólido. Costura some. */}
       <div
         className="absolute inset-0"
         style={{
           backgroundImage:
             "linear-gradient(to right, rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.015) 1px, transparent 1px)",
           backgroundSize: "64px 64px",
+          maskImage:
+            "linear-gradient(to bottom, transparent 0%, black 16%, black 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, transparent 0%, black 16%, black 100%)",
         }}
       />
 

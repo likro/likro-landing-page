@@ -26,7 +26,7 @@ export function BridgeStatement() {
     <h2
       ref={ref}
       id="bridge-headline"
-      className="mx-auto max-w-3xl text-balance text-center font-sans text-3xl font-medium leading-[1.15] tracking-[-0.02em] text-text-primary sm:text-4xl lg:text-5xl"
+      className="mx-auto max-w-3xl text-balance text-center font-sans text-3xl font-semibold leading-[1.15] tracking-[-0.02em] text-text-primary sm:text-4xl lg:text-5xl"
     >
       {BRIDGE_COPY.statements.map((s, i) => (
         <Fragment key={i}>
