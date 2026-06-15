@@ -69,11 +69,30 @@ export function Hero() {
       baseTop = rect.top + window.scrollY;
       total = el.offsetHeight - window.innerHeight;
     };
+    // Shaping de PLATÔS (entrada/saída): segura o CAOS no começo (até A) e a
+    // CHEGADA no fim (a partir de B, vira 1 e FICA), com a travessia concentrada
+    // no meio via smoothstep. Efeito: parar um pouco antes/depois ainda mostra um
+    // estado COMPLETO e intencional (caos pleno ou chegada plena), nunca um morph
+    // cortado. (Lenny: "mais planejado/cinematográfico, não dependente do scroll bruto".)
+    const A = 0.08;
+    const B = 0.8;
+    const shape = (p: number) => {
+      if (p <= A) return 0;
+      if (p >= B) return 1;
+      const t = (p - A) / (B - A);
+      return t * t * (3 - 2 * t); // smoothstep
+    };
     const tick = () => {
       raf = window.requestAnimationFrame(tick);
       if (!activeRef.current || total <= 0) return;
-      const p = (window.scrollY - baseTop) / total;
-      progress.set(p < 0 ? 0 : p > 1 ? 1 : p);
+      const raw = (window.scrollY - baseTop) / total;
+      const target = shape(raw < 0 ? 0 : raw > 1 ? 1 : raw);
+      // Damped follower: a cena é GUIADA PELA ANIMAÇÃO (ease por frame em direção ao
+      // alvo), não pelo scroll bruto. Suaviza o jitter do scroll, faz a transição
+      // parecer conduzida/planejada e ASSENTA SUAVE ao parar (não trava no ponto cru).
+      const cur = progress.get();
+      const next = cur + (target - cur) * 0.12;
+      progress.set(Math.abs(next - target) < 0.0004 ? target : next);
     };
     measure();
     window.addEventListener("resize", measure, { passive: true });

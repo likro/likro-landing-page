@@ -149,17 +149,21 @@ type Particle = {
 // Budgets enxutos (Lenny: "muito pesado / trava"). Menos partículas + sprites
 // menores = muito menos fillrate em blend aditivo (o gargalo real). Mobile sagrado.
 const TIER_COUNT: Record<"reduced" | "mobile" | "tablet" | "desktop", number> = {
-  reduced: 200,
-  mobile: 240,
-  tablet: 320,
-  desktop: 380,
+  reduced: 260,
+  mobile: 320,
+  tablet: 440,
+  desktop: 520,
 };
+// 2026-06-15 (Lenny "tirou partículas demais, perdeu atmosfera"): densidade
+// restaurada pra um meio-termo rico (era 380, voltou a 520 desktop). A suavidade
+// do scroll agora vem do damped-follower + plateaus no Hero/index, NÃO de cortar
+// elementos — então dá pra ter atmosfera E scroll clean ao mesmo tempo.
 
 // ── Modelo de câmera / projeção ─────────────────────────────────────────────
 const FOCAL = 320; // distância focal (px-ish): scale = FOCAL/(FOCAL+z)
 const Z_NEAR = 12; // partícula que cruza isto já passou a câmera → reciclar
 const Z_RANGE = 1100; // profundidade total do campo (fundo - frente)
-const Z_TRAVEL = 1080; // quanto o campo desloca em z (avanço). Reduzido de 1350:
+const Z_TRAVEL = 1250; // quanto o campo desloca em z (avanço). Reduzido de 1350:
 // dolly mais suave = expansão menos agressiva durante a rolagem (menos partículas
 // "rushando" pra fora a cada scroll = movimento mais clean), sem perder a sensação
 // de avanço/travessia (Lenny: "scrolada fica zuada").
@@ -571,7 +575,7 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           // Tamanho ∝ scale; alpha cai com a distância (atmosférica básica).
           // Fator maior → partículas próximas GRANDES, com presença periférica
           // (luz grande e mole cruzando as bordas = envolvimento, sem +partículas).
-          const size = Math.min(48, part.size * scale * 3.3); // sprites menores +
+          const size = Math.min(56, part.size * scale * 3.6); // sprites menores +
           // teto baixo = MUITO menos fillrate em blend aditivo (FPS na máquina real).
           // 2026-06-15 (Lenny "ainda travado / mais clean"): corte decisivo — count
           // desktop 560→380 + size 3.7→3.3 e cap 58→48. Área desenhada (~ size²) e
