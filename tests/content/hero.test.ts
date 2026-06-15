@@ -54,11 +54,11 @@ describe("HERO_COPY — Phase 3 redesign B contracts", () => {
     expect(match === null, `Banned phrase: ${match?.[0] ?? ""}`).toBe(true);
   });
 
-  it("cards é array de 3 elementos com kinds 'lead' → 'routing' → 'scheduled'", () => {
+  it("cards é array de 3 elementos com kinds 'lead' → 'routing' → 'active'", () => {
     expect(HERO_COPY.cards).toHaveLength(3);
     expect(HERO_COPY.cards[0].kind).toBe("lead");
     expect(HERO_COPY.cards[1].kind).toBe("routing");
-    expect(HERO_COPY.cards[2].kind).toBe("scheduled");
+    expect(HERO_COPY.cards[2].kind).toBe("active");
   });
 
   it("nenhum card menciona Dolce Home (D-13)", () => {

@@ -5,7 +5,10 @@
  *   - h1 + sub (decisão B "sistema operacional" + sub captação→retorno)
  *   - ctaPrimary (WhatsApp) + ctaSecondary (anchor scroll)
  *   - trust signal vertical-específico
- *   - cards: 3 elementos do "momento de valor" desenhados em código (HeroCardStack)
+ *   - cards: 3 estados de controle do "momento de valor" (lead → distribuição →
+ *     em atendimento). O card 3 NÃO é mais agendamento confirmado: a virada
+ *     ("conversa vira consulta") é payoff exclusivo do Funnel. Aqui o Hero segura
+ *     a resolução e mostra controle/ordem, não o desfecho.
  *
  * D-09: palavra "clínica" aparece em h1 E sub — verticalização cristalina.
  * D-11: ctaPrimary.label é exatamente "Falar no WhatsApp".
@@ -19,7 +22,7 @@
  */
 
 export type HeroCard = {
-  kind: "lead" | "routing" | "scheduled";
+  kind: "lead" | "routing" | "active";
   label: string;
   title: string;
   rows: ReadonlyArray<{
@@ -52,9 +55,9 @@ export const HERO_COPY: HeroCopy = {
   h1: "O sistema operacional da sua clínica.",
   h1Lead: "O sistema operacional da ",
   h1Emphasis: "sua clínica.",
-  sub: "WhatsApp, Instagram e a agenda da clínica num só lugar, do primeiro oi à consulta marcada.",
-  resolveLead: "Toda conversa vira ",
-  resolveEmphasis: "consulta.",
+  sub: "WhatsApp, Instagram e a agenda da clínica num só lugar.",
+  resolveLead: "Nenhum paciente fica ",
+  resolveEmphasis: "para trás.",
   ctaPrimary: { label: "Falar no WhatsApp" },
   ctaSecondary: { label: "Ver como funciona", href: "#produto" },
   // Linha de diferenciação (microcopy sob os CTAs): responde "por que vocês?" sem
@@ -83,14 +86,15 @@ export const HERO_COPY: HeroCopy = {
       ],
     },
     {
-      kind: "scheduled",
-      label: "Agendamento confirmado",
-      title: "Marina Souza",
+      kind: "active",
+      label: "Em atendimento",
+      title: "Marina · Dra. Camila",
       rows: [
-        { type: "text", content: "Harmonização facial · 1ª sessão" },
-        { type: "text", content: "Terça, 21/05 · 14:30" },
+        { type: "check", content: "Histórico do paciente carregado" },
+        { type: "live", content: "Resposta sendo enviada" },
+        { type: "pending", content: "Em acompanhamento" },
       ],
-      meta: "Confirmação enviada via WhatsApp",
+      meta: "tudo num lugar, nada se perde",
     },
   ],
 };
