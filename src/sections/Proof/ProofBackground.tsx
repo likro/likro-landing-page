@@ -3,14 +3,14 @@
  *
  * D-28: silêncio visual vale mais que exagero. SEM accent roxo, SEM haze, SEM
  * radial glow. Apenas base gradient + grid quase imperceptível + transição
- * top que costura HowItWorks (light) → Proof (dark) sem corte abrupto.
+ * top que costura Funnel (dark) → Proof (dark) sem corte abrupto.
  *
  * MOTION-08: zero animation; CSS layered backgrounds. Server Component (default).
  */
 export function ProofBackground() {
   return (
     <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-      {/* L1 — top transition fade do light HowItWorks pro dark Proof */}
+      {/* L1 — top transition fade do dark Funnel pro dark Proof */}
       <div
         className="absolute inset-x-0 top-0 h-1/3"
         style={{
