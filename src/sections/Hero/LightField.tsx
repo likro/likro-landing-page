@@ -149,10 +149,10 @@ type Particle = {
 // Budgets enxutos (Lenny: "muito pesado / trava"). Menos partículas + sprites
 // menores = muito menos fillrate em blend aditivo (o gargalo real). Mobile sagrado.
 const TIER_COUNT: Record<"reduced" | "mobile" | "tablet" | "desktop", number> = {
-  reduced: 340,
-  mobile: 400,
-  tablet: 620,
-  desktop: 820,
+  reduced: 260,
+  mobile: 300,
+  tablet: 440,
+  desktop: 560,
 };
 
 // ── Modelo de câmera / projeção ─────────────────────────────────────────────
@@ -567,8 +567,11 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           // Tamanho ∝ scale; alpha cai com a distância (atmosférica básica).
           // Fator maior → partículas próximas GRANDES, com presença periférica
           // (luz grande e mole cruzando as bordas = envolvimento, sem +partículas).
-          const size = Math.min(72, part.size * scale * 4.3); // sprites menores +
+          const size = Math.min(58, part.size * scale * 3.7); // sprites menores +
           // teto baixo = MUITO menos fillrate em blend aditivo (FPS na máquina real).
+          // 2026-06-15 (Lenny "mais clean / travadinho"): 4.3→3.7 e 72→58 cortam a
+          // área desenhada (~ size²) → menos overdraw aditivo, scroll mais suave e
+          // visual mais limpo (poeira menos "borrada/cheia"). Mesma narrativa.
           const depthAlpha = scale; // longe = dim
           // Shimmer: no caos cada partícula cintila na sua fase (vida dispersa);
           // na ordem as fases convergem (lerp→0) = um PULSO ÚNICO (operação que
@@ -669,30 +672,44 @@ export function LightField({ progress, active = true }: LightFieldProps) {
     window.addEventListener("resize", resize, { passive: true });
 
     let raf = 0;
-    let lastTs = 0;
+    let lastDrawTs = 0; // pacing: limita os DRAWS a ~60fps
+    let lastMeasureTs = 0; // ladder: intervalo entre draws reais
+    // Cap de framerate: o alvo do canvas é ~60fps ESTÁVEL, não o refresh do
+    // monitor. Perseguir 120Hz e falhar é o que dava a sensação "travada" — um
+    // 60fps consistente é mais suave que um 75–110fps errático com drops, e gasta
+    // metade do trabalho/seg (folga pra cada frame fechar no orçamento). NÃO muda
+    // o visual (mesmas partículas/sprites), só a cadência. ~13ms → 60fps em 120Hz,
+    // 72fps em 144Hz, 60fps em 60Hz (inalterado).
+    const FRAME_CAP_MS = 13;
     const loop = (ts: number) => {
       raf = window.requestAnimationFrame(loop);
       // Pause offscreen/aba oculta (TPRF-03): não desenha quando inativo.
       if (!activeRef.current) {
-        lastTs = 0;
+        lastDrawTs = 0;
+        lastMeasureTs = 0;
         return;
       }
       if (typeof document !== "undefined" && document.hidden) {
-        lastTs = 0;
+        lastDrawTs = 0;
+        lastMeasureTs = 0;
         return;
       }
+      // Cap: pula este frame se ainda não passou ~1/60s desde o último DRAW.
+      if (lastDrawTs > 0 && ts - lastDrawTs < FRAME_CAP_MS) return;
+      lastDrawTs = ts;
+
       const j = clamp01(progressRef.current);
 
       drawFrame(j, ts * 0.001, true);
 
-      // ── Auto-degradação por FPS REAL (intervalo entre frames) ─────────────
-      // Mede o intervalo REAL entre frames (ts - lastTs) — inclui a compositação
-      // da atmosfera (blur/blends), não só o desenho do canvas. Se a máquina não
-      // segura ~48fps, o campo se rebaixa SOZINHO. Robusto a hardware fraco (o
-      // sandbox de teste é mais rápido que a máquina do usuário — isso protege).
+      // ── Auto-degradação por FPS REAL (intervalo entre DRAWS) ──────────────
+      // Mede o intervalo entre draws reais (inclui a compositação da atmosfera).
+      // Com o cap o normal é ~16.6ms (< orçamento → NÃO rebaixa, preserva o look).
+      // Só rebaixa se a máquina não segura nem ~42fps do alvo capado — aí dropar
+      // partículas é melhor que congelar. Robusto a hardware fraco (mobile sagrado).
       if (cooldown > 0) cooldown--;
-      if (lastTs > 0) {
-        const dt = ts - lastTs;
+      if (lastMeasureTs > 0) {
+        const dt = ts - lastMeasureTs;
         // Ignora picos isolados (scroll brusco/GC) > 80ms: não poluem a média.
         if (dt < 80) {
           frameAccum += dt;
@@ -714,7 +731,7 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           }
         }
       }
-      lastTs = ts;
+      lastMeasureTs = ts;
     };
     raf = window.requestAnimationFrame(loop);
 

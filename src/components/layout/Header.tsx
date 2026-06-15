@@ -60,6 +60,11 @@ export function Header() {
     }
   });
 
+  // `transition` é sempre renderizada (idêntica no SSR e no cliente) pra evitar
+  // hydration mismatch: `useReducedMotion()` é null no server e bool no cliente, então
+  // condicionar o style por `reduced` divergia o HTML. É seguro — a transição só anima
+  // `transform`, e em reduced-motion o transform nunca muda (applyHidden só seta false),
+  // então nenhuma animação dispara; acessibilidade preservada.
   return (
     <header
       ref={headerRef}
@@ -67,9 +72,7 @@ export function Header() {
       className="sticky top-0 z-30 w-full bg-surface-light/85 backdrop-blur-md"
       style={{
         transform: "translateY(0%)",
-        transition: reduced
-          ? undefined
-          : "transform 0.22s cubic-bezier(0.4, 0, 0.2, 1)",
+        transition: "transform 0.22s cubic-bezier(0.4, 0, 0.2, 1)",
       }}
     >
       <Container className="flex h-14 items-center justify-between lg:h-16">

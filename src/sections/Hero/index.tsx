@@ -248,15 +248,18 @@ export function Hero() {
           />
         </motion.div>
 
-        {/* Remate inferior — handoff MÍNIMO pra próxima seção. Quase imperceptível
-            (h-[12%], bem leve): evita a sensação de "campo pesado em cima / morto
-            embaixo" (regra 1: ocupação uniforme). */}
+        {/* Handoff inferior — DISSOLVE o campo no fundo da próxima seção (Pain usa
+            o MESMO `surface-darker` #0A0F1A). Sem isso, as partículas eram clipadas
+            pelo overflow-hidden numa LINHA DURA contra o fundo flat da Pain. O fade
+            vai a #0A0F1A SÓLIDO na borda (= bg da Pain), então a costura some; mas a
+            opacidade só sobe perto do fim (sólido só no último sliver) pra NÃO criar
+            faixa morta no fim do campo (regra 1: ocupação). Lê como profundidade. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-[12%]"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-[28%]"
           style={{
             background:
-              "linear-gradient(to bottom, transparent, rgba(10,15,26,0.28))",
+              "linear-gradient(to bottom, transparent 0%, rgba(10,15,26,0.55) 50%, rgb(10,15,26) 88%)",
           }}
         />
 
