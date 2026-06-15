@@ -96,7 +96,7 @@ export function Funnel() {
     <section
       id="funnel"
       aria-labelledby="funnel-headline"
-      className="relative overflow-hidden bg-funnel-stage"
+      className="relative bg-funnel-stage"
     >
       <div
         aria-hidden="true"
@@ -105,9 +105,9 @@ export function Funnel() {
       <ScrollScene as="div" offset={SCROLL_OFFSET} className="relative">
         {(progress) => (
           <StickyStage length={length}>
-            <div className="relative flex h-svh w-full flex-col overflow-hidden">
+            <div className="relative flex h-svh w-full flex-col justify-center overflow-hidden">
               <FunnelHead />
-              <div className="relative flex-1">
+              <div className="relative">
                 <FunnelStageBody isMobile={isMobile} progress={progress} />
               </div>
             </div>
