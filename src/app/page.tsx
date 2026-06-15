@@ -5,6 +5,7 @@ import { Pain } from "@/sections/Pain";
 import { Product } from "@/sections/Product";
 import { Funnel } from "@/sections/Funnel";
 import { Proof } from "@/sections/Proof";
+import { Faq } from "@/sections/Faq";
 import { Form } from "@/sections/Form";
 import { FloatingWhatsApp } from "@/sections/Floating/FloatingWhatsApp";
 import { TrackSection } from "@/components/analytics/TrackSection";
@@ -29,6 +30,9 @@ export default function HomePage() {
         </TrackSection>
         <TrackSection section="proof">
           <Proof />
+        </TrackSection>
+        <TrackSection section="faq">
+          <Faq />
         </TrackSection>
         <TrackSection section="form">
           <Form />
