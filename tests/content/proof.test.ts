@@ -9,39 +9,26 @@ import { PROOF_COPY, PROOF_COPY_VARIANTS, type ProofCopy } from "@/content/proof
  * - Zero stat numbers (regex /\+\d+|\d+%|\d{2,}\s*(clínicas|leads|...)/i — COPY-06).
  * - Zero testimonials/quotes com atribuição (regex quoted text + em-dash + name).
  * - Zero "trusted by", "em parceria", "líder de mercado", "referência (do/de)".
- * - Categorias verticais TRAVADAS: ["Estética", "Dermatologia", "Harmonização Facial", "Odontologia", "Bem-estar"] (D-26).
+ *
+ * 2026-06-15 (feedback Lenny): chips de especialidade REMOVIDOS. A Proof prova
+ * adoção/uso diário, não enumera nichos de clínica. Sem campo `categories`.
  */
 
 const BANNED_PHRASES =
   /(desbloqueie|desbloque|potencialize|potencia|transforme sua|próximo nível|proximo nivel|solução inovadora|solucao inovadora|jornada do cliente|do início ao fim|do inicio ao fim|feito para você|feito para voce|leve seu? .+ a outro patamar|revolucione|empodere)/i;
 
-const LOCKED_CATEGORIES = [
-  "Estética",
-  "Dermatologia",
-  "Harmonização Facial",
-  "Odontologia",
-  "Bem-estar",
-] as const;
-
 function joinCorpus(): string {
   const variants = Object.values(PROOF_COPY_VARIANTS) as ProofCopy[];
-  return variants
-    .map((v) => `${v.eyebrow} ${v.headline} ${v.categories.join(" ")}`)
-    .join(" \n ");
+  return variants.map((v) => `${v.eyebrow} ${v.headline}`).join(" \n ");
 }
 
 describe("PROOF_COPY — Phase 4 contracts", () => {
-  it("Test 1 — shape: {eyebrow, headline, categories: tuple 5}", () => {
+  it("Test 1 — shape: {eyebrow, headline} (sem categorias — feedback 2026-06-15)", () => {
     expect(typeof PROOF_COPY.eyebrow).toBe("string");
     expect(PROOF_COPY.eyebrow.length).toBeGreaterThan(0);
     expect(typeof PROOF_COPY.headline).toBe("string");
     expect(PROOF_COPY.headline.length).toBeGreaterThan(0);
-    expect(Array.isArray(PROOF_COPY.categories)).toBe(true);
-    expect(PROOF_COPY.categories).toHaveLength(5);
-    for (const cat of PROOF_COPY.categories) {
-      expect(typeof cat).toBe("string");
-      expect(cat.length).toBeGreaterThan(0);
-    }
+    expect("categories" in PROOF_COPY, "categorias removidas da Proof").toBe(false);
   });
 
   it("Test 2 — PROOF_COPY_VARIANTS has v1, v2, v3", () => {
@@ -52,14 +39,17 @@ describe("PROOF_COPY — Phase 4 contracts", () => {
       const v = PROOF_COPY_VARIANTS[key];
       expect(typeof v.eyebrow).toBe("string");
       expect(typeof v.headline).toBe("string");
-      expect(v.categories).toHaveLength(5);
     }
   });
 
-  it("Test 3 — ALL THREE variants have categories EXACTLY ['Estética','Dermatologia','Harmonização Facial','Odontologia','Bem-estar'] (D-26 locked)", () => {
+  it("Test 3 — nenhuma variante enumera tipo/especialidade de clínica (feedback 2026-06-15)", () => {
+    const SPECIALTY =
+      /\b(dermatologia|harmoniza[çc][ãa]o|odontologia|bem-estar|est[ée]tica)\b/i;
     for (const key of ["v1", "v2", "v3"] as const) {
-      const cats = PROOF_COPY_VARIANTS[key].categories;
-      expect(cats, `variant ${key} categories not locked`).toEqual(LOCKED_CATEGORIES);
+      const v = PROOF_COPY_VARIANTS[key];
+      const corpus = `${v.eyebrow} ${v.headline}`;
+      const m = corpus.match(SPECIALTY);
+      expect(m === null, `variant ${key} cita especialidade: ${m?.[0] ?? ""}`).toBe(true);
     }
   });
 
@@ -117,14 +107,4 @@ describe("PROOF_COPY — Phase 4 contracts", () => {
     }
   });
 
-  // Reference: lista travada D-26 — força contributors a manterem o array literal
-  it("reference — D-26 categorias list literal preserved exactly: Estética / Dermatologia / Harmonização Facial / Odontologia / Bem-estar", () => {
-    expect(LOCKED_CATEGORIES).toEqual([
-      "Estética",
-      "Dermatologia",
-      "Harmonização Facial",
-      "Odontologia",
-      "Bem-estar",
-    ]);
-  });
 });

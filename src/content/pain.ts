@@ -105,9 +105,9 @@ export const PAIN_COPY_VARIANTS = {
   },
   v3: {
     h2: "Quatro lugares. Nenhum em sincronia.",
-    sub: "Instagram, WhatsApp, planilha da agenda, caderno de retornos. Quatro ferramentas que não se falam. Uma clínica que perde lead onde a operação não se conecta.",
+    sub: "Instagram, WhatsApp, planilha da agenda, caderno de retornos. Quatro ferramentas que não se falam, e quem espera é o paciente.",
     statement:
-      "“A clínica perde lead onde a operação não fala consigo mesma.”",
+      "“Cada conversa que esfria é um paciente que não volta.”",
     cards: SHARED_CARDS,
   },
 } as const satisfies Record<"v1" | "v2" | "v3", PainCopy>;

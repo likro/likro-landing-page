@@ -52,7 +52,7 @@ export const HERO_COPY: HeroCopy = {
   h1: "O sistema operacional da sua clínica.",
   h1Lead: "O sistema operacional da ",
   h1Emphasis: "sua clínica.",
-  sub: "Da captação ao retorno do paciente, toda a operação da clínica passa por aqui.",
+  sub: "WhatsApp, Instagram e a agenda da clínica num lugar só — da primeira mensagem ao paciente que volta.",
   resolveLead: "Nenhuma conversa fica ",
   resolveEmphasis: "para trás.",
   ctaPrimary: { label: "Falar no WhatsApp" },

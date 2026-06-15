@@ -9,10 +9,10 @@
  */
 export const FORM_COPY = {
   sectionId: "lead-form-section",
-  eyebrow: "Conversa, não cadastro",
+  eyebrow: "Outra forma de falar",
   heading: "Prefere que a gente te procure?",
   subheading:
-    "Manda seu nome e WhatsApp. Sem cadência de email marketing, sem corrente.",
+    "Deixa seu nome e WhatsApp que a gente te chama. Sem e-mail automático, sem insistência.",
   fields: {
     name: { label: "Nome", placeholder: "Seu nome" },
     whatsapp: { label: "WhatsApp", placeholder: "WhatsApp com DDD" },

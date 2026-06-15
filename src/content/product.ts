@@ -105,20 +105,20 @@ const SHARED_SECONDARY_EYEBROWS = ["DISTRIBUIÇÃO", "FOLLOW-UP", "AGENDA"] as c
 export const PRODUCT_COPY_VARIANTS = {
   v1: {
     header: {
-      h2: "A operação do atendimento, em uma única camada.",
+      h2: "Todo o atendimento da clínica em um lugar só.",
       sub: "Lead do Instagram, conversa no WhatsApp, agenda da recepção. Tudo na mesma tela.",
     },
     feature: {
       eyebrow: "OPERAÇÃO MULTICANAL",
       title: "Atendimento multicanal.",
       description:
-        "A equipe responde tudo de um lugar só. WhatsApp, Instagram e Facebook em uma caixa de entrada compartilhada, com contexto do paciente já carregado.",
+        "A equipe responde tudo de um lugar só. WhatsApp, Instagram e Facebook em uma caixa de entrada compartilhada, com contexto do paciente já carregado — e a IA sugerindo a próxima resposta.",
       mockup: {
         cardTitle: SHARED_CARD_TITLE,
         cardLabel: SHARED_CARD_LABEL,
         newCountBadge: SHARED_NEW_BADGE,
         inboxRows: SHARED_INBOX_ROWS,
-        iaLine: "Atribuído automaticamente · sugestão de resposta aceita",
+        iaLine: "Distribuído pela IA · resposta sugerida",
         overlayRouting: SHARED_OVERLAY_ROUTING,
         overlayConfirm: SHARED_OVERLAY_CONFIRM,
       },
