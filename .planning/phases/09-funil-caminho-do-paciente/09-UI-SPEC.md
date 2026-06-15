@@ -62,14 +62,16 @@ Project baseline is the brand's existing rhythm (Tailwind default 4px grid). Dec
 | xs | 4px | Dot-to-label gap in column heads; check-icon inner gap |
 | sm | 8px | Inter-column gap on mobile; ghost-card internal padding |
 | md | 16px | Column internal padding (`p-4`); protagonist card padding |
-| lg | 24px | Stage horizontal padding mobile; head-to-board gap |
+| lg | 20px | Inter-column gap on desktop (`gap-5`) |
+| lg+ | 24px | Stage horizontal padding mobile; head-to-board gap |
 | xl | 32px | Stage horizontal padding desktop (`px-8`); board bottom padding |
 | 2xl | 48px | Head top padding region |
 | 3xl | 64px | Head top padding desktop (`pt-16`); chapter intro/outro breathing room |
 
-**Exceptions:**
-- Protagonist card width: `236px` desktop, `170px` mobile (from prototype; not a grid token — it is a fixed component dimension). Express via Tailwind arbitrary value or a constant; not raw `style.left`.
-- Inter-column gap: `18px` desktop, `8px` mobile (prototype values; `18px` is off-grid but matches the approved visual — acceptable as a bespoke layout value, prefer `gap-[18px]`).
+**Inter-column gap:** `20px` desktop (`gap-5`), `8px` mobile (`gap-2`). Both are on the 4px grid. The prototype used `18px`; production rounds to the nearest on-grid value `20px`, which errs slightly wider and stays faithful to the approved visual.
+
+**Exceptions (fixed component dimensions, NOT spacing-grid values):**
+- Protagonist card width: `236px` desktop, `170px` mobile (from prototype). These are fixed component widths, not spacing-grid tokens. Express via Tailwind arbitrary value or a constant; not raw `style.left`.
 - Tap targets: any interactive element ≥ 44×44px (MOBILE-03). This section has NO interactive elements inside the board (it is a scroll-driven demonstration, not a clickable board) — so the rule applies only to the closing CTA region if a CTA is added (see §Copy / CTA note).
 
 ---
@@ -78,16 +80,31 @@ Project baseline is the brand's existing rhythm (Tailwind default 4px grid). Dec
 
 Inter only. Two weights max for this chapter: **regular (400)** and **semibold (600)** — matches brand book (3-weight global budget; medium 500 used only on the closing statement, which is shared with the Hero's resolve-line register). Sizes use `clamp()` for fluid scaling exactly as the prototype, mapped to brand tokens.
 
-| Role | Size | Weight | Line Height | Tracking | Color token |
-|------|------|--------|-------------|----------|-------------|
-| Eyebrow | 12px, `letter-spacing .14em`, uppercase | 600 | 1.0 | +0.14em | `accent-on-dark` (#a78bfa) at ~85% opacity — the soft-violet eyebrow, on-dark AA-safe |
-| Headline (h2) | `clamp(24px, 3.4vw, 40px)` | 600 | 1.12 | -0.02em | `text-on-dark-primary` (#F5F7FA) |
-| Column head | 12.5px (mobile 10px) | 600 | 1.2 | +0.02em | resting: `text-on-dark-muted`; active: `text-on-dark-primary` |
-| Card name | 14px | 600 | 1.1 | normal | `text-on-dark-primary` |
-| Card channel | 11px | 400 | 1.2 | normal | `text-on-dark-secondary` |
-| Card moment (the human beat) | 12.5px | 400 | 1.4 | normal | `#c9cbd9` (≈ `text-on-dark-secondary`); climax: `#e9ddff` (warm-violet ink) |
-| Confirmation tag | 11px | 600 | 1.2 | normal | `accent-on-dark` (#a78bfa) |
-| Closing statement | `clamp(20px, 2.6vw, 30px)` | 500 (medium) | 1.3 | -0.01em | `text-on-dark-primary`; accent span in `accent-on-dark` |
+**Size scale — exactly 4 distinct sizes** (2 body + 2 heading registers):
+
+| # | Size | Roles |
+|---|------|-------|
+| 1 | `11px` | Card channel, confirmation tag |
+| 2 | `14px` | Eyebrow, column head, card name, card moment (the human beat) |
+| 3 | `clamp(24px, 3.4vw, 40px)` | Headline (h2) — heading register |
+| 4 | `clamp(20px, 2.6vw, 30px)` | Closing statement — heading register |
+
+The prototype's three micro-sizes (11 / 12 / 12.5px) sat in an indistinct 1.5px band. Production collapses them onto two clean steps: the 12 / 12.5px roles (eyebrow, column head, card moment) lift to **14px** (same step as the card name), and the true micro-text (channel, tag) stays at **11px**. This keeps the prototype's hierarchy readable while declaring an unambiguous 4-size scale.
+
+**Role table (color + weight + metrics per role):**
+
+| Role | Size (from scale) | Weight | Line Height | Tracking | Color token |
+|------|-------------------|--------|-------------|----------|-------------|
+| Eyebrow | 14px (#2), `letter-spacing .14em`, uppercase | 600 | 1.0 | +0.14em | `accent-on-dark` (#a78bfa) at ~85% opacity — the soft-violet eyebrow, on-dark AA-safe |
+| Headline (h2) | `clamp(24px, 3.4vw, 40px)` (#3) | 600 | 1.12 | -0.02em | `text-on-dark-primary` (#F5F7FA) |
+| Column head | 14px (#2) (mobile 11px → use scale #1) | 600 | 1.2 | +0.02em | resting: `text-on-dark-muted`; active: `text-on-dark-primary` |
+| Card name | 14px (#2) | 600 | 1.1 | normal | `text-on-dark-primary` |
+| Card channel | 11px (#1) | 400 | 1.2 | normal | `text-on-dark-secondary` |
+| Card moment (the human beat) | 14px (#2) | 400 | 1.4 | normal | `#c9cbd9` (≈ `text-on-dark-secondary`); climax: `#e9ddff` (warm-violet ink) |
+| Confirmation tag | 11px (#1) | 600 | 1.2 | normal | `accent-on-dark` (#a78bfa) |
+| Closing statement | `clamp(20px, 2.6vw, 30px)` (#4) | 500 (medium) | 1.3 | -0.01em | `text-on-dark-primary`; accent span in `accent-on-dark` |
+
+> Note: the mobile column-head size uses scale step #1 (`11px`) instead of a 5th distinct value — the column head simply drops one step on the existing scale at < 640px. No new size is introduced.
 
 **Heading line-height** 1.12–1.3 (tight, editorial — matches Hero register). **Body line-height** 1.4 (card moment) keeps the small conversational beat readable without looking like body copy.
 
@@ -164,7 +181,7 @@ On viewports < 640px, do NOT render 4 cramped columns side-by-side (the prototyp
 
 **Rejected mobile alternative:** "board miniaturizado" (shrink all 4 columns to fit). Rejected because the human beat text becomes illegible and it reads as a tiny dashboard — directly violating the "story not dashboard" lock. Documented here so the planner doesn't reconsider it silently.
 
-**Desktop (≥ 640px / ≥ 1024px):** the full 4-column board exactly as the approved prototype, `max-width: 1240px`, centered, `gap-[18px]`, `px-8`.
+**Desktop (≥ 640px / ≥ 1024px):** the full 4-column board exactly as the approved prototype, `max-width: 1240px`, centered, `gap-5` (20px), `px-8`.
 
 **Mobile stage length:** reduce sticky `length` from 560svh to ~`420svh` on mobile (4 content swaps need less travel distance when the card is stationary and content crossfades) — tune at build to preserve the approved ~6s pace. Use `useDeviceTier()` to branch the length value (the only DOM/length divergence; do NOT duplicate the component).
 
