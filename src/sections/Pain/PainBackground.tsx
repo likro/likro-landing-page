@@ -40,15 +40,15 @@ export function PainBackground() {
         }}
       />
 
-      {/* L3 — vinheta inferior fade-to-light: transição cromática Pain DARK → Bridge LIGHT (D-15).
-          Dissolve na COR EXATA do Bridge (#F4F7FB), 100% opaco no fim. FICA TRANSPARENTE
-          (escuro) nos primeiros 65% da faixa pra NÃO lavar o statement + CTA que vivem aqui
-          embaixo (eram ilegíveis quando o fade subia por cima deles), e só então clareia. */}
+      {/* L3 — vinheta inferior fade-to-light: transição cromática Pain DARK → Product LIGHT.
+          (A Bridge foi removida 2026-06-15; o Pain agora flui DIRETO pro Product.) Dissolve na
+          COR EXATA do Product (#E6ECF4), 100% opaco no fim. FICA TRANSPARENTE (escuro) nos
+          primeiros 65% da faixa pra NÃO lavar o statement + CTA, e só então clareia. */}
       <div
         className="absolute inset-x-0 bottom-0 h-2/5"
         style={{
           background:
-            "linear-gradient(to bottom, rgba(244,247,251,0) 0%, rgba(244,247,251,0) 65%, rgba(244,247,251,0.6) 86%, rgba(244,247,251,1) 100%)",
+            "linear-gradient(to bottom, rgba(230,236,244,0) 0%, rgba(230,236,244,0) 65%, rgba(230,236,244,0.6) 86%, rgba(230,236,244,1) 100%)",
         }}
       />
     </div>

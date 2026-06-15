@@ -2,7 +2,6 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Hero } from "@/sections/Hero";
 import { Pain } from "@/sections/Pain";
-import { Bridge } from "@/sections/Bridge";
 import { Product } from "@/sections/Product";
 import { Funnel } from "@/sections/Funnel";
 import { Proof } from "@/sections/Proof";
@@ -21,9 +20,6 @@ export default function HomePage() {
         </TrackSection>
         <TrackSection section="pain">
           <Pain />
-        </TrackSection>
-        <TrackSection section="bridge">
-          <Bridge />
         </TrackSection>
         <TrackSection section="product">
           <Product />
