@@ -55,7 +55,6 @@ describe.skipIf(!productCopyExists)("PRODUCT_COPY — Phase 4 / Plan 04-03 contr
       expect(typeof s.eyebrow).toBe("string");
       expect(typeof s.title).toBe("string");
       expect(typeof s.description).toBe("string");
-      expect(typeof s.mockupKind).toBe("string");
     }
   });
 

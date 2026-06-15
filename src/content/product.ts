@@ -7,6 +7,9 @@
  *
  * Estrutura D-16: 1 hero feature "Atendimento multicanal" full-width +
  * 3 secundárias em row (Distribuição automática / Follow-up e retorno / Agenda operacional).
+ * 999.2 — as secundárias viraram APOIO DISCRETO: ícone + título curto + 1 linha
+ * (sem mini-mockups). O Product defende UMA ideia (centralização); as secundárias
+ * são consequência leve, não 3 protagonistas competindo com a feature-herói.
  * NARR-08 (D-20.1): camada IA implícita via micro-line dentro do mockup hero —
  * "atribuído automaticamente · sugestão de resposta aceita" (tom Linear/Stripe,
  * NÃO Anthropic/OpenAI marketing).
@@ -39,13 +42,10 @@ export type ProductInboxRow = {
   status?: "new" | "assigned" | "responded";
 };
 
-export type ProductSecondaryMockupKind = "routing-pill" | "timeline-3pts" | "calendar-grid";
-
 export type ProductSecondary = {
   eyebrow: string;
   title: string;
   description: string;
-  mockupKind: ProductSecondaryMockupKind;
 };
 
 export type ProductCopy = {
@@ -126,24 +126,18 @@ export const PRODUCT_COPY_VARIANTS = {
     secondaries: [
       {
         eyebrow: SHARED_SECONDARY_EYEBROWS[0],
-        title: "Cada lead com o atendente certo.",
-        description:
-          "Roteamento automático por canal, idioma, especialidade. Sem fila travada.",
-        mockupKind: "routing-pill",
+        title: "Distribuição automática",
+        description: "Cada lead com o atendente certo.",
       },
       {
         eyebrow: SHARED_SECONDARY_EYEBROWS[1],
-        title: "Ninguém esquece de voltar a falar.",
-        description:
-          "Conversas que ficaram em aberto viram lembrete; retornos do paciente viram agendamento.",
-        mockupKind: "timeline-3pts",
+        title: "Follow-up que não esquece",
+        description: "Conversa parada vira lembrete.",
       },
       {
         eyebrow: SHARED_SECONDARY_EYEBROWS[2],
-        title: "A agenda na mesma tela do atendimento.",
-        description:
-          "Slots disponíveis na hora, agendamento direto da conversa, confirmação automática via WhatsApp.",
-        mockupKind: "calendar-grid",
+        title: "Agenda integrada",
+        description: "Agendamento direto da conversa.",
       },
     ],
   },
@@ -170,24 +164,18 @@ export const PRODUCT_COPY_VARIANTS = {
     secondaries: [
       {
         eyebrow: SHARED_SECONDARY_EYEBROWS[0],
-        title: "Distribuição automática entre atendentes.",
-        description:
-          "O lead vai pro atendente certo na hora certa. Sem fila parada, sem disputa interna.",
-        mockupKind: "routing-pill",
+        title: "Distribuição automática",
+        description: "O lead vai pro atendente certo na hora.",
       },
       {
         eyebrow: SHARED_SECONDARY_EYEBROWS[1],
-        title: "Follow-up sem ninguém precisar lembrar.",
-        description:
-          "Conversa parada vira tarefa, retorno do paciente vira agendamento. A operação não esquece.",
-        mockupKind: "timeline-3pts",
+        title: "Follow-up que não esquece",
+        description: "Conversa parada vira tarefa, sozinha.",
       },
       {
         eyebrow: SHARED_SECONDARY_EYEBROWS[2],
-        title: "Agendamento direto da conversa.",
-        description:
-          "Slot livre aparece na própria thread, confirmação automática, recepção sem retrabalho.",
-        mockupKind: "calendar-grid",
+        title: "Agendamento na conversa",
+        description: "Slot livre aparece na própria thread.",
       },
     ],
   },
@@ -214,23 +202,18 @@ export const PRODUCT_COPY_VARIANTS = {
     secondaries: [
       {
         eyebrow: SHARED_SECONDARY_EYEBROWS[0],
-        title: "Roteamento por canal e especialidade.",
-        description: "O lead chega ao atendente certo, sem espera, sem repasse manual.",
-        mockupKind: "routing-pill",
+        title: "Roteamento automático",
+        description: "O lead chega ao atendente certo.",
       },
       {
         eyebrow: SHARED_SECONDARY_EYEBROWS[1],
-        title: "Retornos que voltam sozinhos pra agenda.",
-        description:
-          "O follow-up não depende da memória da equipe. Depende da operação.",
-        mockupKind: "timeline-3pts",
+        title: "Follow-up que volta sozinho",
+        description: "O retorno não depende da memória da equipe.",
       },
       {
         eyebrow: SHARED_SECONDARY_EYEBROWS[2],
-        title: "Agenda viva ao lado da conversa.",
-        description:
-          "Horários disponíveis aparecem em tempo real, agendamento confirma direto.",
-        mockupKind: "calendar-grid",
+        title: "Agenda ao lado da conversa",
+        description: "Horários livres aparecem em tempo real.",
       },
     ],
   },
