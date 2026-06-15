@@ -112,7 +112,7 @@ export const PRODUCT_COPY_VARIANTS = {
       eyebrow: "OPERAÇÃO MULTICANAL",
       title: "Atendimento multicanal.",
       description:
-        "A equipe responde tudo de um lugar só. WhatsApp, Instagram e Facebook em uma caixa de entrada compartilhada, com contexto do paciente já carregado — e a IA sugerindo a próxima resposta.",
+        "A equipe responde tudo de um lugar só. WhatsApp, Instagram e Facebook em uma caixa de entrada compartilhada, com contexto do paciente já carregado, e a IA sugerindo a próxima resposta.",
       mockup: {
         cardTitle: SHARED_CARD_TITLE,
         cardLabel: SHARED_CARD_LABEL,

@@ -11,7 +11,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/container";
 
 export const metadata: Metadata = {
-  title: "Política de privacidade — Likro",
+  title: "Política de privacidade · Likro",
   description:
     "Em construção. A versão completa será publicada antes do lançamento oficial.",
   robots: { index: false, follow: false },
@@ -27,7 +27,7 @@ export default function PrivacyPage() {
         <p className="mt-4 text-base text-text-secondary md:text-lg">
           Em construção. A versão completa será publicada antes do lançamento
           oficial. Enquanto isso, os dados enviados pelo formulário ficam apenas
-          com a Likro — sem terceiros, sem listas, sem spam.
+          com a Likro, sem terceiros, sem listas, sem spam.
         </p>
         <p className="mt-6 text-sm text-text-secondary">
           <Link
