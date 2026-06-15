@@ -54,21 +54,36 @@ export function Hero() {
   const progress = useMotionValue(0);
   useEffect(() => {
     let raf = 0;
-    const tick = () => {
-      raf = window.requestAnimationFrame(tick);
+    // Offset absoluto do topo da seção + altura rolável, CACHEADOS. Antes o tick
+    // chamava getBoundingClientRect() TODA frame → forced reflow ~60x/s somado ao
+    // RAF de desenho do canvas = micro-stutter (o "travado" residual, p95). Agora o
+    // rect é medido só no mount/resize/load; a frame lê só window.scrollY (barato,
+    // não força layout). A caixa do Hero é reservada em svh (CLS=0), então baseTop
+    // é estável e não precisa re-medir por frame.
+    let baseTop = 0;
+    let total = 0;
+    const measure = () => {
       const el = ref.current;
       if (!el) return;
-      // Pause offscreen/aba oculta: mantém o loop vivo (rAF é barato) mas pula o
-      // getBoundingClientRect (forced reflow) quando inativo. Sem isso o rAF de
-      // progress martelaria layout ~60x/s pra sempre, mesmo com o Hero fora da tela.
-      if (!activeRef.current) return;
       const rect = el.getBoundingClientRect();
-      const total = rect.height - window.innerHeight;
-      const p = total > 0 ? -rect.top / total : 0;
+      baseTop = rect.top + window.scrollY;
+      total = el.offsetHeight - window.innerHeight;
+    };
+    const tick = () => {
+      raf = window.requestAnimationFrame(tick);
+      if (!activeRef.current || total <= 0) return;
+      const p = (window.scrollY - baseTop) / total;
       progress.set(p < 0 ? 0 : p > 1 ? 1 : p);
     };
+    measure();
+    window.addEventListener("resize", measure, { passive: true });
+    window.addEventListener("load", measure);
     raf = window.requestAnimationFrame(tick);
-    return () => window.cancelAnimationFrame(raf);
+    return () => {
+      window.cancelAnimationFrame(raf);
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("load", measure);
+    };
   }, [progress]);
 
   // Mount pós-hidratação do canvas (LCP): NÃO renderizamos <LightField> no

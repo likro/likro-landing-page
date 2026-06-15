@@ -149,19 +149,20 @@ type Particle = {
 // Budgets enxutos (Lenny: "muito pesado / trava"). Menos partículas + sprites
 // menores = muito menos fillrate em blend aditivo (o gargalo real). Mobile sagrado.
 const TIER_COUNT: Record<"reduced" | "mobile" | "tablet" | "desktop", number> = {
-  reduced: 260,
-  mobile: 300,
-  tablet: 440,
-  desktop: 560,
+  reduced: 200,
+  mobile: 240,
+  tablet: 320,
+  desktop: 380,
 };
 
 // ── Modelo de câmera / projeção ─────────────────────────────────────────────
 const FOCAL = 320; // distância focal (px-ish): scale = FOCAL/(FOCAL+z)
 const Z_NEAR = 12; // partícula que cruza isto já passou a câmera → reciclar
 const Z_RANGE = 1100; // profundidade total do campo (fundo - frente)
-const Z_TRAVEL = 1350; // quanto o campo desloca em z (avanço). Reduzido de 1900:
-// expansão menos agressiva = menos partículas voam pra fora no meio da travessia
-// (mantém densidade na tela), sem perder a sensação de avanço.
+const Z_TRAVEL = 1080; // quanto o campo desloca em z (avanço). Reduzido de 1350:
+// dolly mais suave = expansão menos agressiva durante a rolagem (menos partículas
+// "rushando" pra fora a cada scroll = movimento mais clean), sem perder a sensação
+// de avanço/travessia (Lenny: "scrolada fica zuada").
 const BUCKETS = 6; // baldes de profundidade (oclusão por ordem, sem sort/frame)
 const RADIUS_MAX = 0.8; // raio polar máximo — enche os cantos sem jogar partículas
 // demais pra fora da tela no meio da travessia (0.92 esvaziava; 0.74 deixava cantos).
@@ -183,9 +184,9 @@ const FOOTPRINT_CLOSED = 1.15; // a ordem NÃO encolhe — ENCHE a viewport (at�
 // flow, NÃO uma contração que encolhe o campo — a chegada ocupa a tela inteira.
 const TARGET_Z_MIN = 60; // z mais raso do estado ordenado (chegada próxima/contida)
 const TARGET_Z_MAX = 380; // leve profundidade residual no estado ordenado (volume)
-const BASE_NOISE = 0.06; // amplitude do ruído orgânico no caos (envelope 1→0).
+const BASE_NOISE = 0.045; // amplitude do ruído orgânico no caos (envelope 1→0).
 // Menor agora que o ruído é JITTER CARTESIANO (×md): 0.16 explodia em centenas de
-// px; 0.06 dá um wiggle gentil de vida no caos que some na ordem.
+// px; 0.045 dá um wiggle gentil e CALMO no caos que some na ordem (Lenny: "mais clean").
 
 // ── Semântica sentida (08-NARRATIVE: a luz REPRESENTA a operação da Likro) ───
 // A história é carregada pelo COMPORTAMENTO da luz, não por copy. Tudo aqui é
@@ -195,8 +196,11 @@ const BASE_NOISE = 0.06; // amplitude do ruído orgânico no caos (envelope 1→
 // "às 9 da noite" mesmo quando ninguém olha.
 const NCH = 3; // "canais" desconexos no caos (IG/WA/Msg) — fragmentação sentida
 const CH_RATE = [0.1, 0.185, 0.275]; // ritmos dessincronizados no caos → 1 ritmo na ordem
-const MSG_FRAC = 0.2; // fração que "chega e esfria" sem resposta (paciente esperando)
-const LEAK_FRAC = 0.1; // fração que "vaza" pra fora do quadro (oportunidade perdida)
+const MSG_FRAC = 0.1; // fração que "chega e esfria" sem resposta (paciente esperando)
+const LEAK_FRAC = 0.05; // fração que "vaza" pra fora do quadro (oportunidade perdida)
+// 2026-06-15 (Lenny "scrolada fica zuada"): MSG/LEAK reduzidos pela metade — eram
+// a fonte do flicker/agitação durante a rolagem (partículas piscando e voando pra
+// fora). Menos delas = movimento mais CALMO/clean no scroll, narrativa preservada.
 const CHAOS_END = 0.42; // até onde as dores do caos vivem (fragmentar/esfriar/vazar)
 const AI_IN = 0.34; // a IA começa a costurar/capturar...
 const AI_OUT = 0.66; // ...e termina de atender tudo aqui (nada cai)
@@ -567,11 +571,12 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           // Tamanho ∝ scale; alpha cai com a distância (atmosférica básica).
           // Fator maior → partículas próximas GRANDES, com presença periférica
           // (luz grande e mole cruzando as bordas = envolvimento, sem +partículas).
-          const size = Math.min(58, part.size * scale * 3.7); // sprites menores +
+          const size = Math.min(48, part.size * scale * 3.3); // sprites menores +
           // teto baixo = MUITO menos fillrate em blend aditivo (FPS na máquina real).
-          // 2026-06-15 (Lenny "mais clean / travadinho"): 4.3→3.7 e 72→58 cortam a
-          // área desenhada (~ size²) → menos overdraw aditivo, scroll mais suave e
-          // visual mais limpo (poeira menos "borrada/cheia"). Mesma narrativa.
+          // 2026-06-15 (Lenny "ainda travado / mais clean"): corte decisivo — count
+          // desktop 560→380 + size 3.7→3.3 e cap 58→48. Área desenhada (~ size²) e
+          // densidade caem juntas → muito menos overdraw aditivo (scroll fluido) e
+          // poeira mais rarefeita/limpa. Mesma narrativa caos→ordem.
           const depthAlpha = scale; // longe = dim
           // Shimmer: no caos cada partícula cintila na sua fase (vida dispersa);
           // na ordem as fases convergem (lerp→0) = um PULSO ÚNICO (operação que
