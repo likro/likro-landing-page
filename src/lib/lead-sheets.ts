@@ -10,22 +10,22 @@
  */
 import "server-only";
 import { SignJWT, importPKCS8 } from "jose";
-import { serverEnv } from "@/lib/server-env";
+import { getGoogleEnv, type GoogleEnv } from "@/lib/server-env";
 import type { Lead } from "@/lib/lead-schema";
 
 const SCOPES = "https://www.googleapis.com/auth/spreadsheets";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const RANGE = "Leads!A:E";
 
-async function getAccessToken(): Promise<string> {
+async function getAccessToken(google: GoogleEnv): Promise<string> {
   // Pitfall 1: unescape literal \n preservado no env var
-  const privateKeyPem = serverEnv.GOOGLE_SA_PRIVATE_KEY.replace(/\\n/g, "\n");
+  const privateKeyPem = google.privateKey.replace(/\\n/g, "\n");
   const privateKey = await importPKCS8(privateKeyPem, "RS256");
 
   const now = Math.floor(Date.now() / 1000);
   const jwt = await new SignJWT({ scope: SCOPES })
     .setProtectedHeader({ alg: "RS256", typ: "JWT" })
-    .setIssuer(serverEnv.GOOGLE_SA_CLIENT_EMAIL)
+    .setIssuer(google.clientEmail)
     .setAudience(TOKEN_URL)
     .setIssuedAt(now)
     .setExpirationTime(now + 3600)
@@ -51,9 +51,13 @@ async function getAccessToken(): Promise<string> {
 }
 
 export async function appendLeadRow(lead: Lead): Promise<void> {
-  const token = await getAccessToken();
+  const google = getGoogleEnv(); // null = off; throw = config parcial
+  if (google === null) {
+    return; // Sheets desabilitado — no-op silencioso (sem fetch, sem log)
+  }
+  const token = await getAccessToken(google);
   const url =
-    `https://sheets.googleapis.com/v4/spreadsheets/${serverEnv.GOOGLE_SHEET_ID}` +
+    `https://sheets.googleapis.com/v4/spreadsheets/${google.sheetId}` +
     `/values/${encodeURIComponent(RANGE)}:append?valueInputOption=RAW`;
 
   const row: string[] = [
