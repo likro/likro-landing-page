@@ -39,7 +39,7 @@ progress:
 Phase: 999.1
 Plan: Not started
 Status: In Progress — 08-01 (fundação pseudo-3D) + 08-02 (narrativa caos→ordem: target-lerp, 5 momentos, arco de escala, roxo escasso) + 08-03 (atmosfera evolutiva monotônica, vinheta de enquadramento, escuros tingidos, film grain, hero exit de vetores opostos, copy some cedo) completos; tsc + brand-lock verdes
-Last activity: 2026-06-15
+Last activity: 2026-06-16 - Completed quick task 260616-hkf: Google Sheets opcional no form de leads
 
 **Progress:** [██████████] 98%
 
@@ -92,6 +92,12 @@ Last activity: 2026-06-15
 ### Blockers
 
 None.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260616-hkf | Tornar Google Sheets opcional no form de leads (Resend obrigatório, Sheets opcional) | 2026-06-16 | acceed0 | [260616-hkf-tornar-google-sheets-opcional-no-form-de](./quick/260616-hkf-tornar-google-sheets-opcional-no-form-de/) |
 
 ## Session Continuity
 
