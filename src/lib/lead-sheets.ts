@@ -50,10 +50,16 @@ async function getAccessToken(google: GoogleEnv): Promise<string> {
   return json.access_token;
 }
 
-export async function appendLeadRow(lead: Lead): Promise<void> {
+/**
+ * Retorna `true` quando a linha foi de fato anexada na planilha; `false` quando
+ * o Sheets está desabilitado (no-op). O caller (route) usa esse retorno para NÃO
+ * contar um Sheets desligado como canal de entrega — senão um no-op fulfilled
+ * mascararia uma falha real do Resend e o lead sumiria em silêncio.
+ */
+export async function appendLeadRow(lead: Lead): Promise<boolean> {
   const google = getGoogleEnv(); // null = off; throw = config parcial
   if (google === null) {
-    return; // Sheets desabilitado — no-op silencioso (sem fetch, sem log)
+    return false; // Sheets desabilitado — no-op silencioso (sem fetch, sem log)
   }
   const token = await getAccessToken(google);
   const url =
@@ -80,4 +86,5 @@ export async function appendLeadRow(lead: Lead): Promise<void> {
     const text = await res.text().catch(() => "");
     throw new Error(`[lead-sheets] append failed: ${res.status} ${text}`);
   }
+  return true;
 }

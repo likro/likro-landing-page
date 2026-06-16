@@ -66,7 +66,7 @@ describe("POST /api/lead", () => {
 
   it("200 when both integrations succeed", async () => {
     sendLeadEmail.mockResolvedValue(undefined);
-    appendLeadRow.mockResolvedValue(undefined);
+    appendLeadRow.mockResolvedValue(true); // true = anexou de fato
     const res = await callPost(mkRequest(validBody));
     expect(res.status).toBe(200);
     expect(sendLeadEmail).toHaveBeenCalledOnce();
@@ -75,9 +75,25 @@ describe("POST /api/lead", () => {
 
   it("200 when only Sheets succeeds (Resend fails)", async () => {
     sendLeadEmail.mockRejectedValue(new Error("resend down"));
-    appendLeadRow.mockResolvedValue(undefined);
+    appendLeadRow.mockResolvedValue(true); // Sheets anexou
     const res = await callPost(mkRequest(validBody));
     expect(res.status).toBe(200);
+  });
+
+  it("200 when Sheets off (no-op false) but Resend succeeds", async () => {
+    sendLeadEmail.mockResolvedValue(undefined);
+    appendLeadRow.mockResolvedValue(false); // Sheets desabilitado — no-op
+    const res = await callPost(mkRequest(validBody));
+    expect(res.status).toBe(200);
+  });
+
+  it("502 when Sheets off (no-op false) AND Resend fails — sem mascarar perda", async () => {
+    // Guard: um Sheets off (resolve false) NÃO pode contar como entrega e
+    // esconder a falha do Resend. Senão o lead sumiria com um falso 200.
+    sendLeadEmail.mockRejectedValue(new Error("resend down"));
+    appendLeadRow.mockResolvedValue(false);
+    const res = await callPost(mkRequest(validBody));
+    expect(res.status).toBe(502);
   });
 
   it("502 when both fail", async () => {

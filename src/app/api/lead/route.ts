@@ -7,7 +7,9 @@
  *      Field name `website` evita autofill 1Password/LastPass (RESEARCH Pitfall 8).
  *   3. Zod safeParse; 422 se falhar.
  *   4. Dedup window 60s por número; 200 deduped se hit.
- *   5. Promise.allSettled([Resend, Sheets]); 200 se pelo menos um pegou; 502 se ambos falharam.
+ *   5. Promise.allSettled([Resend, Sheets]); 200 se ENTREGOU por pelo menos um
+ *      canal; 502 se nenhum entregou. Sheets off (no-op → resolve false) NÃO
+ *      conta como entrega — evita mascarar falha do Resend (lead silencioso).
  */
 import "server-only";
 import { leadSchema } from "@/lib/lead-schema";
@@ -58,12 +60,16 @@ export async function POST(req: Request): Promise<Response> {
   ]);
 
   const emailOK = emailResult.status === "fulfilled";
-  const sheetOK = sheetResult.status === "fulfilled";
+  // Sheets só conta como ENTREGA quando de fato anexou (value === true).
+  // Quando o Sheets está off, appendLeadRow resolve com `false` (no-op): isso
+  // NÃO pode contar como sucesso, senão mascararia uma falha do Resend e o lead
+  // sumiria em silêncio. Sheets off => só o Resend determina o sucesso.
+  const sheetOK = sheetResult.status === "fulfilled" && sheetResult.value === true;
 
   if (!emailOK) {
     console.error("[lead] resend failed:", emailResult.reason);
   }
-  if (!sheetOK) {
+  if (sheetResult.status === "rejected") {
     console.error("[lead] sheets failed:", sheetResult.reason);
   }
 
