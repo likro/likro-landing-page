@@ -74,8 +74,8 @@ export function Hero() {
     // no meio via smoothstep. Efeito: parar um pouco antes/depois ainda mostra um
     // estado COMPLETO e intencional (caos pleno ou chegada plena), nunca um morph
     // cortado. (Lenny: "mais planejado/cinematográfico, não dependente do scroll bruto".)
-    const A = 0.08;
-    const B = 0.8;
+    const A = 0.06;
+    const B = 0.9;
     const shape = (p: number) => {
       if (p <= A) return 0;
       if (p >= B) return 1;
@@ -91,7 +91,7 @@ export function Hero() {
       // alvo), não pelo scroll bruto. Suaviza o jitter do scroll, faz a transição
       // parecer conduzida/planejada e ASSENTA SUAVE ao parar (não trava no ponto cru).
       const cur = progress.get();
-      const next = cur + (target - cur) * 0.12;
+      const next = cur + (target - cur) * 0.16;
       progress.set(Math.abs(next - target) < 0.0004 ? target : next);
     };
     measure();
@@ -204,7 +204,7 @@ export function Hero() {
       className={
         reduced
           ? "relative min-h-svh bg-surface-darker"
-          : "relative min-h-[200svh] bg-surface-darker sm:min-h-[220svh]"
+          : "relative min-h-[150svh] bg-surface-darker sm:min-h-[165svh]"
       }
       aria-labelledby="hero-headline"
     >

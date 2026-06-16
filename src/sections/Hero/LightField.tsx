@@ -149,15 +149,17 @@ type Particle = {
 // Budgets enxutos (Lenny: "muito pesado / trava"). Menos partículas + sprites
 // menores = muito menos fillrate em blend aditivo (o gargalo real). Mobile sagrado.
 const TIER_COUNT: Record<"reduced" | "mobile" | "tablet" | "desktop", number> = {
-  reduced: 260,
-  mobile: 320,
-  tablet: 440,
-  desktop: 520,
+  reduced: 220,
+  mobile: 280,
+  tablet: 340,
+  desktop: 400,
 };
-// 2026-06-15 (Lenny "tirou partículas demais, perdeu atmosfera"): densidade
-// restaurada pra um meio-termo rico (era 380, voltou a 520 desktop). A suavidade
-// do scroll agora vem do damped-follower + plateaus no Hero/index, NÃO de cortar
-// elementos — então dá pra ter atmosfera E scroll clean ao mesmo tempo.
+// 2026-06-16 (Lenny "hero tá muito travado"): medição em PROD (preview, build
+// real, desktop dpr1) deu ~30fps no scroll do hero — o overdraw aditivo de 520
+// sprites de até 56px era o gargalo real (o damped-follower/plateaus sozinhos NÃO
+// resolveram). Densidade cortada pra 400 desktop + sprites menores (ver `size`)
+// pra metade do fillrate. A atmosfera é preservada pela altura/feel ajustados no
+// Hero/index, não por bruteforce de partículas. Alvo: ≥55fps sustentado.
 
 // ── Modelo de câmera / projeção ─────────────────────────────────────────────
 const FOCAL = 320; // distância focal (px-ish): scale = FOCAL/(FOCAL+z)
@@ -408,8 +410,11 @@ export function LightField({ progress, active = true }: LightFieldProps) {
     // Implementados de forma REAL os 2 primeiros (count→DPR); os degraus 3–4
     // ficam documentados como fallback (o reduced-motion já é o "estático" 4).
     const FRAME_BUDGET_MS = 21; // teto ~<48fps sustentado (intervalo REAL de frame)
-    const FRAME_WINDOW = 45; // janela da média móvel (frames)
-    const COOLDOWN_FRAMES = 80; // espera após um rebaixamento antes do próximo
+    const FRAME_WINDOW = 28; // janela da média móvel (frames) — reage mais rápido
+    const COOLDOWN_FRAMES = 48; // espera após um rebaixamento antes do próximo
+    // 2026-06-16: janela/cooldown reduzidos. Antes (45/80) o degrade levava ~2s
+    // pra rebaixar — e o usuário atravessa o hero em ~2s, sofrendo o jank inteiro
+    // antes de adaptar. Agora rebaixa em <0.5s em máquina fraca.
     let frameAccum = 0;
     let frameSamples = 0;
     let cooldown = 0;
@@ -575,12 +580,11 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           // Tamanho ∝ scale; alpha cai com a distância (atmosférica básica).
           // Fator maior → partículas próximas GRANDES, com presença periférica
           // (luz grande e mole cruzando as bordas = envolvimento, sem +partículas).
-          const size = Math.min(56, part.size * scale * 3.6); // sprites menores +
+          const size = Math.min(46, part.size * scale * 3.2); // sprites menores +
           // teto baixo = MUITO menos fillrate em blend aditivo (FPS na máquina real).
-          // 2026-06-15 (Lenny "ainda travado / mais clean"): corte decisivo — count
-          // desktop 560→380 + size 3.7→3.3 e cap 58→48. Área desenhada (~ size²) e
-          // densidade caem juntas → muito menos overdraw aditivo (scroll fluido) e
-          // poeira mais rarefeita/limpa. Mesma narrativa caos→ordem.
+          // 2026-06-16 (medido ~30fps em prod): cap 56→46 + mult 3.6→3.2. Área (~size²)
+          // dos sprites próximos cai ~38% → muito menos overdraw aditivo. Junto com
+          // count 520→400, fillrate ~0.45x → scroll fluido. Mesma narrativa caos→ordem.
           const depthAlpha = scale; // longe = dim
           // Shimmer: no caos cada partícula cintila na sua fase (vida dispersa);
           // na ordem as fases convergem (lerp→0) = um PULSO ÚNICO (operação que
