@@ -149,10 +149,10 @@ type Particle = {
 // Budgets enxutos (Lenny: "muito pesado / trava"). Menos partículas + sprites
 // menores = muito menos fillrate em blend aditivo (o gargalo real). Mobile sagrado.
 const TIER_COUNT: Record<"reduced" | "mobile" | "tablet" | "desktop", number> = {
-  reduced: 220,
-  mobile: 280,
-  tablet: 340,
-  desktop: 400,
+  reduced: 180,
+  mobile: 230,
+  tablet: 280,
+  desktop: 320,
 };
 // 2026-06-16 (Lenny "hero tá muito travado"): medição em PROD (preview, build
 // real, desktop dpr1) deu ~30fps no scroll do hero — o overdraw aditivo de 520
@@ -580,7 +580,7 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           // Tamanho ∝ scale; alpha cai com a distância (atmosférica básica).
           // Fator maior → partículas próximas GRANDES, com presença periférica
           // (luz grande e mole cruzando as bordas = envolvimento, sem +partículas).
-          const size = Math.min(46, part.size * scale * 3.2); // sprites menores +
+          const size = Math.min(40, part.size * scale * 3.0); // sprites menores +
           // teto baixo = MUITO menos fillrate em blend aditivo (FPS na máquina real).
           // 2026-06-16 (medido ~30fps em prod): cap 56→46 + mult 3.6→3.2. Área (~size²)
           // dos sprites próximos cai ~38% → muito menos overdraw aditivo. Junto com
