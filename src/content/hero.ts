@@ -59,7 +59,11 @@ export const HERO_COPY: HeroCopy = {
   resolveLead: "Nenhum paciente fica ",
   resolveEmphasis: "para trás.",
   ctaPrimary: { label: "Falar no WhatsApp" },
-  ctaSecondary: { label: "Ver como funciona", href: "#produto" },
+  // O indicador de scroll entrega o usuário na TRANSIÇÃO Hero→próxima seção
+  // (topo da Pain === fim exato do palco do Hero, medido), completando a leitura
+  // do Hero sem pular conteúdo. Antes apontava pra #produto: pulava a Pain inteira
+  // e parecia parar numa posição arbitrária (clímax do Product).
+  ctaSecondary: { label: "Ver como funciona", href: "#pain" },
   // Linha de diferenciação (microcopy sob os CTAs): responde "por que vocês?" sem
   // citar concorrente, rejeitando as duas categorias que o PROJECT.md contrasta
   // (CRM pesado tradicional / chatbot genérico) e cravando o vertical. Sem
