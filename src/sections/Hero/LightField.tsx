@@ -149,17 +149,18 @@ type Particle = {
 // Budgets enxutos (Lenny: "muito pesado / trava"). Menos partículas + sprites
 // menores = muito menos fillrate em blend aditivo (o gargalo real). Mobile sagrado.
 const TIER_COUNT: Record<"reduced" | "mobile" | "tablet" | "desktop", number> = {
-  reduced: 180,
-  mobile: 230,
-  tablet: 280,
-  desktop: 320,
+  reduced: 130,
+  mobile: 170,
+  tablet: 200,
+  desktop: 230,
 };
-// 2026-06-16 (Lenny "hero tá muito travado"): medição em PROD (preview, build
-// real, desktop dpr1) deu ~30fps no scroll do hero — o overdraw aditivo de 520
-// sprites de até 56px era o gargalo real (o damped-follower/plateaus sozinhos NÃO
-// resolveram). Densidade cortada pra 400 desktop + sprites menores (ver `size`)
-// pra metade do fillrate. A atmosfera é preservada pela altura/feel ajustados no
-// Hero/index, não por bruteforce de partículas. Alvo: ≥55fps sustentado.
+// 2026-06-16 (Lenny "hero travado / faz ficar clean", repetido): o overdraw
+// aditivo de N sprites é o gargalo, e o FPS REAL na máquina do Lenny manda — não
+// a medição headless (que oscilou 25→99fps entre runs, ruído puro, não confiável
+// pra calibrar). Então a estratégia virou GARANTIR leveza: 520→400→320→230 desktop
+// + sprite cap 56→34 / mult 3.6→2.7. Folga grande de GPU pra rodar liso até em
+// máquina fraca/integrada. Atmosfera vem da altura/feel (Hero/index) e do calor
+// dos atlas, não de bruteforce de partículas. Subir densidade só com FPS sobrando.
 
 // ── Modelo de câmera / projeção ─────────────────────────────────────────────
 const FOCAL = 320; // distância focal (px-ish): scale = FOCAL/(FOCAL+z)
@@ -580,7 +581,7 @@ export function LightField({ progress, active = true }: LightFieldProps) {
           // Tamanho ∝ scale; alpha cai com a distância (atmosférica básica).
           // Fator maior → partículas próximas GRANDES, com presença periférica
           // (luz grande e mole cruzando as bordas = envolvimento, sem +partículas).
-          const size = Math.min(40, part.size * scale * 3.0); // sprites menores +
+          const size = Math.min(34, part.size * scale * 2.7); // sprites menores +
           // teto baixo = MUITO menos fillrate em blend aditivo (FPS na máquina real).
           // 2026-06-16 (medido ~30fps em prod): cap 56→46 + mult 3.6→3.2. Área (~size²)
           // dos sprites próximos cai ~38% → muito menos overdraw aditivo. Junto com
