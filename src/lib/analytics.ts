@@ -77,7 +77,6 @@ export function track(event: AnalyticsEvent, payload: Payload = {}): void {
 
   // Dev observability — silencioso em produção.
   if (process.env.NODE_ENV !== "production") {
-    // eslint-disable-next-line no-console
     console.debug("[track]", event, enriched);
   }
 }
