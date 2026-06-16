@@ -25,6 +25,9 @@ export function SmoothScrollProvider({ children }: PropsWithChildren) {
     let raf: number | undefined;
     let lenis: import("lenis").default | undefined;
     let cancelled = false;
+    let cleanupSnap: (() => void) | undefined;
+
+    const easing = (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t));
 
     const idle =
       "requestIdleCallback" in window
@@ -41,7 +44,7 @@ export function SmoothScrollProvider({ children }: PropsWithChildren) {
         duration: 1.1,
         smoothWheel: true,
         syncTouch: false,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        easing,
       });
 
       const tick = (time: number) => {
@@ -49,11 +52,40 @@ export function SmoothScrollProvider({ children }: PropsWithChildren) {
         raf = window.requestAnimationFrame(tick);
       };
       raf = window.requestAnimationFrame(tick);
+
+      // Snap — dá um FIM DEFINIDO ao Hero (bloco de scrollytelling de ~165svh).
+      // Sem isso o usuário parava em qualquer ponto da travessia (meio-termo
+      // aleatório). Agora, ao PARAR (debounce) perto de um limite, o scroll
+      // assenta nele: topo do Hero (intro limpa) ou topo da Pain (= fim exato
+      // do Hero = a costura). `proximity` só cata quando perto — o meio da
+      // travessia segue livre DURANTE o scroll (a animação scrubba normal); o
+      // snap só age quando o dedo/roda para. Progressive enhancement: se o addon
+      // falhar, o scroll continua funcionando sem snap.
+      try {
+        const Snap = (await import("lenis/snap")).default;
+        if (cancelled || !lenis) return;
+        const snap = new Snap(lenis, {
+          type: "proximity",
+          distanceThreshold: "50%",
+          debounce: 400,
+          duration: 0.8,
+          easing,
+        });
+        snap.add(0); // topo do Hero
+        const painEl = document.getElementById("pain");
+        // topo da Pain === fim do palco do Hero; addElement re-mede no resize
+        // (a altura em svh muda com a viewport), mantendo a costura precisa.
+        if (painEl) snap.addElement(painEl, { align: ["start"] });
+        cleanupSnap = () => snap.destroy();
+      } catch {
+        /* snap é opcional — falha não pode quebrar o smooth scroll */
+      }
     });
 
     return () => {
       cancelled = true;
       if (raf !== undefined) window.cancelAnimationFrame(raf);
+      cleanupSnap?.();
       lenis?.destroy();
     };
   }, []);
