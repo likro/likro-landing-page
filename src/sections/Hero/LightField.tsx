@@ -686,15 +686,17 @@ export function LightField({ progress, active = true }: LightFieldProps) {
     window.addEventListener("resize", resize, { passive: true });
 
     let raf = 0;
-    let lastDrawTs = 0; // pacing: limita os DRAWS a ~60fps
+    let lastDrawTs = 0; // pacing: teto de segurança (ver FRAME_CAP_MS)
     let lastMeasureTs = 0; // ladder: intervalo entre draws reais
-    // Cap de framerate: o alvo do canvas é ~60fps ESTÁVEL, não o refresh do
-    // monitor. Perseguir 120Hz e falhar é o que dava a sensação "travada" — um
-    // 60fps consistente é mais suave que um 75–110fps errático com drops, e gasta
-    // metade do trabalho/seg (folga pra cada frame fechar no orçamento). NÃO muda
-    // o visual (mesmas partículas/sprites), só a cadência. ~13ms → 60fps em 120Hz,
-    // 72fps em 144Hz, 60fps em 60Hz (inalterado).
-    const FRAME_CAP_MS = 13;
+    // 2026-06-22 (Lenny "o hero não tá clean ainda" + medição em /preview): o
+    // gargalo do "pouco FPS" NÃO era contagem de partícula (canvas escondido não
+    // melhorou o jank; zero longtask de JS) — era o campo redesenhar a SÓ ~60fps
+    // (cap antigo 13ms) enquanto o scroll/Lenis rodava a 120Hz. O descompasso
+    // 60↔120 LÊ como travado: a luz "pula" a cada 2 frames de scroll fluido.
+    // Agora o desenho ACOMPANHA o display (teto 6ms ≈ 166fps cobre 60/120/144Hz
+    // sem skip), e quem protege a máquina fraca é o LADDER (drawFraction/dpr↓) —
+    // que inclusive fica MAIS preciso sem o cap mascarando o tempo real de frame.
+    const FRAME_CAP_MS = 6;
     const loop = (ts: number) => {
       raf = window.requestAnimationFrame(loop);
       // Pause offscreen/aba oculta (TPRF-03): não desenha quando inativo.

@@ -91,7 +91,11 @@ export function Hero() {
       // alvo), não pelo scroll bruto. Suaviza o jitter do scroll, faz a transição
       // parecer conduzida/planejada e ASSENTA SUAVE ao parar (não trava no ponto cru).
       const cur = progress.get();
-      const next = cur + (target - cur) * 0.16;
+      // 0.16→0.22: o follower seguia o scroll com folga demais (sensação
+      // "borrachuda"/atrasada — a cena continuava se mexendo após parar). Lenis já
+      // suaviza o scroll; este é o 2º estágio de suavização, então um pouco mais
+      // direto tira o lag flutuante sem reintroduzir o jitter do scroll bruto.
+      const next = cur + (target - cur) * 0.22;
       progress.set(Math.abs(next - target) < 0.0004 ? target : next);
     };
     measure();
@@ -215,7 +219,7 @@ export function Hero() {
             A copy fica FORA deste wrapper (vetor oposto). */}
         <motion.div
           aria-hidden
-          className="absolute inset-0"
+          className="absolute inset-0 will-change-transform"
           style={reduced ? undefined : { y: fieldRecede, scale: fieldScale }}
         >
           {/* Frio/tensão — vinheta gélida no topo (a clínica afogada). Recua.
