@@ -63,7 +63,11 @@ export const HERO_COPY: HeroCopy = {
   // (topo da Pain === fim exato do palco do Hero, medido), completando a leitura
   // do Hero sem pular conteúdo. Antes apontava pra #produto: pulava a Pain inteira
   // e parecia parar numa posição arbitrária (clímax do Product).
-  ctaSecondary: { label: "Ver como funciona", href: "#pain" },
+  // Label "Ver por dentro" (não "Ver como funciona"): o destino é a Pain (o
+  // PROBLEMA), não um tour de funcionalidade — "como funciona" prometia explicação
+  // de feature e gerava ruído. "Ver por dentro" é um convite honesto a ENTRAR na
+  // narrativa (caos→ordem) que começa ali, válido independente da seção de pouso.
+  ctaSecondary: { label: "Ver por dentro", href: "#pain" },
   // Linha de diferenciação (microcopy sob os CTAs): responde "por que vocês?" sem
   // citar concorrente, rejeitando as duas categorias que o PROJECT.md contrasta
   // (CRM pesado tradicional / chatbot genérico) e cravando o vertical. Sem
